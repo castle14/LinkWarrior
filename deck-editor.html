@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>连接勇士 - 卡组编辑</title>
+    <link rel="stylesheet" href="./src/css/main.css">
+    <link rel="stylesheet" href="./src/css/main-menu.css">
+    <link rel="stylesheet" href="./src/css/deck-editor.css">
+</head>
+<body>
+    <script src="./js/jquery-3.4.1.js"></script>
+    <script src="./src/data/CardData.js"></script>
+    <script src="./src/utils/CardUtils.js"></script>
+    <script src="./src/utils/GameUtil.js"></script>
+    <script src="./src/ui/DeckEditorUI.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 从localStorage获取游戏数据
+            var gameData = JSON.parse(localStorage.getItem('LinkWarriorGameData'));
+
+            if (!gameData) {
+                // 如果没有游戏数据，跳转回主菜单
+                alert('请先开始游戏！');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            DeckEditorUI.init(gameData);
+        });
+    </script>
+</body>
+</html>

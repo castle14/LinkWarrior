@@ -1,0 +1,56 @@
+.main-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to bottom, #000000, #1a1a1a); /* 黑色渐变背景 */
+}
+
+.main-menu h1 {
+    color: #ffffff; /* 白色文字 */
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff; /* 青色发光效果 */
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 80%;
+    max-width: 300px;
+}
+
+.menu-button {
+    padding: 15px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(to bottom, #8B008B, #4B0082); /* 深紫色到靛蓝色渐变 */
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(139, 0, 139, 0.5); /* 紫色阴影 */
+    transition: all 0.3s;
+}
+
+.menu-button:hover {
+    background: linear-gradient(to bottom, #9B30FF, #8A2BE2); /* 浅紫色到蓝紫色渐变 */
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(155, 48, 255, 0.7); /* 更亮的紫色阴影 */
+}
+
+.menu-button:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+    .main-menu h1 {
+        font-size: 2em;
+    }
+    
+    .menu-button {
+        padding: 12px;
+        font-size: 1.1em;
+    }
+}

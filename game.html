@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>连接勇士 - 战斗</title>
+    <link rel="stylesheet" href="./src/css/main.css">
+    <link rel="stylesheet" href="./src/css/battle.css">
+</head>
+<body>
+    <script src="./js/jquery-3.4.1.js"></script>
+    <script src="./js/howler.js"></script>
+    <script src="./src/data/MonsterData.js"></script>
+    <script src="./src/data/ClassData.js"></script>
+    <script src="./src/utils/CardUtils.js"></script>
+    <script src="./src/utils/AudioManager.js"></script>
+    <script src="./src/ui/BattleUI.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 从localStorage获取游戏数据
+            var gameData = JSON.parse(localStorage.getItem('LinkWarriorGameData'));
+
+            if (!gameData) {
+                // 如果没有游戏数据，跳转回主菜单
+                alert('请先开始游戏！');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            BattleUI.init();
+
+            // 根据当前轮数确定怪物等级范围
+            var minMonsterLevel = 1;
+            var maxMonsterLevel = 1;
+
+            var multiplier = Math.floor(gameData.currentRound/12+1);
+            var remainder = gameData.currentRound % 12;
+            if (gameData.currentRound) {
+                if (remainder >= 11) {
+                    minMonsterLevel = 5;
+                    maxMonsterLevel = 6;
+                }else if (remainder >= 10) {
+                    minMonsterLevel = 4;
+                    maxMonsterLevel = 6;
+                } else if (remainder >= 9) {
+                    minMonsterLevel = 4;
+                    maxMonsterLevel = 5;
+                } else if (remainder >= 8) {
+                    minMonsterLevel = 3;
+                    maxMonsterLevel = 5;
+                } else if (remainder >= 7) {
+                    minMonsterLevel = 3;
+                    maxMonsterLevel = 4;
+                } else if (remainder >= 6) {
+                    minMonsterLevel = 2;
+                    maxMonsterLevel = 4;
+                } else if (remainder >= 5) {
+                    minMonsterLevel = 2;
+                    maxMonsterLevel = 3;
+                } else if (remainder >= 4) {
+                    minMonsterLevel = 1;
+                    maxMonsterLevel = 3;
+                } else if (remainder >= 3) {
+                    minMonsterLevel = 2;
+                    maxMonsterLevel = 2;
+                } else if (remainder >= 2) {
+                    minMonsterLevel = 1;
+                    maxMonsterLevel = 2;
+                }else if (remainder >= 1) {
+                    minMonsterLevel = 1;
+                    maxMonsterLevel = 1;
+                }
+            }
+
+            // 从MonsterData.js中随机获取3个指定等级范围的怪物
+            var monsters = MonsterData.getRandomMonstersByLevelRange(3, minMonsterLevel, maxMonsterLevel);
+
+            // 如果当前轮数大于12，每超过12一倍，怪物的最大生命值、生命值、最大护甲和护甲都增加一倍
+
+            for (let i = 0; i < monsters.length; i++) {
+                    monsters[i].name = monsters[i].name+(i+1);
+                    monsters[i].maxHp = Math.round(monsters[i].maxHp * multiplier);
+                    monsters[i].hp = Math.round(monsters[i].hp * multiplier);
+                    monsters[i].maxShield = Math.round(monsters[i].maxShield * multiplier);
+                    monsters[i].shield = Math.round(monsters[i].shield * multiplier);
+
+                    // 同时增加怪物技能的value值和attributeLevel值
+                    if (monsters[i].skills && Array.isArray(monsters[i].skills)) {
+                        for (let j = 0; j < monsters[i].skills.length; j++) {
+                            if (monsters[i].skills[j].value) {
+                                monsters[i].skills[j].value = Math.round(monsters[i].skills[j].value * multiplier);
+                            }
+                            if (monsters[i].skills[j].attributeLevel) {
+                                monsters[i].skills[j].attributeLevel = Math.round(monsters[i].skills[j].attributeLevel * multiplier);
+                            }
+                        }
+                    }
+            }
+
+
+            // 从卡组中随机选择5张作为手牌
+            var hand = [];
+            var currentDeck = [];
+            if (gameData.deck && gameData.deck.length > 0) {
+                // 从卡组中随机选择5张作为手牌
+                currentDeck = [...gameData.deck];
+                for (var i = 0; i < Math.min(5, currentDeck.length); i++) {
+                    var randomIndex = Math.floor(Math.random() * currentDeck.length);
+                    hand.push(currentDeck[randomIndex]);
+                    currentDeck.splice(randomIndex, 1);
+                }
+            } else {
+                // 返回菜单页
+                alert('请先开始游戏！');
+                window.location.href = 'index.html';
+            }
+
+            // 从玩家职业数据中获取技能信息
+            var skills = [gameData.player.class.skill];
+
+            // 设置初始回合数
+            BattleUI.currentTurn = 1;
+
+            // 更新UI示例
+            BattleUI.updateRoundInfo(gameData.currentRound, BattleUI.currentTurn, "无事件");
+            BattleUI.updatePlayerName(gameData.player.name,gameData.playerClass.displayName);
+            BattleUI.updatePlayerClassImage(gameData.player.class.image);
+            BattleUI.updatePlayerInfo(gameData.player);
+            BattleUI.updateEnergyBar(0, gameData.player.class.energyMax);
+            BattleUI.renderMonsters(monsters);
+            BattleUI.renderHand(hand, currentDeck);
+            BattleUI.renderSkills(skills);
+        });
+    </script>
+</body>
+</html>
