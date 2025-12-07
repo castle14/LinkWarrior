@@ -17,7 +17,7 @@ var GameUtil = {
                 return 0;
         }
     },
-    
+
     // 获取稀有度的文本描述
     getRarityText: function(rarity) {
         switch(rarity) {
@@ -35,7 +35,7 @@ var GameUtil = {
                 return rarity;
         }
     },
-    
+
     // 统计卡片列表中各稀有度的卡片数量
     getRarityCounts: function(cardList) {
         var counts = {
@@ -45,7 +45,7 @@ var GameUtil = {
             4: 0, // SSR
             5: 0  // UR
         };
-        
+
         if (cardList && Array.isArray(cardList)) {
             for (var i = 0; i < cardList.length; i++) {
                 var rarity = cardList[i].rarity;
@@ -54,7 +54,65 @@ var GameUtil = {
                 }
             }
         }
-        
+
         return counts;
+    },
+
+    // 根据稀有度计算卡片价格
+    calculateCardCost: function(rarity) {
+        // 根据稀有度计算价格
+        switch(rarity) {
+            case 1: // N
+                return 20;
+            case 2: // R
+                return 50;
+            case 3: // SR
+                return 80;
+            case 4: // SSR
+                return 100;
+            case 5: // UR
+                return 120;
+            default:
+                return 10;
+        }
+    },
+
+    // 生成卡组
+    generateDeck: function(deckSize, rarities, maxSameCard) {
+        // 获取所有符合稀有度要求的卡片
+        var availableCards = [];
+        var allCards = CardData.getAllCards();
+
+        for (var i = 0; i < allCards.length; i++) {
+            if (rarities.indexOf(allCards[i].rarity) !== -1) {
+                availableCards.push(allCards[i]);
+            }
+        }
+
+        // 随机生成卡组
+        var deck = [];
+        var cardCount = {}; // 记录每种卡片的数量
+
+        while (deck.length < deckSize) {
+            // 随机选择一张卡片
+            var randomIndex = Math.floor(Math.random() * availableCards.length);
+            var card = Object.assign({}, availableCards[randomIndex]); // 创建卡片副本
+
+            // 检查同名卡片是否已超过限制
+            if (!cardCount[card.name]) {
+                cardCount[card.name] = 0;
+            }
+
+            if (cardCount[card.name] < maxSameCard) {
+                // 为每张卡片添加唯一ID
+                card.uniqueId = card.id + '_' + Date.now() + '_' + Math.floor(Math.random() * 10000) + '_' + deck.length;
+
+                // 添加卡片到卡组
+                deck.push(card);
+                cardCount[card.name]++;
+            }
+        }
+
+        return deck;
     }
 };

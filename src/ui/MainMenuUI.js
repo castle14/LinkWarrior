@@ -83,7 +83,7 @@ var MainMenuUI = {
         };
 
         // 当前卡组为从按照carddata里的卡片数据随机生成32张rarity为1的卡片（同名卡片不能超过5张）
-        let gCardlist = this.generateDeck(32, [1], 5);
+        let gCardlist = GameUtil.generateDeck(32, [1], 5);
         //取gCardlist前30张赋值给gameData.deck
         gameData.deck = gCardlist.slice(0, 30);
         // 初始化背包为空
@@ -98,44 +98,5 @@ var MainMenuUI = {
         // 刷新页面
         location.reload();
 
-    },
-
-    // 生成卡组
-    generateDeck: function(deckSize, rarities, maxSameCard) {
-        // 获取所有符合稀有度要求的卡片
-        var availableCards = [];
-        var allCards = CardData.getAllCards();
-
-        for (var i = 0; i < allCards.length; i++) {
-            if (rarities.indexOf(allCards[i].rarity) !== -1) {
-                availableCards.push(allCards[i]);
-            }
-        }
-
-        // 随机生成卡组
-        var deck = [];
-        var cardCount = {}; // 记录每种卡片的数量
-
-        while (deck.length < deckSize) {
-            // 随机选择一张卡片
-            var randomIndex = Math.floor(Math.random() * availableCards.length);
-            var card = Object.assign({}, availableCards[randomIndex]); // 创建卡片副本
-
-            // 检查同名卡片是否已超过限制
-            if (!cardCount[card.name]) {
-                cardCount[card.name] = 0;
-            }
-
-            if (cardCount[card.name] < maxSameCard) {
-                // 为每张卡片添加唯一ID
-                card.uniqueId = card.id + '_' + Date.now() + '_' + Math.floor(Math.random() * 10000) + '_' + deck.length;
-
-                // 添加卡片到卡组
-                deck.push(card);
-                cardCount[card.name]++;
-            }
-        }
-
-        return deck;
     }
 };
