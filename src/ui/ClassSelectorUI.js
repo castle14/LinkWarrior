@@ -124,7 +124,7 @@ var ClassSelectorUI = {
             return;
         }
 
-        // 检查星点是否足够
+        检查星点是否足够
         var starPoint = this.gameData.starPoint || 0;
         if (starPoint < 200) {
             alert('星点不足！需要200星点才能解锁职业。');

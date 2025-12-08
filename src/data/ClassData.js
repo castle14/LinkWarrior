@@ -287,7 +287,7 @@ var ClassData = {
         skill: {
           id: 18,
           name: "潜能爆发",
-          description: "激发自身潜能，短时间内提升所有属性",
+          description: "激发自身潜能，恢复最大生命值。",
           cost: 1,
           SPEffect: function (player, hands ,turn, monsters) {
             let ret = {
