@@ -289,10 +289,10 @@ var ClassData = {
           name: "潜能爆发",
           description: "激发自身潜能，短时间内提升所有属性",
           cost: 1,
-          SPEffect: function (self) {
+          SPEffect: function (player, hands ,turn, monsters) {
             let ret = {
               type: "potion",
-              value: self.maxHp-self.hp,
+              value: player.maxHp-player.hp,
               attribute: null,
               attributeLevel: 0,
               targetType: "all",

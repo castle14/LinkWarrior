@@ -398,6 +398,11 @@ var BattleUI = {
 
               // 重新启用出牌按钮
               $('#play-card-btn').prop('disabled', false);
+              // 重新启用技能按钮
+              $('.skill-button').prop('disabled', false);
+
+              // 重新启用技能按钮
+              $('.skill-button').prop('disabled', false);
 
               // 重置标志位
               self.isMonsterTurnExecuting = false;
@@ -851,6 +856,8 @@ var BattleUI = {
 
         // 禁用出牌按钮
         $('#play-card-btn').prop('disabled', true);
+        // 禁用技能按钮
+        $('.skill-button').prop('disabled', true);
         // 生成新的序列ID
         self.currentMonsterSequenceId = Date.now();
         // 800ms后自动进入怪物行动步骤
@@ -1190,17 +1197,22 @@ var BattleUI = {
         return;
       }
 
+      // 禁用所有技能按钮
+      $('.skill-button').prop('disabled', true);
+
       // 根据玩家职业和技能ID处理技能效果
       var playerClass = self.currentPlayer ? self.currentPlayer.class : null;
       if (!playerClass) {
         self.showCenterMessage('无法确定玩家职业！');
+        // 恢复技能按钮状态
+        $('.skill-button').prop('disabled', false);
         return;
       }
       playerClass = ClassData.getClassById(playerClass.id);
       // 检查职业是否有SPEffect函数
       if (playerClass.skill && typeof playerClass.skill.SPEffect === 'function') {
         // 调用SPEffect函数获取技能效果，将其视为卡片效果
-        let skillEffect = playerClass.skill.SPEffect(self.currentPlayer);
+        let skillEffect = playerClass.skill.SPEffect(self.currentPlayer,self.currentHand,self.currentRound,self.currentMonsters);
 
         // 扣除能量消耗
         var newEnergy = currentEnergy - skillCost;
@@ -1217,6 +1229,8 @@ var BattleUI = {
             // 恢复能量
             $('#energy-value').text(currentEnergy);
             $('#energy-bar').css('width', (currentEnergy / maxEnergy) * 100 + '%');
+            // 恢复技能按钮状态
+            $('.skill-button').prop('disabled', false);
             return;
           }
         }
@@ -1449,6 +1463,8 @@ var BattleUI = {
 
           // 禁用出牌按钮
           $('#play-card-btn').prop('disabled', true);
+          // 禁用技能按钮
+          $('.skill-button').prop('disabled', true);
 
           // 生成新的序列ID
           self.currentMonsterSequenceId = Date.now();
@@ -1461,6 +1477,8 @@ var BattleUI = {
         });
       } else {
         self.showCenterMessage(`${playerClass.displayName}的技能尚未实现`);
+        // 恢复技能按钮状态
+        $('.skill-button').prop('disabled', false);
       }
     });
   },
@@ -1490,6 +1508,10 @@ var BattleUI = {
     // 从localStorage中获取游戏数据
     let gameData = JSON.parse(localStorage.getItem('LinkWarriorGameData'));
     if (gameData) {
+      // 记录当前进展的最大轮回合数
+      if (!gameData.maxRound || gameData.currentRound > gameData.maxRound) {
+        gameData.maxRound = gameData.currentRound;
+      }
       // 将currentRound加1
       gameData.currentRound = (gameData.currentRound || 0) + 1;
 
@@ -1498,6 +1520,8 @@ var BattleUI = {
         gameData.stars = 0;
       }
       gameData.stars += totalLevel;
+
+
 
       // 保存回localStorage
       localStorage.setItem('LinkWarriorGameData', JSON.stringify(gameData));

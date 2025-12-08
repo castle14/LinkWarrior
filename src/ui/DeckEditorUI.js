@@ -297,6 +297,11 @@ var DeckEditorUI = {
             this.moveCard(this.selectedCard.uniqueId, 'deck', 'inventory');
         } else if (cardLocation === 'inventory') {
             // 卡片在背包中，移动到卡组
+            // 检查移动到卡组后是否会违反同名卡片不能超过5张的规则
+            if (this.wouldExceedMaxSameCard(this.selectedCard.name, 'deck')) {
+                alert('同名卡片【'+this.selectedCard.name+'】不能超过5张！');
+                return;
+            }
             this.moveCard(this.selectedCard.uniqueId, 'inventory', 'deck');
         } else {
             alert('找不到选中的卡片！');
@@ -436,10 +441,42 @@ var DeckEditorUI = {
             return;
         }
 
+        // 检查卡组中是否有同名卡片超过5张的情况
+        var cardNames = {};
+        for (var i = 0; i < this.gameData.deck.length; i++) {
+            var cardName = this.gameData.deck[i].name;
+            if (!cardNames[cardName]) {
+                cardNames[cardName] = 0;
+            }
+            cardNames[cardName]++;
+
+            // 如果发现某张卡片超过5张，立即报错并返回
+            if (cardNames[cardName] > 5) {
+                alert('同名卡片【' + cardName + '"】不能超过5张！');
+                return;
+            }
+        }
+
         // 将更新后的游戏数据保存到localStorage
         localStorage.setItem('LinkWarriorGameData', JSON.stringify(this.gameData));
 
         // 弹窗提示保存成功
         alert('卡组保存成功！');
+    },
+
+    // 检查移动卡片后是否会违反同名卡片不能超过5张的规则
+    wouldExceedMaxSameCard: function(cardName, targetListName) {
+        var targetList = this.gameData[targetListName] || [];
+        var count = 0;
+
+        for (var i = 0; i < targetList.length; i++) {
+            if (targetList[i].name === cardName) {
+                count++;
+            }
+        }
+
+        // 如果目标列表中已经有5张同名卡片，则不能再添加
+        return count >= 5;
     }
+
 };

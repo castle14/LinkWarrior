@@ -1,0 +1,161 @@
+/* 玩家信息页面样式 */
+.player-info-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.player-info-container h1 {
+    text-align: center;
+  margin: 0;
+    margin-bottom: 10px;
+}
+
+.player-basic-info {
+    display: flex;
+    gap: 10px;
+    padding: 20px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+}
+
+.player-image {
+    flex: 0 0 200px;
+    min-height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+.player-image img {
+    width: 100%;
+    max-width: 120px;
+    height: auto;
+}
+
+.player-details {
+    flex: 1;
+}
+
+.player-details h2 {
+    margin-top: 0;
+}
+
+.player-description {
+    line-height: 1.2;
+    margin-bottom: 5px;
+}
+
+.player-stats-summary {
+    border-top: 1px solid #eee;
+    padding-top: 0;
+}
+
+.player-stats-summary .stat-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+
+.player-stats {
+    padding: 20px;
+    border: 1px solid #ddd;
+    margin-bottom: 30px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.stat-label {
+    font-weight: bold;
+}
+
+.stat-value {
+    font-weight: bold;
+    text-align: right;
+    max-width: 60%;
+}
+
+.back-button-container {
+    text-align: center;
+}
+
+.back-button {
+    background-color: #28a745;
+    border: none;
+    padding: 12px 30px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+    margin: 0 10px;
+}
+
+.back-button:hover {
+    background-color: #218838;
+}
+
+.class-action-button-container {
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 10px;
+}
+
+.class-action-button {
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.class-action-button.unlock {
+    background-color: #007bff;
+    color: white;
+}
+
+.class-action-button.unlock:hover {
+    background-color: #0056b3;
+}
+
+.class-action-button.switch {
+    background-color: #ffc107;
+    color: black;
+}
+
+.class-action-button.switch:hover {
+    background-color: #e0a800;
+}
+
+.class-action-button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .player-info-container {
+        padding: 10px;
+    }
+
+
+    .player-image {
+        flex: 0 0 auto;
+    }
+
+    .player-image img {
+        max-width: 250px;
+    }
+
+    .stat-value {
+        max-width: 50%;
+    }
+}

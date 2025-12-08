@@ -330,10 +330,6 @@
     box-shadow: 0 0 5px rgba(139, 0, 139, 0.5); /* 紫色阴影 */
 }
 
-.skill-button:hover {
-    background: linear-gradient(to bottom, #9B30FF, #8A2BE2); /* 浅紫色渐变 */
-    box-shadow: 0 0 8px rgba(155, 48, 255, 0.7); /* 更亮的紫色阴影 */
-}
 
 .hand-area {
     border-radius: 5px;
@@ -493,10 +489,7 @@
     min-width: 120px; /* 统一最小宽度 */
 }
 
-.action-button:hover, .play-card-button:hover, .skill-button:hover {
-    background: linear-gradient(to bottom, #5a5a5a, #3a3a3a); /* 统一悬停效果 */
-    box-shadow: 0 0 12px rgba(128, 128, 128, 0.7); /* 统一悬停阴影 */
-}
+
 
 /* 特定按钮的额外样式 */
 .action-button {
@@ -525,7 +518,12 @@
     color: #aaaaaa;
     cursor: not-allowed;
 }
-
+.skill-button:disabled {
+    background: linear-gradient(to bottom, #4a4a4a, #2a2a2a); /* 灰色渐变 */
+    box-shadow: 0 0 8px rgba(128, 128, 128, 0.5); /* 灰色阴影 */
+    color: #aaaaaa;
+    cursor: not-allowed;
+}
 .skill-button {
     background: linear-gradient(to bottom, #8B008B, #4B0082); /* 紫色渐变 */
     box-shadow: 0 0 8px rgba(139, 0, 139, 0.5); /* 紫色阴影 */
@@ -534,10 +532,7 @@
     min-width: auto; /* 重置最小宽度 */
 }
 
-.skill-button:hover {
-    background: linear-gradient(to bottom, #9B30FF, #8A2BE2); /* 更亮的紫色渐变 */
-    box-shadow: 0 0 12px rgba(155, 48, 255, 0.7); /* 更亮的紫色阴影 */
-}
+
 
 @media (max-width: 480px) {
     .battle-screen {
