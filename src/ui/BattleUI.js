@@ -209,6 +209,21 @@ var BattleUI = {
                 if (effect.type === 'spell') {
                   // 魔法伤害直接扣除生命值
                   self.currentMonsters[monsterIndex].hp = Math.max(0, self.currentMonsters[monsterIndex].hp - effect.value);
+
+                  // 如果有属性，则增加怪物的属性级别
+                  if (effect.attribute && effect.attributeLevel > 0) {
+                    // 初始化属性对象（如果不存在）
+                    if (!self.currentMonsters[monsterIndex].attributes) {
+                      self.currentMonsters[monsterIndex].attributes = {};
+                    }
+
+                    // 增加属性级别
+                    var currentLevel = self.currentMonsters[monsterIndex].attributes[effect.attribute] || 0;
+                    self.currentMonsters[monsterIndex].attributes[effect.attribute] = currentLevel + effect.attributeLevel;
+
+                    // 更新怪物UI上的属性状态显示
+                    self.updateEntityAttributesDisplay(self.currentMonsters[monsterIndex], 'monster');
+                  }
                 } else if (effect.type === 'weapon') {
                   // 物理伤害先扣除护盾
                   var originalShield = self.currentMonsters[monsterIndex].shield;
@@ -223,6 +238,21 @@ var BattleUI = {
 
                   var hpReduced = originalHp > self.currentMonsters[monsterIndex].hp;
                   var shieldReduced = originalShield > self.currentMonsters[monsterIndex].shield;
+
+                  // 如果有属性，则增加怪物的属性级别
+                  if (effect.attribute && effect.attributeLevel > 0) {
+                    // 初始化属性对象（如果不存在）
+                    if (!self.currentMonsters[monsterIndex].attributes) {
+                      self.currentMonsters[monsterIndex].attributes = {};
+                    }
+
+                    // 增加属性级别
+                    var currentLevel = self.currentMonsters[monsterIndex].attributes[effect.attribute] || 0;
+                    self.currentMonsters[monsterIndex].attributes[effect.attribute] = currentLevel + effect.attributeLevel;
+
+                    // 更新怪物UI上的属性状态显示
+                    self.updateEntityAttributesDisplay(self.currentMonsters[monsterIndex], 'monster');
+                  }
                 }
 
                 // 更新UI显示
@@ -265,6 +295,21 @@ var BattleUI = {
               for (var i = 0; i < self.currentMonsters.length; i++) {
                 var monsterData = self.currentMonsters[i];
                 monsterData.hp = Math.max(0, monsterData.hp - effect.value);
+
+                // 如果有属性，则增加怪物的属性级别
+                if (effect.attribute && effect.attributeLevel > 0) {
+                  // 初始化属性对象（如果不存在）
+                  if (!self.currentMonsters[i].attributes) {
+                    self.currentMonsters[i].attributes = {};
+                  }
+
+                  // 增加属性级别
+                  var currentLevel = self.currentMonsters[i].attributes[effect.attribute] || 0;
+                  self.currentMonsters[i].attributes[effect.attribute] = currentLevel + effect.attributeLevel;
+
+                  // 更新怪物UI上的属性状态显示
+                  self.updateEntityAttributesDisplay(self.currentMonsters[i], 'monster');
+                }
               }
 
               // 更新所有怪物的UI显示
@@ -304,6 +349,21 @@ var BattleUI = {
                 if (remainingDamage > 0) {
                   monsterData.hp = Math.max(0, monsterData.hp - remainingDamage);
                 }
+
+                // 如果有属性，则增加怪物的属性级别
+                if (effect.attribute && effect.attributeLevel > 0) {
+                  // 初始化属性对象（如果不存在）
+                  if (!self.currentMonsters[i].attributes) {
+                    self.currentMonsters[i].attributes = {};
+                  }
+
+                  // 增加属性级别
+                  var currentLevel = self.currentMonsters[i].attributes[effect.attribute] || 0;
+                  self.currentMonsters[i].attributes[effect.attribute] = currentLevel + effect.attributeLevel;
+
+                  // 更新怪物UI上的属性状态显示
+                  self.updateEntityAttributesDisplay(self.currentMonsters[i], 'monster');
+                }
               }
 
               // 更新所有怪物的UI显示
@@ -324,12 +384,14 @@ var BattleUI = {
 
                   // 根据扣减类型添加不同的受击效果
                   if (hpReduced) {
+                    // 扣减了生命值，显示红色闪烁效果
                     monster.addClass('monster-hit');
                     setTimeout(() => {
                       monster.removeClass('monster-hit');
                     }, 500);
                     AudioManager.play('injuredMonster');
                   } else if (shieldReduced) {
+                    // 仅扣减了护盾值，显示灰色闪烁效果
                     monster.addClass('monster-shield-hit');
                     setTimeout(() => {
                       monster.removeClass('monster-shield-hit');
@@ -445,6 +507,22 @@ var BattleUI = {
                     // 记录玩家当前的护盾和生命值
                     var originalPlayerShield = self.currentPlayer ? self.currentPlayer.shield : parseInt($('#player-shield').text());
                     var originalPlayerHp = self.currentPlayer ? self.currentPlayer.hp : parseInt($('#player-hp').text());
+
+                    // 添加属性处理逻辑
+                    // 如果技能有属性，则增加玩家的属性级别
+                    if (skill.attribute && skill.attributeLevel > 0) {
+                      // 初始化属性对象（如果不存在）
+                      if (!self.currentPlayer.attributes) {
+                        self.currentPlayer.attributes = {};
+                      }
+
+                      // 增加属性级别
+                      var currentLevel = self.currentPlayer.attributes[skill.attribute] || 0;
+                      self.currentPlayer.attributes[skill.attribute] = currentLevel + skill.attributeLevel;
+
+                      // 更新玩家UI上的属性状态显示
+                      self.updateEntityAttributesDisplay(self.currentPlayer, 'player');
+                    }
 
                     // 计算实际伤害（先扣除护盾）
                     var actualDamage = damage;
@@ -906,6 +984,22 @@ var BattleUI = {
               // 魔法伤害效果，且目标时单体，则对选中的怪兽的生命值进行扣除
               if (monsterIndex >= 0) {
                 self.currentMonsters[monsterIndex].hp = Math.max(0, self.currentMonsters[monsterIndex].hp - damage);
+
+                // 如果卡片有属性，则增加怪物的属性级别
+                var cardData = CardData.getCardById(cardId);
+                if (cardData && cardData.attribute && cardData.attributeLevel > 0) {
+                  // 初始化属性对象（如果不存在）
+                  if (!self.currentMonsters[monsterIndex].attributes) {
+                    self.currentMonsters[monsterIndex].attributes = {};
+                  }
+
+                  // 增加属性级别
+                  var currentLevel = self.currentMonsters[monsterIndex].attributes[cardData.attribute] || 0;
+                  self.currentMonsters[monsterIndex].attributes[cardData.attribute] = currentLevel + cardData.attributeLevel;
+
+                  // 更新怪物UI上的属性状态显示
+                  self.updateEntityAttributesDisplay(self.currentMonsters[monsterIndex], 'monster');
+                }
               }
 
               // 更新UI显示 - 直接使用currentMonsters中的数据
@@ -943,6 +1037,22 @@ var BattleUI = {
                 // 判断是扣减了生命值还是护盾值
                 var hpReduced = originalHp > self.currentMonsters[monsterIndex].hp;
                 var shieldReduced = originalShield > self.currentMonsters[monsterIndex].shield;
+
+                // 如果卡片有属性，则增加怪物的属性级别
+                var cardData = CardData.getCardById(cardId);
+                if (cardData && cardData.attribute && cardData.attributeLevel > 0) {
+                  // 初始化属性对象（如果不存在）
+                  if (!self.currentMonsters[monsterIndex].attributes) {
+                    self.currentMonsters[monsterIndex].attributes = {};
+                  }
+
+                  // 增加属性级别
+                  var currentLevel = self.currentMonsters[monsterIndex].attributes[cardData.attribute] || 0;
+                  self.currentMonsters[monsterIndex].attributes[cardData.attribute] = currentLevel + cardData.attributeLevel;
+
+                  // 更新怪物UI上的属性状态显示
+                  self.updateEntityAttributesDisplay(self.currentMonsters[monsterIndex], 'monster');
+                }
               }
 
               // 更新UI显示 - 直接使用currentMonsters中的数据
@@ -994,6 +1104,22 @@ var BattleUI = {
                 var monsterData = self.currentMonsters[i];
                 // 法术伤害直接扣除生命值
                 monsterData.hp = Math.max(0, monsterData.hp - damage);
+
+                // 如果卡片有属性，则增加怪物的属性级别
+                var cardData = CardData.getCardById(cardId);
+                if (cardData && cardData.attribute && cardData.attributeLevel > 0) {
+                  // 初始化属性对象（如果不存在）
+                  if (!self.currentMonsters[i].attributes) {
+                    self.currentMonsters[i].attributes = {};
+                  }
+
+                  // 增加属性级别
+                  var currentLevel = self.currentMonsters[i].attributes[cardData.attribute] || 0;
+                  self.currentMonsters[i].attributes[cardData.attribute] = currentLevel + cardData.attributeLevel;
+
+                  // 更新怪物UI上的属性状态显示
+                  self.updateEntityAttributesDisplay(self.currentMonsters[i], 'monster');
+                }
               }
 
               // 更新所有怪物的UI显示 - 直接使用currentMonsters中的数据
@@ -1037,6 +1163,22 @@ var BattleUI = {
                 // 如果还有剩余伤害，则扣除生命值
                 if (remainingDamage > 0) {
                   monsterData.hp = Math.max(0, monsterData.hp - remainingDamage);
+                }
+
+                // 如果卡片有属性，则增加怪物的属性级别
+                var cardData = CardData.getCardById(cardId);
+                if (cardData && cardData.attribute && cardData.attributeLevel > 0) {
+                  // 初始化属性对象（如果不存在）
+                  if (!self.currentMonsters[i].attributes) {
+                    self.currentMonsters[i].attributes = {};
+                  }
+
+                  // 增加属性级别
+                  var currentLevel = self.currentMonsters[i].attributes[cardData.attribute] || 0;
+                  self.currentMonsters[i].attributes[cardData.attribute] = currentLevel + cardData.attributeLevel;
+
+                  // 更新怪物UI上的属性状态显示
+                  self.updateEntityAttributesDisplay(self.currentMonsters[i], 'monster');
                 }
               }
 
@@ -1283,6 +1425,21 @@ var BattleUI = {
                 if (skillEffect.type === "spell") {
                   // 魔法伤害直接扣除生命值
                   self.currentMonsters[monsterIndex].hp = Math.max(0, self.currentMonsters[monsterIndex].hp - skillEffect.value);
+
+                  // 如果技能有属性，则增加怪物的属性级别
+                  if (skillEffect.attribute && skillEffect.attributeLevel > 0) {
+                    // 初始化属性对象（如果不存在）
+                    if (!self.currentMonsters[monsterIndex].attributes) {
+                      self.currentMonsters[monsterIndex].attributes = {};
+                    }
+
+                    // 增加属性级别
+                    var currentLevel = self.currentMonsters[monsterIndex].attributes[skillEffect.attribute] || 0;
+                    self.currentMonsters[monsterIndex].attributes[skillEffect.attribute] = currentLevel + skillEffect.attributeLevel;
+
+                    // 更新怪物UI上的属性状态显示
+                    self.updateEntityAttributesDisplay(self.currentMonsters[monsterIndex], 'monster');
+                  }
                 } else if (skillEffect.type === "weapon") {
                   // 物理伤害先扣除护盾
                   var originalShield = self.currentMonsters[monsterIndex].shield;
@@ -1297,6 +1454,21 @@ var BattleUI = {
 
                   var hpReduced = originalHp > self.currentMonsters[monsterIndex].hp;
                   var shieldReduced = originalShield > self.currentMonsters[monsterIndex].shield;
+
+                  // 如果技能有属性，则增加怪物的属性级别
+                  if (skillEffect.attribute && skillEffect.attributeLevel > 0) {
+                    // 初始化属性对象（如果不存在）
+                    if (!self.currentMonsters[monsterIndex].attributes) {
+                      self.currentMonsters[monsterIndex].attributes = {};
+                    }
+
+                    // 增加属性级别
+                    var currentLevel = self.currentMonsters[monsterIndex].attributes[skillEffect.attribute] || 0;
+                    self.currentMonsters[monsterIndex].attributes[skillEffect.attribute] = currentLevel + skillEffect.attributeLevel;
+
+                    // 更新怪物UI上的属性状态显示
+                    self.updateEntityAttributesDisplay(self.currentMonsters[monsterIndex], 'monster');
+                  }
                 }
 
                 // 更新UI显示
@@ -1335,6 +1507,21 @@ var BattleUI = {
                 for (var i = 0; i < self.currentMonsters.length; i++) {
                   var monsterData = self.currentMonsters[i];
                   monsterData.hp = Math.max(0, monsterData.hp - skillEffect.value);
+
+                  // 如果技能有属性，则增加怪物的属性级别
+                  if (skillEffect.attribute && skillEffect.attributeLevel > 0) {
+                    // 初始化属性对象（如果不存在）
+                    if (!self.currentMonsters[i].attributes) {
+                      self.currentMonsters[i].attributes = {};
+                    }
+
+                    // 增加属性级别
+                    var currentLevel = self.currentMonsters[i].attributes[skillEffect.attribute] || 0;
+                    self.currentMonsters[i].attributes[skillEffect.attribute] = currentLevel + skillEffect.attributeLevel;
+
+                    // 更新怪物UI上的属性状态显示
+                    self.updateEntityAttributesDisplay(self.currentMonsters[i], 'monster');
+                  }
                 }
 
                 // 更新所有怪物的UI显示
@@ -1373,6 +1560,21 @@ var BattleUI = {
 
                   if (remainingDamage > 0) {
                     monsterData.hp = Math.max(0, monsterData.hp - remainingDamage);
+                  }
+
+                  // 如果技能有属性，则增加怪物的属性级别
+                  if (skillEffect.attribute && skillEffect.attributeLevel > 0) {
+                    // 初始化属性对象（如果不存在）
+                    if (!self.currentMonsters[i].attributes) {
+                      self.currentMonsters[i].attributes = {};
+                    }
+
+                    // 增加属性级别
+                    var currentLevel = self.currentMonsters[i].attributes[skillEffect.attribute] || 0;
+                    self.currentMonsters[i].attributes[skillEffect.attribute] = currentLevel + skillEffect.attributeLevel;
+
+                    // 更新怪物UI上的属性状态显示
+                    self.updateEntityAttributesDisplay(self.currentMonsters[i], 'monster');
                   }
                 }
 
@@ -1680,6 +1882,9 @@ var BattleUI = {
     $('#player-max-shield').text(player.maxShield);
     var shieldPercentage = (player.maxShield > 0) ? (player.shield / player.maxShield) * 100 : 0;
     $('#shield-bar').css('width', shieldPercentage + '%');
+
+    // 更新玩家属性状态显示
+    this.updateEntityAttributesDisplay(player, 'player');
   },
 
   // 更新能量槽
@@ -1772,6 +1977,9 @@ var BattleUI = {
                 </div>
             `;
       container.append(monsterHtml);
+
+      // 更新怪物属性状态显示
+      this.updateEntityAttributesDisplay(monster, 'monster');
     }
   },
 
@@ -1862,6 +2070,66 @@ var BattleUI = {
                 </button>
             `;
       container.append(skillHtml);
+    }
+  },
+
+  // 更新实体属性状态显示
+  updateEntityAttributesDisplay: function(entity, entityType) {
+    // 如果实体没有属性，则不显示任何内容
+    if (!entity.attributes) {
+      return;
+    }
+
+    var entityId = entity.uniqueId || entity.id;
+    var selector = '';
+
+    // 根据实体类型确定选择器
+    if (entityType === 'player') {
+      selector = '.player-section';
+    } else if (entityType === 'monster') {
+      selector = `.monster[data-id="${entityId}"]`;
+    }
+
+    var entityElement = $(selector);
+    if (!entityElement.length) {
+      return;
+    }
+
+    // 查找或创建属性状态容器
+    var statusContainer = entityElement.find(entityType === 'player' ? '.player-status' : '.monster-status');
+    if (!statusContainer.length) {
+      return;
+    }
+
+    // 清空现有的属性状态显示
+    statusContainer.empty();
+
+    // 遍历所有属性并显示
+    for (var attr in entity.attributes) {
+      if (entity.attributes.hasOwnProperty(attr) && entity.attributes[attr] > 0) {
+        // 根据属性类型设置背景颜色
+        var backgroundColor = '';
+        switch (attr) {
+          case 'fire':
+            backgroundColor = 'red';
+            break;
+          case 'ice':
+            backgroundColor = 'blue';
+            break;
+          case 'poison':
+            backgroundColor = 'purple';
+            break;
+          case 'electric':
+            backgroundColor = 'yellow';
+            break;
+          default:
+            backgroundColor = 'gray';
+        }
+
+        // 创建属性状态span元素
+        var attrSpan = $(`<span class="entity-attribute-display ${attr}">${entity.attributes[attr]}</span>`);
+        statusContainer.append(attrSpan);
+      }
     }
   }
 };

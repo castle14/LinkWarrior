@@ -51,12 +51,12 @@ var MonsterData = {
                 maxShield: 10,
                 level: 1,
                 skills: [
-                    {type: "weapon", value: 8, attribute: null, attributeLevel: 0},
-                    {type: "weapon", value: 6, attribute: null, attributeLevel: 0},
+                    {type: "weapon", value: 8, attribute: "fire", attributeLevel: 1},
+                    {type: "weapon", value: 6, attribute: "ice", attributeLevel: 1},
                     {type: "potion", value: 10, attribute: null, attributeLevel: 0},
-                    {type: "spell", value: 5, attribute: null, attributeLevel: 0},
-                    {type: "spell", value: 4, attribute: null, attributeLevel: 0},
-                    {type: "spell", value: 3, attribute: null, attributeLevel: 0}
+                    {type: "spell", value: 5, attribute: "electric", attributeLevel: 1},
+                    {type: "spell", value: 4, attribute: "electric", attributeLevel: 1},
+                    {type: "spell", value: 3, attribute: "poison", attributeLevel: 1}
                 ],
                 image: "./img/alien/外星人小孩.jpg"
             },

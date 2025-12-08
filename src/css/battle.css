@@ -54,6 +54,7 @@
     align-items: center;
     box-shadow: 0 0 8px rgba(255, 0, 0, 0.5); /* 红色阴影 */
     cursor: pointer;
+    position: relative; /* 为了正确定位属性状态 */
 }
 
 .monster:hover {
@@ -173,7 +174,6 @@
 .monster-image {
     width: 80px;
     height: 80px;
-    background-color: #000000; /* 黑色背景 */
     border-radius: 0; /* 无圆角 */
     display: flex;
     align-items: center;
@@ -208,10 +208,11 @@
 }
 
 .monster-status {
-    margin-top: 3px;
-    font-size: 11px;
+    margin-top: 2px;
+    font-size: 10px;
     color: #ffa500; /* 橙色文字 */
     text-align: center; /* 文字居中 */
+    min-height: 15px; /* 确保即使没有属性也有一定高度 */
 }
 
 /* 卡片效果信息栏 */
@@ -232,6 +233,7 @@
     background-color: #1a1a1a;
     border-radius: 5px;
     padding: 8px; /* 减小内边距 */
+    position: relative; /* 为了正确定位属性状态 */
     /* 移除了边框 */
 }
 
@@ -247,7 +249,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 }
 
 .player-class-image-container {
@@ -272,7 +274,7 @@
     width: 100%;
     height: 16px; /* 减小高度 */
     background-color: #2a2a2a;
-    margin-bottom: 1px; /* 减小下边距 */
+    margin-bottom: 2px; /* 减小下边距 */
     overflow: hidden;
     position: relative;
     border: 1px solid #555;
@@ -532,7 +534,46 @@
     min-width: auto; /* 重置最小宽度 */
 }
 
+.player-status {
+    min-height: 15px; /* 确保即使没有属性也有一定高度 */
+    margin-bottom: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
+/* 实体属性显示样式 */
+.entity-attribute-display {
+    color: white;
+    padding: 2px 2px;
+    margin: 2px;
+    font-size: 8px;
+    border-radius: 4px;
+    width: 8px;
+    height: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  line-height: 8px;
+}
+
+.entity-attribute-display.fire {
+    background-color: red;
+}
+
+.entity-attribute-display.ice {
+    background-color: blue;
+}
+
+.entity-attribute-display.poison {
+    background-color: purple;
+}
+
+.entity-attribute-display.electric {
+    background-color: orange;
+}
 
 @media (max-width: 480px) {
     .battle-screen {
