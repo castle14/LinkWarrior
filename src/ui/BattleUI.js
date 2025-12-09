@@ -1004,8 +1004,15 @@ var BattleUI = {
                 }, timeoutCount);
               }, 1000);
             }else{
-              self.executeMonsterTurn();
-              self.showCenterMessage('------回合结束------');
+              let timeoutCount = 0;
+                let electricCount = self.applyElectricEffect(); // 应用雷属性效果
+                if (electricCount > 0) {
+                  timeoutCount = 1000;
+                }
+                setTimeout(function () {
+                  self.executeMonsterTurn();
+                  self.showCenterMessage('------回合结束------');
+                }, timeoutCount);
             }
 
           }, 1000);
@@ -1883,8 +1890,15 @@ var BattleUI = {
                 }, timeoutCount);
               }, 1000);
             }else{
-              self.executeMonsterTurn();
-              self.showCenterMessage('------回合结束------');
+              let timeoutCount = 0;
+                let electricCount = self.applyElectricEffect(); // 应用雷属性效果
+                if (electricCount > 0) {
+                  timeoutCount = 1000;
+                }
+                setTimeout(function () {
+                  self.executeMonsterTurn();
+                  self.showCenterMessage('------回合结束------');
+                }, timeoutCount);
             }
 
           }, 1000);
@@ -2143,15 +2157,15 @@ var BattleUI = {
     $('body').append(messageElement);
 
     // 使用jQuery的fadeIn效果渐显
-    messageElement.fadeIn(500);
+    messageElement.fadeIn(300);
 
-    // 1.5秒后开始渐隐效果
+    // 800ms后开始渐隐效果
     setTimeout(function () {
-      messageElement.fadeOut(500, function () {
+      messageElement.fadeOut(300, function () {
         // 淡出完成后移除元素
         messageElement.remove();
       });
-    }, 500);
+    }, 800);
   },
 
   // 渲染怪物
