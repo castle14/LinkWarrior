@@ -55,7 +55,7 @@ var MonsterData = {
                     {type: "weapon", value: 6, attribute: "ice", attributeLevel: 1},
                     {type: "potion", value: 10, attribute: null, attributeLevel: 0},
                     {type: "spell", value: 5, attribute: "electric", attributeLevel: 1},
-                    {type: "spell", value: 4, attribute: "electric", attributeLevel: 1},
+                    {type: "spell", value: 4, attribute: "poison", attributeLevel: 1},
                     {type: "spell", value: 3, attribute: "poison", attributeLevel: 1}
                 ],
                 image: "./img/alien/外星人小孩.jpg"

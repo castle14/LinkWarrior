@@ -985,11 +985,20 @@ var BattleUI = {
         $('.skill-button').prop('disabled', true);
         // 生成新的序列ID
         self.currentMonsterSequenceId = Date.now();
+
         // 800ms后自动进入怪物行动步骤
         setTimeout(function () {
-          self.executeMonsterTurn();
-          self.showCenterMessage('------回合结束------');
-        }, 800);
+          let count = self.applyPoisonDamage(); // 应用毒属性伤害
+            let timeoutCount = 0;
+            if (count > 0) {
+              timeoutCount = 1000;
+            }
+            setTimeout(function (){
+              self.executeMonsterTurn();
+              self.showCenterMessage('------回合结束------');
+            }, timeoutCount);
+        }, 1000);
+
 
       };
 
@@ -1847,9 +1856,16 @@ var BattleUI = {
 
           // 技能使用后延迟进入怪物行动步骤
           setTimeout(function () {
-            self.executeMonsterTurn();
-            self.showCenterMessage('------回合结束------');
-          }, 800);
+            let Count = self.applyPoisonDamage(); // 应用毒属性伤害
+            let timeoutCount = 0;
+            if (Count > 0) {
+              timeoutCount = 1000;
+            }
+            setTimeout(function (){
+              self.executeMonsterTurn();
+              self.showCenterMessage('------回合结束------');
+            }, timeoutCount);
+          }, 1000);
         });
       } else {
         self.showCenterMessage(`${playerClass.displayName}的技能尚未实现`);
@@ -2305,5 +2321,98 @@ var BattleUI = {
         statusContainer.append(attrSpan);
       }
     }
+  },
+
+  // 应用毒属性伤害
+  applyPoisonDamage: function() {
+    var self = this;
+    var poisonMessages = [];
+    var poisonDamageCount = 0;
+    // 检查玩家是否有毒属性
+    if (self.currentPlayer && self.currentPlayer.attributes && self.currentPlayer.attributes.poison > 0) {
+      var poisonDamage = self.currentPlayer.attributes.poison;
+      self.currentPlayer.hp = Math.max(0, self.currentPlayer.hp - poisonDamage);
+      poisonDamageCount = poisonDamageCount + poisonDamage;
+      // 更新玩家UI
+      $('#player-hp').text(self.currentPlayer.hp);
+      var healthPercentage = (self.currentPlayer.maxHp > 0) ?
+        (self.currentPlayer.hp / self.currentPlayer.maxHp) * 100 : 0;
+      $('#health-bar').css('width', healthPercentage + '%');
+
+      // 添加中毒伤害消息
+      poisonMessages.push(`玩家受到 ${poisonDamage} 点毒属性伤害！`);
+
+      // 播放受伤音效
+      AudioManager.play('injuredFemale');
+
+      // 触发玩家受击动画
+      var playerSection = $('.player-section');
+      playerSection.addClass('player-hit');
+      setTimeout(() => {
+        playerSection.removeClass('player-hit');
+      }, 500);
+
+      // 检查玩家是否死亡
+      if (self.currentPlayer.hp <= 0) {
+        // 玩家死亡，显示挑战失败
+        AudioManager.play('failure', () => {
+          alert('挑战失败！');
+
+          // 从localStorage中获取游戏数据
+          let gameData = JSON.parse(localStorage.getItem('LinkWarriorGameData'));
+          if (gameData) {
+            // 将currentRound设为1
+            gameData.currentRound = 1;
+
+            // 保存回localStorage
+            localStorage.setItem('LinkWarriorGameData', JSON.stringify(gameData));
+          }
+
+          // 返回首页
+          window.location.href = 'index.html';
+        });
+        return;
+      }
+    }
+
+    // 检查每个怪物是否有毒属性
+    for (var i = 0; i < self.currentMonsters.length; i++) {
+      var monster = self.currentMonsters[i];
+      if (monster.attributes && monster.attributes.poison > 0) {
+        var poisonDamage = monster.attributes.poison;
+        monster.hp = Math.max(0, monster.hp - poisonDamage);
+        poisonDamageCount = poisonDamageCount+poisonDamage;
+        // 添加中毒伤害消息
+        poisonMessages.push(`【${monster.name}】受到 ${poisonDamage} 点毒属性伤害！`);
+
+        // 更新怪物UI
+        var monsterElement = $('.monster[data-id="' + (monster.uniqueId || monster.id) + '"]');
+        if (monsterElement.length > 0) {
+          var monsterStats = monsterElement.find('.monster-stats');
+          var hpElement = monsterStats.find('div:first');
+          hpElement.text(`生命: ${monster.hp}/${monster.maxHp}`);
+
+          // 触发受击动画
+          monsterElement.addClass('monster-hit');
+          setTimeout(() => {
+            monsterElement.removeClass('monster-hit');
+          }, 500);
+        }
+
+        // 检查怪物是否死亡
+        if (monster.hp <= 0) {
+          // 触发死亡动画
+          if (monsterElement.length > 0) {
+            monsterElement.fadeOut(500);
+          }
+        }
+      }
+    }
+
+    // 显示中毒伤害消息
+    if (poisonMessages.length > 0) {
+      self.showCenterMessage(poisonMessages.join('\n'));
+    }
+    return poisonDamageCount;
   }
 };
