@@ -114,7 +114,7 @@ var BattleUI = {
   },
 
   // 统一处理效果应用的方法
-  applyEffect: function(effect, targets, sourceName, isSkill) {
+  applyEffect: function (effect, targets, sourceName, isSkill) {
     var self = this;
     var effectSource = isSkill ? '技能' : '卡牌';
     var effectName = isSkill ? sourceName : effect.name;
@@ -986,18 +986,29 @@ var BattleUI = {
         // 生成新的序列ID
         self.currentMonsterSequenceId = Date.now();
 
-        // 800ms后自动进入怪物行动步骤
+        // 1000ms后自动进入怪物行动步骤
         setTimeout(function () {
-          let count = self.applyPoisonDamage(); // 应用毒属性伤害
-            let timeoutCount = 0;
-            if (count > 0) {
-              timeoutCount = 1000;
-            }
-            setTimeout(function (){
+            let poisonCount = self.applyPoisonDamage(); // 应用毒属性伤害
+
+
+            if (poisonCount > 0) {
+              setTimeout(function () {
+                let timeoutCount = 0;
+                let electricCount = self.applyElectricEffect(); // 应用雷属性效果
+                if (electricCount > 0) {
+                  timeoutCount = 1000;
+                }
+                setTimeout(function () {
+                  self.executeMonsterTurn();
+                  self.showCenterMessage('------回合结束------');
+                }, timeoutCount);
+              }, 1000);
+            }else{
               self.executeMonsterTurn();
               self.showCenterMessage('------回合结束------');
-            }, timeoutCount);
-        }, 1000);
+            }
+
+          }, 1000);
 
 
       };
@@ -1479,7 +1490,7 @@ var BattleUI = {
       // 检查职业是否有SPEffect函数
       if (playerClass.skill && typeof playerClass.skill.SPEffect === 'function') {
         // 调用SPEffect函数获取技能效果，将其视为卡片效果
-        let skillEffect = playerClass.skill.SPEffect(self.currentPlayer,self.currentHand,self.currentRound,self.currentMonsters);
+        let skillEffect = playerClass.skill.SPEffect(self.currentPlayer, self.currentHand, self.currentRound, self.currentMonsters);
 
         // 扣除能量消耗
         var newEnergy = currentEnergy - skillCost;
@@ -1856,15 +1867,26 @@ var BattleUI = {
 
           // 技能使用后延迟进入怪物行动步骤
           setTimeout(function () {
-            let Count = self.applyPoisonDamage(); // 应用毒属性伤害
-            let timeoutCount = 0;
-            if (Count > 0) {
-              timeoutCount = 1000;
-            }
-            setTimeout(function (){
+            let poisonCount = self.applyPoisonDamage(); // 应用毒属性伤害
+
+
+            if (poisonCount > 0) {
+              setTimeout(function () {
+                let timeoutCount = 0;
+                let electricCount = self.applyElectricEffect(); // 应用雷属性效果
+                if (electricCount > 0) {
+                  timeoutCount = 1000;
+                }
+                setTimeout(function () {
+                  self.executeMonsterTurn();
+                  self.showCenterMessage('------回合结束------');
+                }, timeoutCount);
+              }, 1000);
+            }else{
               self.executeMonsterTurn();
               self.showCenterMessage('------回合结束------');
-            }, timeoutCount);
+            }
+
           }, 1000);
         });
       } else {
@@ -1912,7 +1934,6 @@ var BattleUI = {
         gameData.stars = 0;
       }
       gameData.stars += totalLevel;
-
 
 
       // 保存回localStorage
@@ -2264,7 +2285,7 @@ var BattleUI = {
   },
 
   // 更新实体属性状态显示
-  updateEntityAttributesDisplay: function(entity, entityType) {
+  updateEntityAttributesDisplay: function (entity, entityType) {
     // 如果实体没有属性，则不显示任何内容
     if (!entity.attributes) {
       return;
@@ -2324,15 +2345,15 @@ var BattleUI = {
   },
 
   // 应用毒属性伤害
-  applyPoisonDamage: function() {
+  applyPoisonDamage: function () {
     var self = this;
     var poisonMessages = [];
-    var poisonDamageCount = 0;
+
     // 检查玩家是否有毒属性
     if (self.currentPlayer && self.currentPlayer.attributes && self.currentPlayer.attributes.poison > 0) {
       var poisonDamage = self.currentPlayer.attributes.poison;
       self.currentPlayer.hp = Math.max(0, self.currentPlayer.hp - poisonDamage);
-      poisonDamageCount = poisonDamageCount + poisonDamage;
+
       // 更新玩家UI
       $('#player-hp').text(self.currentPlayer.hp);
       var healthPercentage = (self.currentPlayer.maxHp > 0) ?
@@ -2381,10 +2402,11 @@ var BattleUI = {
       if (monster.attributes && monster.attributes.poison > 0) {
         var poisonDamage = monster.attributes.poison;
         monster.hp = Math.max(0, monster.hp - poisonDamage);
-        poisonDamageCount = poisonDamageCount+poisonDamage;
+
         // 添加中毒伤害消息
         poisonMessages.push(`【${monster.name}】受到 ${poisonDamage} 点毒属性伤害！`);
-
+ // 播放受伤音效
+      AudioManager.play('injuredMonster');
         // 更新怪物UI
         var monsterElement = $('.monster[data-id="' + (monster.uniqueId || monster.id) + '"]');
         if (monsterElement.length > 0) {
@@ -2413,6 +2435,69 @@ var BattleUI = {
     if (poisonMessages.length > 0) {
       self.showCenterMessage(poisonMessages.join('\n'));
     }
-    return poisonDamageCount;
+    return poisonMessages.length;
+  },
+
+  // 应用雷属性效果（回合结束时降低护甲）
+  applyElectricEffect: function () {
+    var self = this;
+    var electricMessages = [];
+
+    // 检查玩家是否有雷属性
+    if (self.currentPlayer && self.currentPlayer.attributes && self.currentPlayer.attributes.electric > 0) {
+      var electricLevel = self.currentPlayer.attributes.electric;
+      // 每层雷属性降低1点护盾，最低为0
+      var shieldReduction = Math.min(self.currentPlayer.shield, electricLevel);
+      self.currentPlayer.shield = Math.max(0, self.currentPlayer.shield - shieldReduction);
+
+      // 更新玩家UI
+      $('#player-shield').text(self.currentPlayer.shield);
+      var shieldPercentage = (self.currentPlayer.maxShield > 0) ?
+        (self.currentPlayer.shield / self.currentPlayer.maxShield) * 100 : 0;
+      $('#shield-bar').css('width', shieldPercentage + '%');
+
+      // 添加雷属性效果消息
+      electricMessages.push(`玩家因雷属性效果失去 ${shieldReduction} 点护盾！`);
+      // 播放护甲损伤音效
+        AudioManager.play('shieldDefend');
+    }
+
+    // 检查每个怪物是否有雷属性
+    for (var i = 0; i < self.currentMonsters.length; i++) {
+      var monster = self.currentMonsters[i];
+      if (monster.attributes && monster.attributes.electric > 0) {
+        var electricLevel = monster.attributes.electric;
+        // 每层雷属性降低1点护盾，最低为0
+        var shieldReduction = Math.min(monster.shield, electricLevel);
+        monster.shield = Math.max(0, monster.shield - shieldReduction);
+
+        // 更新怪物UI
+        var monsterElement = $('.monster[data-id="' + (monster.uniqueId || monster.id) + '"]');
+        if (monsterElement.length > 0) {
+          var monsterStats = monsterElement.find('.monster-stats');
+          var shieldElement = monsterStats.find('div:last');
+          shieldElement.text(`护盾: ${monster.shield}/${monster.maxShield}`);
+
+          // 触发受击动画（护盾减少）
+          monsterElement.addClass('monster-shield-hit');
+          setTimeout(() => {
+            monsterElement.removeClass('monster-shield-hit');
+          }, 500);
+        }
+
+        // 添加雷属性效果消息
+        electricMessages.push(`【${monster.name}】因雷属性效果失去 ${shieldReduction} 点护盾！`);
+         // 播放护甲损伤音效
+        AudioManager.play('shieldDefend');
+      }
+    }
+
+    // 显示雷属性效果消息
+    if (electricMessages.length > 0) {
+      self.showCenterMessage(electricMessages.join('\n'));
+    }
+
+    // 返回受影响的数量，用于判断是否需要延迟显示回合结束消息
+    return electricMessages.length;
   }
 };
