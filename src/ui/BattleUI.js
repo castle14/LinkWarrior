@@ -205,9 +205,9 @@ var BattleUI = {
           if (effectSource === '技能' && self.currentPlayer && self.currentPlayer.attributes && self.currentPlayer.attributes.fire) {
             fireDamageBonus = self.currentPlayer.attributes.fire;
           }
-          
+
           var totalDamage = effect.value + fireDamageBonus;
-          
+
           if (effect.targetType === 'single') {
             // 单体目标
             var target = targets[0]; // 单体目标
@@ -511,14 +511,23 @@ var BattleUI = {
                 case 'spell':
                   // 对玩家造成伤害
                   var damage = skill.value || 0;
-                  
+
+                  // 计算怪物冰属性减伤
+                  var monsterIceDamageReduction = 0;
+                  if (monster.attributes && monster.attributes.ice) {
+                    monsterIceDamageReduction = monster.attributes.ice;
+                  }
+
+                  // 应用冰属性减伤，但不能将伤害降到0以下
+                  var reducedDamage = Math.max(0, damage - monsterIceDamageReduction);
+
                   // 计算玩家火属性额外伤害
                   var playerFireDamageBonus = 0;
                   if (self.currentPlayer && self.currentPlayer.attributes && self.currentPlayer.attributes.fire) {
                     playerFireDamageBonus = self.currentPlayer.attributes.fire;
                   }
-                  
-                  var totalDamage = damage + playerFireDamageBonus;
+
+                  var totalDamage = reducedDamage + playerFireDamageBonus;
 
                   // 触发动画效果
                   monsterElement.removeClass('monster-attack'); // 确保先移除，避免重复添加
@@ -610,9 +619,13 @@ var BattleUI = {
                       }, 500);
                     }
 
-                    var damageMessage = `【${monster.name}】使用${skill.type === 'weapon' ? '武器' : '法术'}对你造成了${damage}(+${playerFireDamageBonus})点伤害！`;
-                    if (playerFireDamageBonus == 0) {
+                    var damageMessage = `【${monster.name}】使用${skill.type === 'weapon' ? '武器' : '法术'}对你造成了${damage}(-${monsterIceDamageReduction})(+${playerFireDamageBonus})点伤害！`;
+                    if (monsterIceDamageReduction == 0 && playerFireDamageBonus == 0) {
                       damageMessage = `【${monster.name}】使用${skill.type === 'weapon' ? '武器' : '法术'}对你造成了${damage}点伤害！`;
+                    } else if (monsterIceDamageReduction == 0) {
+                      damageMessage = `【${monster.name}】使用${skill.type === 'weapon' ? '武器' : '法术'}对你造成了${damage}(+${playerFireDamageBonus})点伤害！`;
+                    } else if (playerFireDamageBonus == 0) {
+                      damageMessage = `【${monster.name}】使用${skill.type === 'weapon' ? '武器' : '法术'}对你造成了${damage}(-${monsterIceDamageReduction})点伤害！`;
                     }
                     self.showCenterMessage(damageMessage);
 
@@ -1016,15 +1029,24 @@ var BattleUI = {
             // 处理单体目标效果
             if (cardType === "spell" && damage > 0) {
               // 魔法伤害效果，且目标时单体，则对选中的怪兽的生命值进行扣除
-              
+
+              // 计算玩家冰属性减伤
+              var iceDamageReduction = 0;
+              if (self.currentPlayer && self.currentPlayer.attributes && self.currentPlayer.attributes.ice) {
+                iceDamageReduction = self.currentPlayer.attributes.ice;
+              }
+
+              // 应用冰属性减伤，但不能将伤害降到0以下
+              var reducedDamage = Math.max(0, damage - iceDamageReduction);
+
               // 计算火属性额外伤害
               var fireDamageBonus = 0;
               if (monsterIndex >= 0 && self.currentMonsters[monsterIndex] && self.currentMonsters[monsterIndex].attributes && self.currentMonsters[monsterIndex].attributes.fire) {
                 fireDamageBonus = self.currentMonsters[monsterIndex].attributes.fire;
               }
-              
-              var totalDamage = damage + fireDamageBonus;
-              
+
+              var totalDamage = reducedDamage + fireDamageBonus;
+
               if (monsterIndex >= 0) {
                 self.currentMonsters[monsterIndex].hp = Math.max(0, self.currentMonsters[monsterIndex].hp - totalDamage);
 
@@ -1058,8 +1080,8 @@ var BattleUI = {
                 }, 500);
               }
 
-              if (fireDamageBonus > 0) {
-                self.showCenterMessage(`对【${monsterName}】造成了 ${damage}(+${fireDamageBonus}) 点魔法伤害！`);
+              if (iceDamageReduction > 0 || fireDamageBonus > 0) {
+                self.showCenterMessage(`对【${monsterName}】造成了 ${damage}(-${iceDamageReduction})(+${fireDamageBonus}) 点魔法伤害！`);
               } else {
                 self.showCenterMessage(`对【${monsterName}】造成了 ${damage} 点魔法伤害！`);
               }
@@ -1067,15 +1089,24 @@ var BattleUI = {
               AudioManager.play('injuredMonster');
             } else if (cardType === "weapon" && damage > 0) {
               // 物理伤害效果，且目标为单体，则先从选中的怪兽的护甲值进行扣除，如果溢出，溢出部分再从生命值进行扣除
-              
+
+              // 计算玩家冰属性减伤
+              var iceDamageReduction = 0;
+              if (self.currentPlayer && self.currentPlayer.attributes && self.currentPlayer.attributes.ice) {
+                iceDamageReduction = self.currentPlayer.attributes.ice;
+              }
+
+              // 应用冰属性减伤，但不能将伤害降到0以下
+              var reducedDamage = Math.max(0, damage - iceDamageReduction);
+
               // 计算火属性额外伤害
               var fireDamageBonus = 0;
               if (monsterIndex >= 0 && self.currentMonsters[monsterIndex] && self.currentMonsters[monsterIndex].attributes && self.currentMonsters[monsterIndex].attributes.fire) {
                 fireDamageBonus = self.currentMonsters[monsterIndex].attributes.fire;
               }
-              
-              var totalDamage = damage + fireDamageBonus;
-              
+
+              var totalDamage = reducedDamage + fireDamageBonus;
+
               if (monsterIndex >= 0) {
                 // 记录原始护盾值和生命值
                 var originalShield = self.currentMonsters[monsterIndex].shield;
@@ -1140,8 +1171,8 @@ var BattleUI = {
                 }
               }
 
-              if (fireDamageBonus > 0) {
-                self.showCenterMessage(`玩家对【${monsterName}】造成了 ${damage}(+${fireDamageBonus}) 点物理伤害！`);
+              if (iceDamageReduction > 0 || fireDamageBonus > 0) {
+                self.showCenterMessage(`玩家对【${monsterName}】造成了 ${damage}(-${iceDamageReduction})(+${fireDamageBonus}) 点物理伤害！`);
               } else {
                 self.showCenterMessage(`玩家对【${monsterName}】造成了 ${damage} 点物理伤害！`);
               }
@@ -1158,6 +1189,15 @@ var BattleUI = {
         AudioManager.play('attack', () => {
           // 处理全体目标效果
           if ((cardType === "spell" || cardType === "weapon") && damage > 0) {
+            // 计算玩家冰属性减伤
+            var iceDamageReduction = 0;
+            if (self.currentPlayer && self.currentPlayer.attributes && self.currentPlayer.attributes.ice) {
+              iceDamageReduction = self.currentPlayer.attributes.ice;
+            }
+
+            // 应用冰属性减伤，但不能将伤害降到0以下
+            var reducedDamage = Math.max(0, damage - iceDamageReduction);
+
             // 计算火属性额外伤害（为每个怪物单独计算）
             var monsterFireBonuses = [];
             for (var i = 0; i < self.currentMonsters.length; i++) {
@@ -1167,13 +1207,13 @@ var BattleUI = {
               }
               monsterFireBonuses.push(bonus);
             }
-            
+
             if (cardType === "spell") {
               // 更新所有怪物的数据 (法术伤害直接扣除生命值)
               for (var i = 0; i < self.currentMonsters.length; i++) {
                 var monsterData = self.currentMonsters[i];
                 // 法术伤害直接扣除生命值，加上每个怪物各自的火属性加成
-                var monsterTotalDamage = damage + monsterFireBonuses[i];
+                var monsterTotalDamage = reducedDamage + monsterFireBonuses[i];
                 monsterData.hp = Math.max(0, monsterData.hp - monsterTotalDamage);
 
                 // 如果卡片有属性，则增加怪物的属性级别
@@ -1228,7 +1268,7 @@ var BattleUI = {
               for (var i = 0; i < self.currentMonsters.length; i++) {
                 var monsterData = self.currentMonsters[i];
                 // 物理伤害先扣除护盾，加上每个怪物各自的火属性加成
-                var monsterTotalDamage = damage + monsterFireBonuses[i];
+                var monsterTotalDamage = reducedDamage + monsterFireBonuses[i];
                 var remainingDamage = Math.max(0, monsterTotalDamage - monsterData.shield);
                 monsterData.shield = Math.max(0, monsterData.shield - monsterTotalDamage);
 
@@ -1291,7 +1331,10 @@ var BattleUI = {
               });
             }
 
-            var damageMessage = `玩家对所有敌人造成了 ${damage} 点${cardType === "spell" ? "魔法" : "物理"}伤害！(各怪物火属性加成不同)`;
+            var damageMessage = `玩家对所有敌人造成了 ${damage} 点${cardType === "spell" ? "魔法" : "物理"}基础伤害！(冰属性减伤-${iceDamageReduction})`;
+            if (iceDamageReduction == 0) {
+              damageMessage = `玩家对所有敌人造成了 ${damage} 点${cardType === "spell" ? "魔法" : "物理"}基础伤害！`;
+            }
             self.showCenterMessage(damageMessage);
 
           } else if (cardType === "shield" && shieldValue > 0) {
@@ -1499,9 +1542,9 @@ var BattleUI = {
               if (monsterIndex >= 0 && self.currentMonsters[monsterIndex] && self.currentMonsters[monsterIndex].attributes && self.currentMonsters[monsterIndex].attributes.fire) {
                 fireDamageBonus = self.currentMonsters[monsterIndex].attributes.fire;
               }
-              
+
               var totalDamage = skillEffect.value + fireDamageBonus;
-              
+
               if (monsterIndex >= 0) {
                 if (skillEffect.type === "spell") {
                   // 魔法伤害直接扣除生命值
@@ -1578,19 +1621,43 @@ var BattleUI = {
               }
 
               var damageType = skillEffect.type === "spell" ? "魔法" : "物理";
-              var baseDamage = skillEffect.value;
-              var damageMessage = `${playerClass.skill.name}对【${monsterName}】造成了 ${baseDamage}(+${fireDamageBonus}) 点${damageType}伤害！`;
-              if (fireDamageBonus == 0) {
-                damageMessage = `${playerClass.skill.name}对【${monsterName}】造成了 ${baseDamage} 点${damageType}伤害！`;
+
+              // 计算怪物冰属性减伤
+              var monsterIceDamageReduction = 0;
+              if (monsterIndex >= 0 && self.currentMonsters[monsterIndex] && self.currentMonsters[monsterIndex].attributes && self.currentMonsters[monsterIndex].attributes.ice) {
+                monsterIceDamageReduction = self.currentMonsters[monsterIndex].attributes.ice;
               }
-              if (fireDamageBonus > 0) {
-                damageMessage += `(基础伤害${skillEffect.value}+火属性加成${fireDamageBonus})`;
+
+              // 应用冰属性减伤，但不能将伤害降到0以下
+              var reducedDamage = Math.max(0, skillEffect.value - monsterIceDamageReduction);
+
+              // 计算火属性额外伤害
+              var fireDamageBonus = 0;
+              if (monsterIndex >= 0 && self.currentMonsters[monsterIndex] && self.currentMonsters[monsterIndex].attributes && self.currentMonsters[monsterIndex].attributes.fire) {
+                fireDamageBonus = self.currentMonsters[monsterIndex].attributes.fire;
+              }
+
+              var totalDamage = reducedDamage + fireDamageBonus;
+
+              if (monsterIceDamageReduction > 0 || fireDamageBonus > 0) {
+                self.showCenterMessage(`${playerClass.skill.name}对【${monsterName}】造成了 ${skillEffect.value}(-${monsterIceDamageReduction})(+${fireDamageBonus}) 点${damageType}伤害！`);
+              } else {
+                self.showCenterMessage(`${playerClass.skill.name}对【${monsterName}】造成了 ${skillEffect.value} 点${damageType}伤害！`);
               }
               self.showCenterMessage(damageMessage);
             }
           } else if (skillEffect.targetType === "all") {
             // 处理全体目标技能
             if ((skillEffect.type === "spell" || skillEffect.type === "weapon") && skillEffect.value > 0) {
+              // 计算玩家冰属性减伤
+              var iceDamageReduction = 0;
+              if (self.currentPlayer && self.currentPlayer.attributes && self.currentPlayer.attributes.ice) {
+                iceDamageReduction = self.currentPlayer.attributes.ice;
+              }
+
+              // 应用冰属性减伤，但不能将伤害降到0以下
+              var reducedDamage = Math.max(0, skillEffect.value - iceDamageReduction);
+
               // 计算火属性额外伤害（为每个怪物单独计算）
               var monsterFireBonuses = [];
               for (var i = 0; i < self.currentMonsters.length; i++) {
@@ -1600,13 +1667,13 @@ var BattleUI = {
                 }
                 monsterFireBonuses.push(bonus);
               }
-              
+
               if (skillEffect.type === "spell") {
                 // 更新所有怪物的数据 (法术伤害直接扣除生命值)
                 for (var i = 0; i < self.currentMonsters.length; i++) {
                   var monsterData = self.currentMonsters[i];
                   // 加上每个怪物各自的火属性加成
-                  var monsterTotalDamage = skillEffect.value + monsterFireBonuses[i];
+                  var monsterTotalDamage = reducedDamage + monsterFireBonuses[i];
                   monsterData.hp = Math.max(0, monsterData.hp - monsterTotalDamage);
 
                   // 如果技能有属性，则增加怪物的属性级别
@@ -1657,7 +1724,7 @@ var BattleUI = {
                 for (var i = 0; i < self.currentMonsters.length; i++) {
                   var monsterData = self.currentMonsters[i];
                   // 加上每个怪物各自的火属性加成
-                  var monsterTotalDamage = skillEffect.value + monsterFireBonuses[i];
+                  var monsterTotalDamage = reducedDamage + monsterFireBonuses[i];
                   var remainingDamage = Math.max(0, monsterTotalDamage - monsterData.shield);
                   monsterData.shield = Math.max(0, monsterData.shield - monsterTotalDamage);
 
@@ -1716,7 +1783,11 @@ var BattleUI = {
               }
 
               var damageType = skillEffect.type === "spell" ? "魔法" : "物理";
-              self.showCenterMessage(`${playerClass.skill.name}对所有敌人造成了 ${skillEffect.value} 点${damageType}伤害！(各怪物火属性加成不同)`);
+              var damageMessage = `${playerClass.skill.name}对所有敌人造成了 ${skillEffect.value} 点${damageType}伤害！(冰属性减伤-${iceDamageReduction}，各怪物火属性加成不同)`;
+              if (iceDamageReduction == 0) {
+                damageMessage = `${playerClass.skill.name}对所有敌人造成了 ${skillEffect.value} 点${damageType}伤害！(各怪物火属性加成不同)`;
+              }
+              self.showCenterMessage(damageMessage);
             } else if (skillEffect.type === "potion" && skillEffect.value > 0) {
               // 全体治疗效果
               // 触发玩家区域绿色闪烁效果
