@@ -141,6 +141,7 @@ var BattleUI = {
 
             // 更新UI显示
             $('#player-hp').text(self.currentPlayer.hp);
+            $('#player-max-hp').text(self.currentPlayer.maxHp);
             var healthPercentage = (maxHp > 0) ? (newHp / maxHp) * 100 : 0;
             $('#health-bar').css('width', healthPercentage + '%');
           }
@@ -585,6 +586,7 @@ var BattleUI = {
                       // 更新UI
                       $('#player-shield').text(self.currentPlayer.shield);
                       $('#player-hp').text(self.currentPlayer.hp);
+                      $('#player-max-hp').text(self.currentPlayer.maxHp);
 
                       var shieldPercentage = (self.currentPlayer.maxShield > 0) ?
                         (self.currentPlayer.shield / self.currentPlayer.maxShield) * 100 : 0;
@@ -838,6 +840,7 @@ var BattleUI = {
 
             // 更新UI显示 - 直接使用currentPlayer中的数据
             $('#player-hp').text(self.currentPlayer.hp);
+            $('#player-max-hp').text(self.currentPlayer.maxHp);
 
             // 更新生命条
             var healthPercentage = (maxHp > 0) ? (newHp / maxHp) * 100 : 0;
@@ -874,6 +877,7 @@ var BattleUI = {
 
             // 更新UI显示 - 直接使用currentPlayer中的数据
             $('#player-shield').text(self.currentPlayer.shield);
+            $('#player-max-shield').text(self.currentPlayer.maxShield);
 
             // 更新护盾条
             var shieldPercentage = (maxShield > 0) ? (newShield / maxShield) * 100 : 0;
@@ -913,6 +917,11 @@ var BattleUI = {
             var currentEnergy = parseInt($('#energy-value').text());
             var maxEnergy = parseInt($('#energy-max').text());
             var newEnergy = Math.min(maxEnergy, currentEnergy + comboEnergy);
+
+            // 更新currentPlayer中的能量值
+            if (self.currentPlayer) {
+              self.currentPlayer.energy = newEnergy;
+            }
 
             // 更新能量显示
             $('#energy-value').text(newEnergy);
@@ -1382,6 +1391,7 @@ var BattleUI = {
 
               // 更新UI显示 - 直接使用currentPlayer中的数据
               $('#player-shield').text(self.currentPlayer.shield);
+              $('#player-max-shield').text(self.currentPlayer.maxShield);
 
               // 更新护盾条
               var shieldPercentage = (maxShield > 0) ? (newShield / maxShield) * 100 : 0;
@@ -1501,6 +1511,12 @@ var BattleUI = {
 
         // 扣除能量消耗
         var newEnergy = currentEnergy - skillCost;
+        
+        // 更新currentPlayer中的能量值
+        if (self.currentPlayer) {
+          self.currentPlayer.energy = newEnergy;
+        }
+        
         $('#energy-value').text(newEnergy);
         var energyPercentage = (maxEnergy > 0) ? (newEnergy / maxEnergy) * 100 : 0;
         $('#energy-bar').css('width', energyPercentage + '%');
@@ -1514,6 +1530,11 @@ var BattleUI = {
             // 恢复能量
             $('#energy-value').text(currentEnergy);
             $('#energy-bar').css('width', (currentEnergy / maxEnergy) * 100 + '%');
+            
+            // 更新currentPlayer中的能量值
+            if (self.currentPlayer) {
+              self.currentPlayer.energy = currentEnergy;
+            }
             // 恢复技能按钮状态
             $('.skill-button').prop('disabled', false);
             return;
@@ -1556,6 +1577,7 @@ var BattleUI = {
 
                 // 更新UI显示
                 $('#player-hp').text(self.currentPlayer.hp);
+                $('#player-max-hp').text(self.currentPlayer.maxHp);
                 var healthPercentage = (maxHp > 0) ? (newHp / maxHp) * 100 : 0;
                 $('#health-bar').css('width', healthPercentage + '%');
               }
@@ -1832,6 +1854,7 @@ var BattleUI = {
 
                 // 更新UI显示
                 $('#player-hp').text(self.currentPlayer.hp);
+                $('#player-max-hp').text(self.currentPlayer.maxHp);
                 var healthPercentage = (maxHp > 0) ? (newHp / maxHp) * 100 : 0;
                 $('#health-bar').css('width', healthPercentage + '%');
               }
@@ -1855,6 +1878,7 @@ var BattleUI = {
 
                 // 更新UI显示
                 $('#player-shield').text(self.currentPlayer.shield);
+                $('#player-max-shield').text(self.currentPlayer.maxShield);
                 var shieldPercentage = (maxShield > 0) ? (newShield / maxShield) * 100 : 0;
                 $('#shield-bar').css('width', shieldPercentage + '%');
               }
@@ -2370,6 +2394,7 @@ var BattleUI = {
 
       // 更新玩家UI
       $('#player-hp').text(self.currentPlayer.hp);
+      $('#player-max-hp').text(self.currentPlayer.maxHp);
       var healthPercentage = (self.currentPlayer.maxHp > 0) ?
         (self.currentPlayer.hp / self.currentPlayer.maxHp) * 100 : 0;
       $('#health-bar').css('width', healthPercentage + '%');
@@ -2466,6 +2491,7 @@ var BattleUI = {
 
       // 更新玩家UI
       $('#player-shield').text(self.currentPlayer.shield);
+      $('#player-max-shield').text(self.currentPlayer.maxShield);
       var shieldPercentage = (self.currentPlayer.maxShield > 0) ?
         (self.currentPlayer.shield / self.currentPlayer.maxShield) * 100 : 0;
       $('#shield-bar').css('width', shieldPercentage + '%');

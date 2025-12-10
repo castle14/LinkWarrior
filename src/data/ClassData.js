@@ -8,15 +8,25 @@ var ClassData = {
         name: "warrior",
         displayName: "黄金队长",
         description: "高护盾和物理伤害，技能偏向防御和爆发",
-        maxHp: 120,
-        maxShield: 80,
+        maxHp: 150,
+        maxShield: 100,
         energyMax: 6,
         image: "./img/player/黄金队长.jpg",
         skill: {
           id: 1,
           name: "盾击",
-          description: "消耗护盾值对敌人造成伤害",
-          cost: 2
+          description: "对特定敌人造成伤害当前护甲值*4的伤害。",
+          cost: 2,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let ret = {
+              type: "weapon",
+              value: player.shield * 4,
+              attribute: null,
+              attributeLevel: 0,
+              targetType: "single",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -24,15 +34,25 @@ var ClassData = {
         name: "mage",
         displayName: "光灵使",
         description: "高魔法伤害和属性叠加，技能偏向AOE",
-        maxHp: 80,
-        maxShield: 30,
+        maxHp: 100,
+        maxShield: 50,
         energyMax: 8,
         image: "./img/player/光灵使.jpg",
         skill: {
           id: 2,
           name: "光球术",
-          description: "释放强力光球攻击所有敌人",
-          cost: 3
+          description: "释放强力光球攻击所有敌人，伤害值为（当前能量值+1）*20",
+          cost: 1,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let ret = {
+              type: "spell",
+              value: (player.energy+1) * 20,
+              attribute: null,
+              attributeLevel: 0,
+              targetType: "all",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -47,8 +67,19 @@ var ClassData = {
         skill: {
           id: 3,
           name: "连射",
-          description: "快速攻击敌人两次",
-          cost: 2
+          description: "对特定敌人造成手牌中魔法卡数量*50点魔法伤害。",
+          cost: 1,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let spellCardsCount = hands.filter(card => card.type === "spell").length;
+            let ret = {
+              type: "spell",
+              value: spellCardsCount * 50,
+              attribute: null,
+              attributeLevel: 0,
+              targetType: "single",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -56,15 +87,26 @@ var ClassData = {
         name: "ice_master",
         displayName: "冰凌侠",
         description: "操控冰雪的高手，擅长控制和持续伤害",
-        maxHp: 90,
-        maxShield: 40,
+        maxHp: 100,
+        maxShield: 50,
         energyMax: 7,
         image: "./img/player/冰凌侠.jpg",
         skill: {
           id: 4,
           name: "冰霜新星",
-          description: "释放寒冰冲击，对敌人造成冰属性伤害并减速",
-          cost: 3
+          description: "释放寒冰冲击，对敌人造成手牌中魔法卡数量*15点冰属性魔法伤害。",
+          cost: 1,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let spellCardsCount = hands.filter(card => card.type === "spell").length;
+            let ret = {
+              type: "spell",
+              value: spellCardsCount * 15,
+              attribute: "ice",
+              attributeLevel: spellCardsCount,
+              targetType: "all",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -79,8 +121,19 @@ var ClassData = {
         skill: {
           id: 5,
           name: "石肤",
-          description: "召唤岩石保护自己，大幅提升护盾值",
-          cost: 2
+          description: "大幅提升护盾值，护甲最大值增加20，并恢复所有护甲",
+          cost: 1,
+          SPEffect: function (player, hands ,turn, monsters) {
+            player.maxShield += 20;
+            let ret = {
+              type: "shield",
+              value: player.maxShield - player.shield,
+              attribute: null,
+              attributeLevel: 0,
+              targetType: "single",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -96,7 +149,17 @@ var ClassData = {
           id: 6,
           name: "疾风斩",
           description: "高速移动攻击敌人，必定暴击",
-          cost: 3
+          cost: 3,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let ret = {
+              type: "weapon",
+              value: 25,
+              attribute: null,
+              attributeLevel: 0,
+              targetType: "enemy",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -112,7 +175,17 @@ var ClassData = {
           id: 7,
           name: "泡沫护盾",
           description: "制造大量泡沫保护自己并反弹部分伤害",
-          cost: 2
+          cost: 2,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let ret = {
+              type: "shield",
+              value: player.maxShield * 0.5,
+              attribute: null,
+              attributeLevel: 0,
+              targetType: "all",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -128,7 +201,17 @@ var ClassData = {
           id: 8,
           name: "暗影诅咒",
           description: "诅咒敌人，使其攻击力下降并持续受到伤害",
-          cost: 3
+          cost: 3,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let ret = {
+              type: "spell",
+              value: 10,
+              attribute: "poison",
+              attributeLevel: 1,
+              targetType: "all",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -144,7 +227,17 @@ var ClassData = {
           id: 9,
           name: "自然治愈",
           description: "借助自然力量恢复大量生命值",
-          cost: 2
+          cost: 2,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let ret = {
+              type: "potion",
+              value: player.maxHp * 0.3,
+              attribute: null,
+              attributeLevel: 0,
+              targetType: "all",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -160,7 +253,17 @@ var ClassData = {
           id: 10,
           name: "水泡弹幕",
           description: "发射大量水泡攻击敌人",
-          cost: 3
+          cost: 3,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let ret = {
+              type: "spell",
+              value: 20,
+              attribute: null,
+              attributeLevel: 0,
+              targetType: "all",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -176,7 +279,17 @@ var ClassData = {
           id: 11,
           name: "潮汐冲击",
           description: "引导潮汐之力冲击敌人，造成持续伤害",
-          cost: 3
+          cost: 3,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let ret = {
+              type: "spell",
+              value: 12,
+              attribute: "poison",
+              attributeLevel: 1,
+              targetType: "all",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -192,7 +305,17 @@ var ClassData = {
           id: 12,
           name: "海啸",
           description: "召唤小型海啸攻击所有敌人",
-          cost: 4
+          cost: 4,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let ret = {
+              type: "spell",
+              value: 30,
+              attribute: null,
+              attributeLevel: 0,
+              targetType: "all",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -208,7 +331,17 @@ var ClassData = {
           id: 13,
           name: "烈焰风暴",
           description: "释放烈焰风暴焚烧所有敌人",
-          cost: 4
+          cost: 4,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let ret = {
+              type: "spell",
+              value: 35,
+              attribute: "fire",
+              attributeLevel: 2,
+              targetType: "all",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -224,7 +357,17 @@ var ClassData = {
           id: 14,
           name: "燃烧印记",
           description: "给敌人施加燃烧印记，使其持续受到火焰伤害",
-          cost: 2
+          cost: 2,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let ret = {
+              type: "spell",
+              value: 8,
+              attribute: "fire",
+              attributeLevel: 1,
+              targetType: "all",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -240,7 +383,17 @@ var ClassData = {
           id: 15,
           name: "高温炙烤",
           description: "释放高温火焰炙烤敌人",
-          cost: 3
+          cost: 3,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let ret = {
+              type: "spell",
+              value: 22,
+              attribute: "fire",
+              attributeLevel: 1,
+              targetType: "enemy",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -256,7 +409,17 @@ var ClassData = {
           id: 16,
           name: "爆裂冲击",
           description: "释放爆炸冲击波，对范围内敌人造成巨大伤害",
-          cost: 4
+          cost: 4,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let ret = {
+              type: "spell",
+              value: 40,
+              attribute: null,
+              attributeLevel: 0,
+              targetType: "all",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -272,7 +435,17 @@ var ClassData = {
           id: 17,
           name: "连锁爆炸",
           description: "引发连锁爆炸，对多个敌人造成递增伤害",
-          cost: 3
+          cost: 3,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let ret = {
+              type: "spell",
+              value: 15 + (turn * 2),
+              attribute: null,
+              attributeLevel: 0,
+              targetType: "all",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -287,9 +460,10 @@ var ClassData = {
         skill: {
           id: 18,
           name: "潜能爆发",
-          description: "激发自身潜能，恢复最大生命值。",
+          description: "激发自身潜能，最大生命值增加10，恢复最大生命值。",
           cost: 1,
           SPEffect: function (player, hands ,turn, monsters) {
+            player.maxHp = player.maxHp + 10;
             let ret = {
               type: "potion",
               value: player.maxHp-player.hp,
@@ -306,15 +480,26 @@ var ClassData = {
         name: "wild_man",
         displayName: "荒野人",
         description: "来自荒野的战士，拥有强大的近战能力",
-        maxHp: 125,
+        maxHp: 200,
         maxShield: 65,
         energyMax: 6,
         image: "./img/player/荒野人.jpg",
         skill: {
           id: 19,
           name: "野蛮冲撞",
-          description: "用强壮的身体冲撞敌人，造成物理伤害并击退",
-          cost: 2
+          description: "用强壮的身体冲撞敌人，对所有敌人造成当前玩家护甲值*2的物理伤害。",
+          cost: 2,
+          SPEffect: function (player, hands ,turn, monsters) {
+
+            let ret = {
+              type: "weapon",
+              value: player.shield * 2,
+              attribute: null,
+              attributeLevel: 0,
+              targetType: "all",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -330,7 +515,17 @@ var ClassData = {
           id: 20,
           name: "雷霆万钧",
           description: "召唤雷电攻击敌人，有几率造成麻痹效果",
-          cost: 3
+          cost: 3,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let ret = {
+              type: "spell",
+              value: 25,
+              attribute: "electric",
+              attributeLevel: 1,
+              targetType: "all",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -346,7 +541,17 @@ var ClassData = {
           id: 21,
           name: "风之庇护",
           description: "召唤风墙保护自己，大幅提升闪避率",
-          cost: 2
+          cost: 2,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let ret = {
+              type: "shield",
+              value: 20,
+              attribute: null,
+              attributeLevel: 0,
+              targetType: "all",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -362,7 +567,17 @@ var ClassData = {
           id: 22,
           name: "花之祝福",
           description: "释放花之能量，为自己和队友提供治疗和增益效果",
-          cost: 3
+          cost: 3,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let ret = {
+              type: "potion",
+              value: 25,
+              attribute: null,
+              attributeLevel: 0,
+              targetType: "all",
+            }
+            return ret;
+          }
         }
       },
       {
@@ -378,7 +593,17 @@ var ClassData = {
           id: 23,
           name: "泥沼陷阱",
           description: "制造泥沼困住敌人，降低其速度和攻击力",
-          cost: 2
+          cost: 2,
+          SPEffect: function (player, hands ,turn, monsters) {
+            let ret = {
+              type: "spell",
+              value: 5,
+              attribute: null,
+              attributeLevel: 0,
+              targetType: "all",
+            }
+            return ret;
+          }
         }
       }
     ];
