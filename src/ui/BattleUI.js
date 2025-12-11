@@ -770,8 +770,10 @@ var BattleUI = {
     });
 
     $('#play-card-btn').on('click', function () {
+
       // 获取选中的卡片
       var selectedCard = $('.card.card-selected');
+
 
       // 检查是否有选中的卡片
       if (selectedCard.length === 0) {
@@ -900,6 +902,15 @@ var BattleUI = {
         if (self.currentHand && self.currentDeck) {
           // 获取所有选中的卡片
           var selectedCards = $('.card.card-selected');
+
+             // 为选中的卡片添加出牌动画效果
+        selectedCards.each(function() {
+          $(this).css({
+            'transform': 'translateY(-50px)',
+            'opacity': '0',
+            'transition': 'transform 0.2s ease, opacity 0.2s ease'
+          });
+        });
           var selectedCardUniqueIds = [];
 
           // 收集所有选中卡片的unique-id
@@ -961,10 +972,13 @@ var BattleUI = {
         // 清除选中状态
         selectedCard.removeClass('card-selected');
         $('.monster').removeClass('monster-selected');
-        //更新手牌
-        self.renderHand(self.currentHand, self.currentDeck);
-        // 更新卡片效果信息栏
-        self.updateCardEffectInfoBar();
+        setTimeout(() => {
+            //更新手牌
+            self.renderHand(self.currentHand, self.currentDeck);
+            // 更新卡片效果信息栏
+            self.updateCardEffectInfoBar();
+          }, 200);
+
 
         // 检查玩家是否死亡（如果玩家生命值小于等于0）
         if (self.currentPlayer && self.currentPlayer.hp <= 0) {
@@ -1511,12 +1525,12 @@ var BattleUI = {
 
         // 扣除能量消耗
         var newEnergy = currentEnergy - skillCost;
-        
+
         // 更新currentPlayer中的能量值
         if (self.currentPlayer) {
           self.currentPlayer.energy = newEnergy;
         }
-        
+
         $('#energy-value').text(newEnergy);
         var energyPercentage = (maxEnergy > 0) ? (newEnergy / maxEnergy) * 100 : 0;
         $('#energy-bar').css('width', energyPercentage + '%');
@@ -1530,7 +1544,7 @@ var BattleUI = {
             // 恢复能量
             $('#energy-value').text(currentEnergy);
             $('#energy-bar').css('width', (currentEnergy / maxEnergy) * 100 + '%');
-            
+
             // 更新currentPlayer中的能量值
             if (self.currentPlayer) {
               self.currentPlayer.energy = currentEnergy;

@@ -96,12 +96,12 @@
 
 /* 怪物攻击效果 */
 .monster-attack {
-    animation: attack-animation 0.6s ease;
+    animation: attack-animation 0.4s ease;
 }
 
 @keyframes attack-animation {
     0% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
+    50% { transform: translateY(15px); }
     100% { transform: translateY(0); }
 }
 
