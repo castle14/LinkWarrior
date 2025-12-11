@@ -331,14 +331,14 @@ var CardShopUI = {
         // 刷新商店按钮
         $('#refresh-shop-btn').on('click', function() {
             // 检查星点是否足够
-            if (!self.gameData.stars || self.gameData.stars < 100) {
-                alert('星点不足！刷新商店需要100星点。');
+            if (!self.gameData.stars || self.gameData.stars < GameUtil.SHOP_REFRESH_COST) {
+                alert('星点不足！刷新商店需要' + GameUtil.SHOP_REFRESH_COST + '星点。');
                 return;
             }
 
-            if (confirm('确定要刷新商店吗？这将消耗100星点并替换所有可购买的卡片。')) {
-                // 扣除100星点
-                self.gameData.stars -= 100;
+            if (confirm('确定要刷新商店吗？这将消耗' + GameUtil.SHOP_REFRESH_COST + '星点并替换所有可购买的卡片。')) {
+                // 扣除星点
+                self.gameData.stars -= GameUtil.SHOP_REFRESH_COST;
 
                 // 更新localStorage中的游戏数据
                 localStorage.setItem('LinkWarriorGameData', JSON.stringify(self.gameData));
@@ -432,30 +432,50 @@ var CardShopUI = {
             return;
         }
 
-        // 扣除星点
-        this.gameData.stars -= cardCost;
+        var self = this; // 保存this引用
 
-        // 将卡片从商店移除
-        var purchasedCard = this.shopCards.splice(cardIndex, 1)[0];
+        // 获取页面上被选中的卡片元素
+        var selectedCard = $('.card-selected').first();
 
-        // 将卡片添加到背包
-        if (!this.gameData.inventory) {
-            this.gameData.inventory = [];
-        }
-        this.gameData.inventory.push(purchasedCard);
+        // 添加购买动画效果
+        selectedCard.css({
+            'transform': 'translateY(50px)',
+            'opacity': '0',
+            'transition': 'transform 0.2s ease, opacity 0.2s ease'
+        });
 
-        // 更新localStorage中的数据
-        localStorage.setItem('LinkWarriorGameData', JSON.stringify(this.gameData));
-        localStorage.setItem('LinkWarriorShopCards', JSON.stringify(this.shopCards));
+        // 在动画结束后执行购买操作
+        selectedCard.one('transitionend', function () {
+            // 扣除星点
+            self.gameData.stars -= cardCost;
 
-        // 重置选中的卡片
-        this.selectedCard = null;
+            // 将卡片从商店移除
+            var purchasedCard = self.shopCards.splice(cardIndex, 1)[0];
 
-        // 重新渲染界面
-        this.render();
-        
-        // 重新绑定事件
-        this.bindEvents();
+            // 将卡片添加到背包
+            if (!self.gameData.inventory) {
+                self.gameData.inventory = [];
+            }
+            self.gameData.inventory.push(purchasedCard);
+
+            // 更新localStorage中的数据
+            localStorage.setItem('LinkWarriorGameData', JSON.stringify(self.gameData));
+            localStorage.setItem('LinkWarriorShopCards', JSON.stringify(self.shopCards));
+
+            // 重置选中的卡片
+            self.selectedCard = null;
+
+            // 重新渲染界面
+            self.render();
+
+            // 重新绑定事件
+            self.bindEvents();
+
+            // 显示购买成功的提示信息
+            setTimeout(function() {
+                alert(`卡片购买成功！花费${cardCost}星点值。`);
+            }, 100);
+        });
     },
 
 };

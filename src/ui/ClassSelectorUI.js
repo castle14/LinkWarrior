@@ -124,15 +124,15 @@ var ClassSelectorUI = {
             return;
         }
 
-        检查星点是否足够
+        // 检查星点是否足够
         var starPoint = this.gameData.starPoint || 0;
-        if (starPoint < 200) {
-            alert('星点不足！需要200星点才能解锁职业。');
+        if (starPoint < GameUtil.CLASS_UNLOCK_COST) {
+            alert('星点不足！需要' + GameUtil.CLASS_UNLOCK_COST + '星点才能解锁职业。');
             return;
         }
 
-        // 扣除200星点
-        this.gameData.starPoint = starPoint - 200;
+        // 扣除星点
+        this.gameData.starPoint = starPoint - GameUtil.CLASS_UNLOCK_COST;
 
         // 添加解锁职业的逻辑，比如消耗游戏币等
         // 简单起见，我们现在直接解锁

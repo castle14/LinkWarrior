@@ -1,5 +1,11 @@
 // 游戏通用工具类
 var GameUtil = {
+    // 刷新商店需要的星点值
+    SHOP_REFRESH_COST: 20,
+
+    // 解锁职业需要的星点值
+    CLASS_UNLOCK_COST: 100,
+
     // 根据稀有度获取星点值
     getStarValueForRarity: function(rarity) {
         switch(rarity) {
@@ -12,7 +18,7 @@ var GameUtil = {
             case 4: // SSR
                 return 12;
             case 5: // UR
-                return 25;
+                return 18;
             default:
                 return 0;
         }
@@ -63,15 +69,15 @@ var GameUtil = {
         // 根据稀有度计算价格
         switch(rarity) {
             case 1: // N
-                return 20;
+                return 5;
             case 2: // R
-                return 50;
+                return 15;
             case 3: // SR
-                return 80;
+                return 30;
             case 4: // SSR
-                return 100;
+                return 60;
             case 5: // UR
-                return 120;
+                return 80;
             default:
                 return 10;
         }
