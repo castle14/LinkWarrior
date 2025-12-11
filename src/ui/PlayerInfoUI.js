@@ -66,7 +66,7 @@ var PlayerInfoUI = {
                 <div class="player-stats">
                     <div class="stat-item">
                         <span class="stat-label">技能名称:</span>
-                        <span class="stat-value">${playerClass.skill.name}</span>
+                        <span class="stat-value">${playerClass.skill.name} (${playerClass.skill.cost}能量)</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">技能描述:</span>

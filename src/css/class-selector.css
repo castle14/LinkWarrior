@@ -138,6 +138,10 @@
 .class-info-button-checked{
   color: green;
 }
+.stat-label {
+  margin-right: 3px;
+  min-width: 55px;
+}
 .back-button {
     background-color: #28a745;
     border: none;

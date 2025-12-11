@@ -61,12 +61,13 @@ var ClassSelectorUI = {
 
                                 <div class="stat-item">
                                     <span class="stat-label">技能名称:</span>
-                                    <span class="stat-value">${cls.skill.name}</span>
+                                    <span class="stat-value">${cls.skill.name} (${cls.skill.cost}能量)</span>
                                 </div>
                                 <div class="stat-item">
                                     <span class="stat-label">技能描述:</span>
                                     <span class="stat-value">${cls.skill.description}</span>
                                 </div>
+
                             </div>
                         </div>
                     </div>
