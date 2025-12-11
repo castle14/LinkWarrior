@@ -76,18 +76,18 @@ var MainMenuUI = {
             name: "勇士",
             hp: gameData.playerClass.maxHp,
             maxHp: gameData.playerClass.maxHp,
-            shield: Math.floor(gameData.playerClass.maxShield/2),
+            shield: gameData.playerClass.maxShield,
             maxShield: gameData.playerClass.maxShield,
             class: gameData.playerClass,
             statusEffects: []
         };
 
-        // 当前卡组为从按照carddata里的卡片数据随机生成32张rarity为1的卡片（同名卡片不能超过5张）
-        let gCardlist = GameUtil.generateDeck(32, [1], 5);
+        // 当前卡组为从按照carddata里的卡片数据随机生成33张rarity为1的卡片（同名卡片不能超过5张）
+        let gCardlist = GameUtil.generateDeck(33, [1], 5);
         //取gCardlist前30张赋值给gameData.deck
         gameData.deck = gCardlist.slice(0, 30);
         // 初始化背包为空
-        gameData.inventory = gCardlist.slice(30, 32);
+        gameData.inventory = gCardlist.slice(30, 33);
 
         // 存储到localStorage
         localStorage.setItem('LinkWarriorGameData', JSON.stringify(gameData));
