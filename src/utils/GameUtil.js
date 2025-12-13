@@ -12,13 +12,13 @@ var GameUtil = {
             case 1: // N
                 return 1;
             case 2: // R
-                return 3;
+                return 2;
             case 3: // SR
-                return 6;
+                return 3;
             case 4: // SSR
-                return 12;
+                return 4;
             case 5: // UR
-                return 18;
+                return 5;
             default:
                 return 0;
         }
@@ -71,13 +71,13 @@ var GameUtil = {
             case 1: // N
                 return 5;
             case 2: // R
-                return 15;
+                return 10;
             case 3: // SR
-                return 30;
+                return 15;
             case 4: // SSR
-                return 60;
+                return 20;
             case 5: // UR
-                return 80;
+                return 25;
             default:
                 return 10;
         }
