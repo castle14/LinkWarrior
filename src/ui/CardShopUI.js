@@ -72,7 +72,7 @@ var CardShopUI = {
                 <!-- 按钮区 -->
                 <div class="actions">
                     <button id="buy-card-btn" class="menu-button">购买卡片</button>
-                    <button id="refresh-shop-btn" class="menu-button">刷新商店</button>
+                    <button id="refresh-shop-btn" class="menu-button">刷新商店（${GameUtil.SHOP_REFRESH_COST}星点）</button>
                     <button id="back-to-menu-btn" class="menu-button">返回主菜单</button>
                 </div>
             </div>
@@ -473,9 +473,29 @@ var CardShopUI = {
 
             // 显示购买成功的提示信息
             setTimeout(function() {
-                alert(`卡片购买成功！花费${cardCost}星点值。`);
+                self.showLightMessage(`卡片购买成功！花费${cardCost}星点值。`);
             }, 100);
         });
     },
+
+    // 显示轻提示信息
+    showLightMessage: function(message) {
+        // 创建提示元素
+        var messageElement = $(`
+            <div class="light-message">
+                ${message}
+            </div>
+        `);
+
+        // 添加到页面中
+        $('body').append(messageElement);
+
+        // 2秒后自动移除
+        setTimeout(function() {
+            messageElement.fadeOut(500, function() {
+                $(this).remove();
+            });
+        }, 2000);
+    }
 
 };

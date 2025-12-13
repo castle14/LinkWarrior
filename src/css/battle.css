@@ -43,8 +43,8 @@
 }
 
 .monster {
-    background-color: #2a2a2a; /* 深灰背景 */
-    border: 1px solid grey; /* 红色边框 */
+    background-color: rgba(128,128,128,0.1) ;
+    border: 2px solid rgba(128,128,128,0.0);
     border-radius: 0; /* 无圆角 */
     padding: 8px;
     width: 120px; /* 减小宽度 */
@@ -52,25 +52,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0 0 8px rgba(255, 0, 0, 0.5); /* 红色阴影 */
     cursor: pointer;
     position: relative; /* 为了正确定位属性状态 */
 }
 
-.monster:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 12px rgba(255, 0, 0, 0.7); /* 更亮的红色阴影 */
-    background: linear-gradient(to bottom, #2a2a2a, #3a3a3a); /* 更亮的渐变 */
-}
+
 
 .monster-selected {
     border: 2px solid #ffff00 !important; /* 黄色边框表示选中 */
 }
 
-.monster-selected:hover {
-    /* 选中的怪物不受悬停效果影响 */
-    transform: none;
-}
+
 
 /* 怪物受击效果 */
 .monster-hit {
@@ -98,7 +90,18 @@
 .monster-attack {
     animation: attack-animation 0.4s ease;
 }
+.center-message{
+  width: 100%;
+  height: 48px;
+  background-color: rgba(128,128,128,0.1);
+  padding: 6px;
+  overflow-y: auto;
 
+ }
+.center-message-item {
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: 5px;
+}
 @keyframes attack-animation {
     0% { transform: translateY(0); }
     50% { transform: translateY(15px); }
@@ -213,6 +216,9 @@
     color: #ffa500; /* 橙色文字 */
     text-align: center; /* 文字居中 */
     min-height: 15px; /* 确保即使没有属性也有一定高度 */
+  display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 /* 卡片效果信息栏 */
@@ -610,7 +616,7 @@
     }
 
     .monster-status {
-        font-size: 10px;
+font-size: 10px;
     }
 
     .card {
