@@ -11,6 +11,7 @@ var BattleUI = {
   // 添加当前回合数属性
   currentTurn: 1,
 
+  monsterActSignal: [0,0,0],
   // 初始化战斗界面
   init: function () {
     this.render();
@@ -115,338 +116,7 @@ var BattleUI = {
     $('body').html(html);
   },
 
-  // 统一处理效果应用的方法
-  // applyEffect: function (effect, targets, sourceName, isSkill) {
-  //   var self = this;
-  //   var effectSource = isSkill ? '技能' : '卡牌';
-  //   var effectName = isSkill ? sourceName : effect.name;
-  //
-  //   // 获取玩家区域元素
-  //   var playerSection = $('.player-section');
-  //
-  //   // 处理不同类型的效果
-  //   switch (effect.type) {
-  //     case 'potion':
-  //       // 治疗效果
-  //       if (effect.value > 0) {
-  //         // 触发玩家区域绿色闪烁效果
-  //         playerSection.addClass('player-potion-effect');
-  //         setTimeout(() => {
-  //           playerSection.removeClass('player-potion-effect');
-  //         }, 500);
-  //
-  //         if (self.currentPlayer) {
-  //           var currentHp = self.currentPlayer.hp;
-  //           var maxHp = self.currentPlayer.maxHp;
-  //           var newHp = Math.min(maxHp, currentHp + effect.value);
-  //           self.currentPlayer.hp = newHp;
-  //
-  //           // 更新UI显示
-  //           $('#player-hp').text(self.currentPlayer.hp);
-  //           $('#player-max-hp').text(self.currentPlayer.maxHp);
-  //           var healthPercentage = (maxHp > 0) ? (newHp / maxHp) * 100 : 0;
-  //           $('#health-bar').css('width', healthPercentage + '%');
-  //         }
-  //
-  //         self.showCenterMessage(`${effectName}${effectSource === '技能' ? '' : effectSource}恢复了 ${effect.value} 点生命值！`);
-  //         AudioManager.play('heal');
-  //       }
-  //       break;
-  //
-  //     case 'shield':
-  //       // 护盾效果
-  //       if (effect.value > 0) {
-  //         // 触发玩家区域橙黄色闪烁效果
-  //         playerSection.addClass('player-shield-effect');
-  //         setTimeout(() => {
-  //           playerSection.removeClass('player-shield-effect');
-  //         }, 500);
-  //
-  //         if (effect.targetType === 'single') {
-  //           // 玩家自身护盾
-  //           if (self.currentPlayer) {
-  //             var currentShield = self.currentPlayer.shield;
-  //             var maxShield = self.currentPlayer.maxShield;
-  //             var newShield = Math.min(maxShield, currentShield + effect.value);
-  //             self.currentPlayer.shield = newShield;
-  //
-  //             // 更新UI显示
-  //             $('#player-shield').text(self.currentPlayer.shield);
-  //             var shieldPercentage = (maxShield > 0) ? (newShield / maxShield) * 100 : 0;
-  //             $('#shield-bar').css('width', shieldPercentage + '%');
-  //           }
-  //
-  //           self.showCenterMessage(`${effectName}${effectSource === '技能' ? '' : effectSource}增加了 ${effect.value} 点护盾！`);
-  //           AudioManager.play('shieldUp');
-  //         } else if (effect.targetType === 'all') {
-  //           // 全体护盾效果（如果存在）
-  //           // 当前实现中主要针对玩家自身
-  //           if (self.currentPlayer) {
-  //             var currentShield = self.currentPlayer.shield;
-  //             var maxShield = self.currentPlayer.maxShield;
-  //             var newShield = Math.min(maxShield, currentShield + effect.value);
-  //             self.currentPlayer.shield = newShield;
-  //
-  //             // 更新UI显示
-  //             $('#player-shield').text(self.currentPlayer.shield);
-  //             var shieldPercentage = (maxShield > 0) ? (newShield / maxShield) * 100 : 0;
-  //             $('#shield-bar').css('width', shieldPercentage + '%');
-  //           }
-  //
-  //           self.showCenterMessage(`${effectName}${effectSource === '技能' ? '' : effectSource}增加了 ${effect.value} 点护盾！`);
-  //           AudioManager.play('shieldUp');
-  //         }
-  //       }
-  //       break;
-  //
-  //     case 'weapon':
-  //     case 'spell':
-  //       // 伤害效果
-  //       if (effect.value > 0) {
-  //         // 计算火属性额外伤害
-  //         var fireDamageBonus = 0;
-  //         if (effectSource === '技能' && self.currentPlayer && self.currentPlayer.attributes && self.currentPlayer.attributes.fire) {
-  //           fireDamageBonus = self.currentPlayer.attributes.fire;
-  //         }
-  //
-  //         var totalDamage = effect.value + fireDamageBonus;
-  //
-  //         if (effect.targetType === 'single') {
-  //           // 单体目标
-  //           var target = targets[0]; // 单体目标
-  //           if (target && target.type === 'monster') {
-  //             var monsterIndex = target.index;
-  //             if (monsterIndex >= 0) {
-  //               if (effect.type === 'spell') {
-  //                 // 魔法伤害直接扣除生命值
-  //                 self.currentMonsters[monsterIndex].hp = Math.max(0, self.currentMonsters[monsterIndex].hp - totalDamage);
-  //
-  //                 // 如果有属性，则增加怪物的属性级别
-  //                 if (effect.attribute && effect.attributeLevel > 0) {
-  //                   // 初始化属性对象（如果不存在）
-  //                   if (!self.currentMonsters[monsterIndex].attributes) {
-  //                     self.currentMonsters[monsterIndex].attributes = {};
-  //                   }
-  //
-  //                   // 增加属性级别
-  //                   var currentLevel = self.currentMonsters[monsterIndex].attributes[effect.attribute] || 0;
-  //                   self.currentMonsters[monsterIndex].attributes[effect.attribute] = currentLevel + effect.attributeLevel;
-  //
-  //                   // 更新怪物UI上的属性状态显示
-  //                   self.updateEntityAttributesDisplay(self.currentMonsters[monsterIndex], 'monster');
-  //                 }
-  //               } else if (effect.type === 'weapon') {
-  //                 // 物理伤害先扣除护盾
-  //                 var originalShield = self.currentMonsters[monsterIndex].shield;
-  //                 var originalHp = self.currentMonsters[monsterIndex].hp;
-  //
-  //                 var remainingDamage = Math.max(0, totalDamage - self.currentMonsters[monsterIndex].shield);
-  //                 self.currentMonsters[monsterIndex].shield = Math.max(0, self.currentMonsters[monsterIndex].shield - totalDamage);
-  //
-  //                 if (remainingDamage > 0) {
-  //                   self.currentMonsters[monsterIndex].hp = Math.max(0, self.currentMonsters[monsterIndex].hp - remainingDamage);
-  //                 }
-  //
-  //                 var hpReduced = originalHp > self.currentMonsters[monsterIndex].hp;
-  //                 var shieldReduced = originalShield > self.currentMonsters[monsterIndex].shield;
-  //
-  //                 // 如果有属性，则增加怪物的属性级别
-  //                 if (effect.attribute && effect.attributeLevel > 0) {
-  //                   // 初始化属性对象（如果不存在）
-  //                   if (!self.currentMonsters[monsterIndex].attributes) {
-  //                     self.currentMonsters[monsterIndex].attributes = {};
-  //                   }
-  //
-  //                   // 增加属性级别
-  //                   var currentLevel = self.currentMonsters[monsterIndex].attributes[effect.attribute] || 0;
-  //                   self.currentMonsters[monsterIndex].attributes[effect.attribute] = currentLevel + effect.attributeLevel;
-  //
-  //                   // 更新怪物UI上的属性状态显示
-  //                   self.updateEntityAttributesDisplay(self.currentMonsters[monsterIndex], 'monster');
-  //                 }
-  //               }
-  //
-  //               // 更新UI显示
-  //               var monsterData = self.currentMonsters[monsterIndex];
-  //               var monsterElement = $('.monster[data-id="' + (monsterData.uniqueId || monsterData.id) + '"]');
-  //               var monsterStatsElement = monsterElement.find('.monster-stats div:first');
-  //               monsterStatsElement.text(`生命: ${monsterData.hp}/${monsterData.maxHp}`);
-  //
-  //               // 更新护盾显示
-  //               if (effect.type === 'weapon') {
-  //                 var shieldElement = monsterElement.find('.monster-stats div:last');
-  //                 shieldElement.text(`护盾: ${monsterData.shield}/${monsterData.maxShield}`);
-  //               }
-  //
-  //               // 添加受击效果
-  //               if (effect.type === 'spell' || (effect.type === 'weapon' && hpReduced)) {
-  //                 // 扣减了生命值，显示红色闪烁效果
-  //                 monsterElement.addClass('monster-hit');
-  //                 setTimeout(() => {
-  //                   monsterElement.removeClass('monster-hit');
-  //                 }, 500);
-  //                 AudioManager.play('injuredMonster');
-  //
-  //                 // 显示伤害数值
-  //                 if (effect.type === 'spell') {
-  //                   self.showMonsterValueInfo(monsterElement, totalDamage);
-  //                 } else if (effect.type === 'weapon' && hpReduced) {
-  //                   self.showMonsterValueInfo(monsterElement, remainingDamage);
-  //                 }
-  //               } else if (effect.type === 'weapon' && shieldReduced) {
-  //                 // 仅扣减了护盾值，显示灰色闪烁效果
-  //                 monsterElement.addClass('monster-shield-hit');
-  //                 setTimeout(() => {
-  //                   monsterElement.removeClass('monster-shield-hit');
-  //                 }, 500);
-  //                 AudioManager.play('shieldDefend');
-  //               }
-  //             }
-  //
-  //             var damageType = effect.type === "spell" ? "魔法" : "物理";
-  //             var damageMessage = `${effectName}${effectSource === '技能' ? '' : effectSource}对【${target.name}】造成了 ${effect.value}(+${fireDamageBonus}) 点${damageType}伤害！`;
-  //             if (fireDamageBonus == 0) {
-  //               damageMessage = `${effectName}${effectSource === '技能' ? '' : effectSource}对【${target.name}】造成了 ${effect.value} 点${damageType}伤害！`;
-  //             }
-  //             if (fireDamageBonus > 0) {
-  //               damageMessage += `(基础伤害${effect.value}+火属性加成${fireDamageBonus})`;
-  //             }
-  //             self.showCenterMessage(damageMessage);
-  //           }
-  //         } else if (effect.targetType === 'all') {
-  //           // 全体目标
-  //           if (effect.type === 'spell') {
-  //             // 更新所有怪物的数据 (法术伤害直接扣除生命值)
-  //             for (var i = 0; i < self.currentMonsters.length; i++) {
-  //               var monsterData = self.currentMonsters[i];
-  //               monsterData.hp = Math.max(0, monsterData.hp - totalDamage);
-  //
-  //               // 如果有属性，则增加怪物的属性级别
-  //               if (effect.attribute && effect.attributeLevel > 0) {
-  //                 // 初始化属性对象（如果不存在）
-  //                 if (!self.currentMonsters[i].attributes) {
-  //                   self.currentMonsters[i].attributes = {};
-  //                 }
-  //
-  //                 // 增加属性级别
-  //                 var currentLevel = self.currentMonsters[i].attributes[effect.attribute] || 0;
-  //                 self.currentMonsters[i].attributes[effect.attribute] = currentLevel + effect.attributeLevel;
-  //
-  //                 // 更新怪物UI上的属性状态显示
-  //                 self.updateEntityAttributesDisplay(self.currentMonsters[i], 'monster');
-  //               }
-  //             }
-  //
-  //             // 更新所有怪物的UI显示
-  //             $('.monster').each(function (index) {
-  //               var monster = $(this);
-  //               var monsterStats = monster.find('.monster-stats');
-  //               var hpElement = monsterStats.find('div:first');
-  //
-  //               if (index < self.currentMonsters.length) {
-  //                 var monsterData = self.currentMonsters[index];
-  //                 hpElement.text(`生命: ${monsterData.hp}/${monsterData.maxHp}`);
-  //
-  //                 // 添加受击效果 (法术攻击总是直接减少生命值)
-  //                 monster.addClass('monster-hit');
-  //                 setTimeout(() => {
-  //                   monster.removeClass('monster-hit');
-  //                 }, 500);
-  //                 AudioManager.play('injuredMonster');
-  //
-  //                 // 显示伤害数值
-  //                 self.showMonsterValueInfo(monster, monsterTotalDamage);
-  //               }
-  //             });
-  //           } else if (effect.type === 'weapon') {
-  //             // 记录原始值以便判断扣减类型
-  //             var originalValues = [];
-  //             for (var i = 0; i < self.currentMonsters.length; i++) {
-  //               originalValues.push({
-  //                 shield: self.currentMonsters[i].shield,
-  //                 hp: self.currentMonsters[i].hp
-  //               });
-  //             }
-  //
-  //             // 执行伤害计算
-  //             for (var i = 0; i < self.currentMonsters.length; i++) {
-  //               var monsterData = self.currentMonsters[i];
-  //               var remainingDamage = Math.max(0, totalDamage - monsterData.shield);
-  //               monsterData.shield = Math.max(0, monsterData.shield - totalDamage);
-  //
-  //               if (remainingDamage > 0) {
-  //                 monsterData.hp = Math.max(0, monsterData.hp - remainingDamage);
-  //               }
-  //
-  //               // 如果有属性，则增加怪物的属性级别
-  //               if (effect.attribute && effect.attributeLevel > 0) {
-  //                 // 初始化属性对象（如果不存在）
-  //                 if (!self.currentMonsters[i].attributes) {
-  //                   self.currentMonsters[i].attributes = {};
-  //                 }
-  //
-  //                 // 增加属性级别
-  //                 var currentLevel = self.currentMonsters[i].attributes[effect.attribute] || 0;
-  //                 self.currentMonsters[i].attributes[effect.attribute] = currentLevel + effect.attributeLevel;
-  //
-  //                 // 更新怪物UI上的属性状态显示
-  //                 self.updateEntityAttributesDisplay(self.currentMonsters[i], 'monster');
-  //               }
-  //             }
-  //
-  //             // 更新所有怪物的UI显示
-  //             $('.monster').each(function (index) {
-  //               var monster = $(this);
-  //               var monsterStats = monster.find('.monster-stats');
-  //               var shieldElement = monsterStats.find('div:last');
-  //               var hpElement = monsterStats.find('div:first');
-  //
-  //               if (index < self.currentMonsters.length) {
-  //                 var monsterData = self.currentMonsters[index];
-  //                 shieldElement.text(`护盾: ${monsterData.shield}/${monsterData.maxShield}`);
-  //                 hpElement.text(`生命: ${monsterData.hp}/${monsterData.maxHp}`);
-  //
-  //                 // 判断是扣减了生命值还是护盾值
-  //                 var hpReduced = originalValues[index].hp > monsterData.hp;
-  //                 var shieldReduced = originalValues[index].shield > monsterData.shield;
-  //
-  //                 // 根据扣减类型添加不同的受击效果
-  //                 if (hpReduced) {
-  //                   // 扣减了生命值，显示红色闪烁效果
-  //                   monster.addClass('monster-hit');
-  //                   setTimeout(() => {
-  //                     monster.removeClass('monster-hit');
-  //                   }, 500);
-  //                   AudioManager.play('injuredMonster');
-  //
-  //                   // 显示伤害数值
-  //                   self.showMonsterValueInfo(monster, totalDamage);
-  //                 } else if (shieldReduced) {
-  //                   // 仅扣减了护盾值，显示灰色闪烁效果
-  //                   monster.addClass('monster-shield-hit');
-  //                   setTimeout(() => {
-  //                     monster.removeClass('monster-shield-hit');
-  //                   }, 500);
-  //                   AudioManager.play('shieldDefend');
-  //                 }
-  //               }
-  //             });
-  //           }
-  //
-  //           var damageType = effect.type === "spell" ? "魔法" : "物理";
-  //           var damageMessage = `${effectName}${effectSource === '技能' ? '' : effectSource}对所有敌人造成了 ${effect.value}(+${fireDamageBonus}) 点${damageType}伤害！`;
-  //           if (fireDamageBonus == 0) {
-  //             damageMessage = `${effectName}${effectSource === '技能' ? '' : effectSource}对所有敌人造成了 ${effect.value} 点${damageType}伤害！`;
-  //           }
-  //           if (fireDamageBonus > 0) {
-  //             damageMessage += `(基础伤害${effect.value}+火属性加成${fireDamageBonus})`;
-  //           }
-  //           self.showCenterMessage(damageMessage);
-  //         }
-  //       }
-  //       break;
-  //   }
-  // },
+
 
   // 绑定事件
   bindEvents: function () {
@@ -461,6 +131,10 @@ var BattleUI = {
     // 将怪物行动逻辑提取为独立函数，供自动调用
     self.executeMonsterTurn = function () {
       console.log('开始执行怪物行动');
+      // $('.monster').removeClass("monster-shield-hit");
+      // $('.monster').removeClass("monster-shield-up");
+      // $('.monster').removeClass("monster-attack");
+      $('.monster').removeClass().addClass('monster');
       // 如果已经在执行怪物行动，则直接返回
       if (self.isMonsterTurnExecuting) {
         console.log('怪物行动已在执行中，跳过本次调用');
@@ -482,6 +156,15 @@ var BattleUI = {
         if (self.currentMonsters && self.currentMonsters.length > 0) {
           // 创建一个函数来顺序执行怪物行动
           function executeMonsterActions(index) {
+            if(index<3){
+              if (self.monsterActSignal[index]!==0 ) {
+                console.log('怪兽'+index+" 已经行动过了");
+                return;
+              }else{
+                self.monsterActSignal[index] = 1;
+              }
+            }
+
             // 检查序列ID是否匹配，防止旧的行动序列干扰
             if (sequenceId !== self.currentMonsterSequenceId) {
               console.log('序列ID不匹配，终止旧的行动序列');
@@ -506,6 +189,8 @@ var BattleUI = {
 
               // 重置标志位
               self.isMonsterTurnExecuting = false;
+
+               $('.monster').off('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd');
               return;
             }
 
@@ -555,7 +240,7 @@ var BattleUI = {
 
                     // 检查序列ID是否匹配，防止旧的行动序列干扰
                     if (sequenceId !== self.currentMonsterSequenceId) {
-                      console.log('序列ID不匹配，终止旧的行动序列回调');
+                      console.log("怪兽"+index+':序列ID不匹配，终止旧的行动序列回调');
                       return;
                     }
 
@@ -693,13 +378,13 @@ var BattleUI = {
                     monsterElement.removeClass('monster-shield-up'); // 确保先移除，避免重复添加
                     monsterElement.addClass('monster-shield-up');
 
-                    // 使用 animationend 事件确保动画完成后正确移除类
+
                     monsterElement.one('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', function () {
                       $(this).removeClass('monster-shield-up');
 
                       // 检查序列ID是否匹配，防止旧的行动序列干扰
                       if (sequenceId !== self.currentMonsterSequenceId) {
-                        console.log('序列ID不匹配，终止旧的行动序列回调');
+                        console.log("怪兽"+index+' 序列ID不匹配，终止旧的行动序列回调');
                         return;
                       }
 
@@ -1021,9 +706,10 @@ var BattleUI = {
         $('#play-card-btn').prop('disabled', true);
         // 禁用技能按钮
         $('.skill-button').prop('disabled', true);
+        self.monsterActSignal = [0,0,0];
         // 生成新的序列ID
         self.currentMonsterSequenceId = Date.now();
-
+        self.showCenterMessage('生成新的序列ID:'+self.currentMonsterSequenceId);
         // 1000ms后自动进入怪物行动步骤
         setTimeout(function () {
             let poisonCount = self.applyPoisonDamage(); // 应用毒属性伤害
@@ -1945,7 +1631,7 @@ var BattleUI = {
           $('#play-card-btn').prop('disabled', true);
           // 禁用技能按钮
           $('.skill-button').prop('disabled', true);
-
+          self.monsterActSignal = [0,0,0];
           // 生成新的序列ID
           self.currentMonsterSequenceId = Date.now();
 

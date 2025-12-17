@@ -79,7 +79,7 @@
             // 如果当前轮数大于12，每超过12一倍，怪物的最大生命值、生命值、最大护甲和护甲都增加一倍
 
             for (let i = 0; i < monsters.length; i++) {
-                    monsters[i].name = monsters[i].name+(i+1);
+                    monsters[i].name = monsters[i].name+i;
                     monsters[i].maxHp = Math.round(monsters[i].maxHp * multiplier);
                     monsters[i].hp = Math.round(monsters[i].hp * multiplier);
                     monsters[i].maxShield = Math.round(monsters[i].maxShield * multiplier);
