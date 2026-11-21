@@ -20,6 +20,7 @@ var MainMenuUI = {
                         <button id="deck-edit-btn" class="menu-button">卡组编辑</button>
                         <button id="card-shop-btn" class="menu-button">卡片商店</button>
                         <button id="player-info-btn" class="menu-button">玩家信息</button>
+                        <button id="reset-game-btn" class="menu-button menu-button-danger">重新开始</button>
                     ` : ''}
                 </div>
             </div>
@@ -47,6 +48,35 @@ var MainMenuUI = {
         $('#player-info-btn').on('click', function() {
             window.location.href = 'player-info.html';
         });
+
+        $('#reset-game-btn').on('click', function() {
+            self.resetGame();
+        });
+    },
+
+    // 删除所有数据，重新开始
+    resetGame: function() {
+        // 二次确认，避免误触
+        var confirmed = confirm('确定要删除所有游戏数据并重新开始吗？\n\n此操作将清空：\n- 玩家进度（等级、生命、护甲、能量等）\n- 卡组与背包中的所有卡片\n- 卡片商店的刷新记录\n\n该操作不可撤销，请谨慎操作！');
+        if (!confirmed) {
+            return;
+        }
+
+        // 再次确认，防止误操作
+        var secondConfirm = confirm('再次确认：\n所有游戏进度将被永久删除，确定继续吗？');
+        if (!secondConfirm) {
+            return;
+        }
+
+        // 清空所有 LinkWarrior 相关的 localStorage 数据
+        localStorage.removeItem('LinkWarriorGameData');
+        localStorage.removeItem('LinkWarriorShopCards');
+
+        // 提醒用户
+        alert('所有游戏数据已清空，将返回初始状态。');
+
+        // 刷新页面，回到"新建游戏数据"状态
+        location.reload();
     },
 
     // 开始游戏

@@ -14,7 +14,7 @@ var CardData = {
                 attributeLevel: 0,//attributeLevel指的是该卡片会给目标带来的异常状态的层数
                 targetType: "single",
                 rarity: 1,
-                image: "./img/card/钢铁巨剑.jpg"
+                image: "./img/card/steel_giant_sword.jpg"
             },
             {
                 id: 2,
@@ -26,7 +26,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "single",
                 rarity: 2,
-                image: "./img/card/恶魔之斧.jpg"
+                image: "./img/card/demon_axe.jpg"
             },
             {
                 id: 3,
@@ -38,7 +38,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "single",
                 rarity: 1,
-                image: "./img/card/火球.jpg"
+                image: "./img/card/fire_ball.jpg"
             },
             {
                 id: 4,
@@ -50,7 +50,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "all",
                 rarity: 2,
-                image: "./img/card/特殊飓风.jpg"
+                image: "./img/card/special_hurricane.jpg"
             },
             {
                 id: 5,
@@ -62,7 +62,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 1,
-                image: "./img/card/钢甲壳.jpg"
+                image: "./img/card/steel_shell.jpg"
             },
             {
                 id: 6,
@@ -74,7 +74,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 2,
-                image: "./img/card/混沌护盾.jpg"
+                image: "./img/card/chaos_shield.jpg"
             },
             {
                 id: 7,
@@ -86,7 +86,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 1,
-                image: "./img/card/红宝石之光.jpg"
+                image: "./img/card/ruby_light.jpg"
             },
             {
                 id: 8,
@@ -98,7 +98,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 3,
-                image: "./img/card/白净之水.jpg"
+                image: "./img/card/pure_water.jpg"
             },
             {
                 id: 9,
@@ -110,7 +110,7 @@ var CardData = {
                 attributeLevel: 2,
                 targetType: "single",
                 rarity: 4,
-                image: "./img/card/凤凰刃.jpg"
+                image: "./img/card/phoenix_blade.jpg"
             },
             {
                 id: 10,
@@ -122,7 +122,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 4,
-                image: "./img/card/圣光治疗.jpg"
+                image: "./img/card/holy_healing.jpg"
             },
             {
                 id: 11,
@@ -134,7 +134,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "all",
                 rarity: 2,
-                image: "./img/card/闪电风暴.jpg"
+                image: "./img/card/lightning_storm.jpg"
             },
             {
                 id: 12,
@@ -146,7 +146,7 @@ var CardData = {
                 attributeLevel: 2,
                 targetType: "all",
                 rarity: 4,
-                image: "./img/card/毁灭之焰.jpg"
+                image: "./img/card/destruction_flame.jpg"
             },
             {
                 id: 13,
@@ -158,7 +158,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "single",
                 rarity: 4,
-                image: "./img/card/传说之剑.jpg"
+                image: "./img/card/legendary_sword.jpg"
             },
             {
                 id: 14,
@@ -170,7 +170,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 4,
-                image: "./img/card/终极护甲.jpg"
+                image: "./img/card/ultimate_armor.jpg"
             },
             {
                 id: 15,
@@ -182,7 +182,7 @@ var CardData = {
                 attributeLevel: 3,
                 targetType: "single",
                 rarity: 5,
-                image: "./img/card/无限雷击.jpg"
+                image: "./img/card/infinite_thunder.jpg"
             },
             {
                 id: 16,
@@ -194,7 +194,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 1,
-                image: "./img/card/铁斧.jpg"
+                image: "./img/card/iron_axe.jpg"
             },
             {
                 id: 17,
@@ -206,7 +206,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "single",
                 rarity: 2,
-                image: "./img/card/灵魂之斧.jpg"
+                image: "./img/card/soul_axe.jpg"
             },
             {
                 id: 18,
@@ -218,7 +218,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "single",
                 rarity: 3,
-                image: "./img/card/灼热之枪.jpg"
+                image: "./img/card/burning_spear.jpg"
             },
             {
                 id: 19,
@@ -230,7 +230,7 @@ var CardData = {
                 attributeLevel: 2,
                 targetType: "single",
                 rarity: 5,
-                image: "./img/card/破神剑.jpg"
+                image: "./img/card/god_breaker_sword.jpg"
             },
             {
                 id: 20,
@@ -242,7 +242,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 3,
-                image: "./img/card/宝石治疗.jpg"
+                image: "./img/card/gem_healing.jpg"
             },
             // 新增的卡牌数据
             {
@@ -255,7 +255,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 2,
-                image: "./img/card/DD炸弹.jpg"
+                image: "./img/card/dd_bomb.jpg"
             },
             {
                 id: 22,
@@ -267,7 +267,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "all",
                 rarity: 2,
-                image: "./img/card/二重旋风.jpg"
+                image: "./img/card/dual_cyclone.jpg"
             },
             {
                 id: 23,
@@ -279,7 +279,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 2,
-                image: "./img/card/体力增强.jpg"
+                image: "./img/card/stamina_boost.jpg"
             },
             {
                 id: 24,
@@ -291,7 +291,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "all",
                 rarity: 1,
-                image: "./img/card/卡通锁链.jpg"
+                image: "./img/card/toon_chain.jpg"
             },
             {
                 id: 25,
@@ -303,7 +303,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "single",
                 rarity: 3,
-                image: "./img/card/圣剑.jpg"
+                image: "./img/card/holy_sword.jpg"
             },
             {
                 id: 26,
@@ -315,7 +315,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 4,
-                image: "./img/card/地碎.jpg"
+                image: "./img/card/earth_crush.jpg"
             },
             {
                 id: 27,
@@ -327,7 +327,7 @@ var CardData = {
                 attributeLevel: 3,
                 targetType: "all",
                 rarity: 5,
-                image: "./img/card/大火葬.jpg"
+                image: "./img/card/mass_cremation.jpg"
             },
             {
                 id: 28,
@@ -339,7 +339,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "single",
                 rarity: 3,
-                image: "./img/card/天狗羽扇.jpg"
+                image: "./img/card/tengu_fan.jpg"
             },
             {
                 id: 29,
@@ -351,7 +351,7 @@ var CardData = {
                 attributeLevel: 2,
                 targetType: "single",
                 rarity: 4,
-                image: "./img/card/女神的圣弓.jpg"
+                image: "./img/card/goddess_bow.jpg"
             },
             {
                 id: 30,
@@ -363,7 +363,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 3,
-                image: "./img/card/宝石爆破.jpg"
+                image: "./img/card/gem_blast.jpg"
             },
             {
                 id: 31,
@@ -375,7 +375,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "all",
                 rarity: 1,
-                image: "./img/card/打火石.jpg"
+                image: "./img/card/flint.jpg"
             },
             {
                 id: 32,
@@ -387,7 +387,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "all",
                 rarity: 2,
-                image: "./img/card/扰乱三角波.jpg"
+                image: "./img/card/jam_wave.jpg"
             },
             {
                 id: 33,
@@ -399,7 +399,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "single",
                 rarity: 2,
-                image: "./img/card/旋风剑.jpg"
+                image: "./img/card/cyclone_sword.jpg"
             },
             {
                 id: 34,
@@ -411,7 +411,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "single",
                 rarity: 2,
-                image: "./img/card/旋风回力镖.jpg"
+                image: "./img/card/cyclone_boomerang.jpg"
             },
             {
                 id: 35,
@@ -423,7 +423,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "single",
                 rarity: 3,
-                image: "./img/card/暗之假面.jpg"
+                image: "./img/card/dark_mask.jpg"
             },
             {
                 id: 36,
@@ -435,7 +435,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 4,
-                image: "./img/card/死灵咒.jpg"
+                image: "./img/card/necro_curse.jpg"
             },
             {
                 id: 37,
@@ -447,7 +447,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 2,
-                image: "./img/card/活命水.jpg"
+                image: "./img/card/life_water.jpg"
             },
             {
                 id: 38,
@@ -459,7 +459,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "all",
                 rarity: 2,
-                image: "./img/card/深海锁链.jpg"
+                image: "./img/card/deep_sea_chain.jpg"
             },
             {
                 id: 39,
@@ -471,7 +471,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "single",
                 rarity: 2,
-                image: "./img/card/火炎弹.jpg"
+                image: "./img/card/fire_bullet.jpg"
             },
             {
                 id: 40,
@@ -483,7 +483,7 @@ var CardData = {
                 attributeLevel: 2,
                 targetType: "all",
                 rarity: 3,
-                image: "./img/card/炽焰飞腾.jpg"
+                image: "./img/card/soaring_flame.jpg"
             },
             {
                 id: 41,
@@ -495,7 +495,7 @@ var CardData = {
                 attributeLevel: 2,
                 targetType: "all",
                 rarity: 4,
-                image: "./img/card/燃烧大地.jpg"
+                image: "./img/card/burning_land.jpg"
             },
             {
                 id: 42,
@@ -507,7 +507,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "all",
                 rarity: 3,
-                image: "./img/card/电击鞭.jpg"
+                image: "./img/card/shock_whip.jpg"
             },
             {
                 id: 43,
@@ -519,7 +519,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "single",
                 rarity: 3,
-                image: "./img/card/电子黑恶爪.jpg"
+                image: "./img/card/cyber_dark_claw.jpg"
             },
             {
                 id: 44,
@@ -531,7 +531,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 1,
-                image: "./img/card/竹光.jpg"
+                image: "./img/card/bamboo_sword.jpg"
             },
             {
                 id: 45,
@@ -543,7 +543,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 4,
-                image: "./img/card/蓝宝石之光.jpg"
+                image: "./img/card/sapphire_light.jpg"
             },
             {
                 id: 46,
@@ -555,7 +555,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 5,
-                image: "./img/card/终焉倒计.jpg"
+                image: "./img/card/armageddon_countdown.jpg"
             },
             {
                 id: 47,
@@ -567,7 +567,7 @@ var CardData = {
                 attributeLevel: 2,
                 targetType: "single",
                 rarity: 5,
-                image: "./img/card/草薙剑.jpg"
+                image: "./img/card/kusanagi_sword.jpg"
             },
             {
                 id: 48,
@@ -579,7 +579,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 1,
-                image: "./img/card/红色药剂.jpg"
+                image: "./img/card/red_potion.jpg"
             },
             {
                 id: 49,
@@ -591,7 +591,7 @@ var CardData = {
                 attributeLevel: 3,
                 targetType: "all",
                 rarity: 5,
-                image: "./img/card/转生爆炎.jpg"
+                image: "./img/card/reincarnation_burst.jpg"
             },
             {
                 id: 50,
@@ -603,7 +603,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 4,
-                image: "./img/card/辐射炮.jpg"
+                image: "./img/card/radiation_cannon.jpg"
             },
             {
                 id: 51,
@@ -615,7 +615,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "all",
                 rarity: 3,
-                image: "./img/card/连锁破坏.jpg"
+                image: "./img/card/chain_destruction.jpg"
             },
             {
                 id: 52,
@@ -627,7 +627,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 2,
-                image: "./img/card/银之弓矢.jpg"
+                image: "./img/card/silver_bow.jpg"
             },
             {
                 id: 53,
@@ -639,7 +639,7 @@ var CardData = {
                 attributeLevel: 2,
                 targetType: "single",
                 rarity: 4,
-                image: "./img/card/闪电之剑.jpg"
+                image: "./img/card/lightning_sword.jpg"
             },
             {
                 id: 54,
@@ -651,7 +651,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "all",
                 rarity: 3,
-                image: "./img/card/闪电漩涡.jpg"
+                image: "./img/card/lightning_vortex.jpg"
             },
             {
                 id: 55,
@@ -663,7 +663,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "single",
                 rarity: 2,
-                image: "./img/card/雷击.jpg"
+                image: "./img/card/thunder_bolt.jpg"
             },
             {
                 id: 56,
@@ -675,7 +675,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "single",
                 rarity: 3,
-                image: "./img/card/魔剑.jpg"
+                image: "./img/card/magic_sword.jpg"
             },
             {
                 id: 57,
@@ -687,7 +687,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "all",
                 rarity: 1,
-                image: "./img/card/魔法泡泡.jpg"
+                image: "./img/card/magic_bubble.jpg"
             },
             {
                 id: 58,
@@ -699,7 +699,7 @@ var CardData = {
                 attributeLevel: 3,
                 targetType: "single",
                 rarity: 5,
-                image: "./img/card/魔界之雷.jpg"
+                image: "./img/card/demon_thunder.jpg"
             },
             {
                 id: 59,
@@ -711,7 +711,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "all",
                 rarity: 3,
-                image: "./img/card/魔闪光.jpg"
+                image: "./img/card/magic_flash.jpg"
             },
             {
                 id: 60,
@@ -723,7 +723,7 @@ var CardData = {
                 attributeLevel: 0,
                 targetType: "single",
                 rarity: 2,
-                image: "./img/card/麻药.jpg"
+                image: "./img/card/drug.jpg"
             },
             {
                 id: 61,
@@ -735,7 +735,7 @@ var CardData = {
                 attributeLevel: 2,
                 targetType: "all",
                 rarity: 4,
-                image: "./img/card/神鹰三角波.jpg"
+                image: "./img/card/harpie_wave.jpg"
             },
             {
                 id: 62,
@@ -747,7 +747,7 @@ var CardData = {
                 attributeLevel: 1,
                 targetType: "single",
                 rarity: 4,
-                image: "./img/card/神鹰护甲.jpg"
+                image: "./img/card/harpie_armor.jpg"
             }
         ];
 

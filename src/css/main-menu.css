@@ -44,6 +44,18 @@
     transform: translateY(0);
 }
 
+/* 危险操作按钮（如删除数据） */
+.menu-button-danger {
+    background: linear-gradient(to bottom, #c0392b, #7b241c);
+    box-shadow: 0 0 10px rgba(192, 57, 43, 0.5);
+    margin-top: 10px;
+}
+
+.menu-button-danger:hover {
+    background: linear-gradient(to bottom, #e74c3c, #a93226);
+    box-shadow: 0 0 15px rgba(231, 76, 60, 0.7);
+}
+
 @media (max-width: 480px) {
     .main-menu h1 {
         font-size: 2em;

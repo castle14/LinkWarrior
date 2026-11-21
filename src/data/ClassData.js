@@ -11,7 +11,7 @@ var ClassData = {
         maxHp: 150,
         maxShield: 100,
         energyMax: 6,
-        image: "./img/player/黄金队长.jpg",
+        image: "./img/player/golden_captain.jpg",
         skill: {
           id: 1,
           name: "盾击",
@@ -37,7 +37,7 @@ var ClassData = {
       //   maxHp: 100,
       //   maxShield: 50,
       //   energyMax: 8,
-      //   image: "./img/player/光灵使.jpg",
+      //   image: "./img/player/light_elementalist.jpg",
       //   skill: {
       //     id: 2,
       //     name: "光球术",
@@ -63,7 +63,7 @@ var ClassData = {
         maxHp: 100,
         maxShield: 50,
         energyMax: 7,
-        image: "./img/player/棱镜侠.jpg",
+        image: "./img/player/prism_hero.jpg",
         skill: {
           id: 3,
           name: "连射",
@@ -90,7 +90,7 @@ var ClassData = {
         maxHp: 100,
         maxShield: 50,
         energyMax: 7,
-        image: "./img/player/冰凌侠.jpg",
+        image: "./img/player/ice_hero.jpg",
         skill: {
           id: 4,
           name: "冰霜新星",
@@ -117,7 +117,7 @@ var ClassData = {
       //   maxHp: 130,
       //   maxShield: 60,
       //   energyMax: 6,
-      //   image: "./img/player/地灵使.jpg",
+      //   image: "./img/player/earth_elementalist.jpg",
       //   skill: {
       //     id: 5,
       //     name: "石肤",
@@ -144,7 +144,7 @@ var ClassData = {
         maxHp: 100,
         maxShield: 100,
         energyMax: 7,
-        image: "./img/player/天空侠.jpg",
+        image: "./img/player/sky_hero.jpg",
         skill: {
           id: 6,
           name: "风弹术",
@@ -170,7 +170,7 @@ var ClassData = {
         maxHp: 100,
         maxShield: 100,
         energyMax: 7,
-        image: "./img/player/新水泡侠.jpg",
+        image: "./img/player/new_bubble_hero.jpg",
         skill: {
           id: 7,
           name: "泡沫护盾",
@@ -196,7 +196,7 @@ var ClassData = {
       //   maxHp: 100,
       //   maxShield: 50,
       //   energyMax: 7,
-      //   image: "./img/player/暗灵使.jpg",
+      //   image: "./img/player/dark_elementalist.jpg",
       //   skill: {
       //     id: 8,
       //     name: "暗影诅咒",
@@ -222,7 +222,7 @@ var ClassData = {
         maxHp: 160,
         maxShield: 50,
         energyMax: 5,
-        image: "./img/player/森林侠.jpg",
+        image: "./img/player/forest_hero.jpg",
         skill: {
           id: 9,
           name: "自然治愈",
@@ -248,7 +248,7 @@ var ClassData = {
         maxHp: 100,
         maxShield: 50,
         energyMax: 7,
-        image: "./img/player/水泡侠.jpg",
+        image: "./img/player/bubble_hero.jpg",
         skill: {
           id: 10,
           name: "水泡弹幕",
@@ -286,7 +286,7 @@ var ClassData = {
       //   maxHp: 90,
       //   maxShield: 45,
       //   energyMax: 8,
-      //   image: "./img/player/水灵使.jpg",
+      //   image: "./img/player/water_elementalist.jpg",
       //   skill: {
       //     id: 11,
       //     name: "潮汐冲击",
@@ -312,7 +312,7 @@ var ClassData = {
         maxHp: 110,
         maxShield: 50,
         energyMax: 6,
-        image: "./img/player/海洋侠.jpg",
+        image: "./img/player/ocean_hero.jpg",
         skill: {
           id: 12,
           name: "海啸",
@@ -338,7 +338,7 @@ var ClassData = {
       //   maxHp: 95,
       //   maxShield: 40,
       //   energyMax: 8,
-      //   image: "./img/player/火灵使.jpg",
+      //   image: "./img/player/fire_elementalist.jpg",
       //   skill: {
       //     id: 13,
       //     name: "烈焰风暴",
@@ -364,7 +364,7 @@ var ClassData = {
         maxHp: 100,
         maxShield: 50,
         energyMax: 8,
-        image: "./img/player/炽炎女郎.jpg",
+        image: "./img/player/flame_girl.jpg",
         skill: {
           id: 14,
           name: "燃烧印记",
@@ -391,7 +391,7 @@ var ClassData = {
         maxHp: 120,
         maxShield: 80,
         energyMax: 4,
-        image: "./img/player/炽热侠.jpg",
+        image: "./img/player/burning_hero.jpg",
         skill: {
           id: 15,
           name: "高温炙烤",
@@ -418,7 +418,7 @@ var ClassData = {
         maxHp: 120,
         maxShield: 20,
         energyMax: 7,
-        image: "./img/player/爆热女郎1.jpg",
+        image: "./img/player/burst_girl_1.jpg",
         skill: {
           id: 16,
           name: "爆裂冲击",
@@ -444,7 +444,7 @@ var ClassData = {
         maxHp: 120,
         maxShield: 20,
         energyMax: 7,
-        image: "./img/player/爆热女郎2.jpg",
+        image: "./img/player/burst_girl_2.jpg",
         skill: {
           id: 17,
           name: "连锁爆炸",
@@ -470,7 +470,7 @@ var ClassData = {
         maxHp: 100,
         maxShield: 50,
         energyMax: 4,
-        image: "./img/player/英雄小子.jpg",
+        image: "./img/player/hero_kid.jpg",
         skill: {
           id: 18,
           name: "潜能爆发",
@@ -497,7 +497,7 @@ var ClassData = {
         maxHp: 200,
         maxShield: 65,
         energyMax: 4,
-        image: "./img/player/荒野人.jpg",
+        image: "./img/player/wild_man.jpg",
         skill: {
           id: 19,
           name: "野蛮冲撞",
@@ -524,7 +524,7 @@ var ClassData = {
         maxHp: 120,
         maxShield: 50,
         energyMax: 8,
-        image: "./img/player/闪电侠1.jpg",
+        image: "./img/player/lightning_hero_1.jpg",
         skill: {
           id: 20,
           name: "雷霆万钧",
@@ -551,7 +551,7 @@ var ClassData = {
       //   maxHp: 90,
       //   maxShield: 40,
       //   energyMax: 8,
-      //   image: "./img/player/风灵使.jpg",
+      //   image: "./img/player/wind_elementalist.jpg",
       //   skill: {
       //     id: 21,
       //     name: "风之庇护",
@@ -577,7 +577,7 @@ var ClassData = {
         maxHp: 200,
         maxShield: 0,
         energyMax: 8,
-        image: "./img/player/鲜花女郎.jpg",
+        image: "./img/player/flower_girl.jpg",
         skill: {
           id: 22,
           name: "花之祝福",
@@ -603,7 +603,7 @@ var ClassData = {
         maxHp: 70,
         maxShield: 130,
         energyMax: 4,
-        image: "./img/player/黏土侠.jpg",
+        image: "./img/player/clay_hero.jpg",
         skill: {
           id: 23,
           name: "石肤",

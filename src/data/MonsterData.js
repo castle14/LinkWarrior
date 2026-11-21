@@ -20,7 +20,7 @@ var MonsterData = {
                     {type: "spell", value: 20, attribute: "electric", attributeLevel: 1},
                     {type: "spell", value: 15, attribute: null, attributeLevel: 0}
                 ],
-                image: "./img/alien/外星人之王.jpg"
+                image: "./img/alien/alien_king.jpg"
             },
             {
                 id: 2,
@@ -39,7 +39,7 @@ var MonsterData = {
                     {type: "weapon", value: 12, attribute: null, attributeLevel: 0},
                     {type: "spell", value: 8, attribute: "ice", attributeLevel: 1}
                 ],
-                image: "./img/alien/外星人士兵.jpg"
+                image: "./img/alien/alien_soldier.jpg"
             },
             {
                 id: 3,
@@ -58,7 +58,7 @@ var MonsterData = {
                     {type: "spell", value: 2, attribute: "electric", attributeLevel: 1},
                     {type: "spell", value: 3, attribute: "poison", attributeLevel: 1}
                 ],
-                image: "./img/alien/外星人小孩.jpg"
+                image: "./img/alien/alien_child.jpg"
             },
             {
                 id: 4,
@@ -77,7 +77,7 @@ var MonsterData = {
                     {type: "shield", value: 30, attribute: null, attributeLevel: 0},
                     {type: "spell", value: 15, attribute: null, attributeLevel: 0}
                 ],
-                image: "./img/alien/外星人母后.jpg"
+                image: "./img/alien/alien_queen.jpg"
             },
             {
                 id: 5,
@@ -96,7 +96,7 @@ var MonsterData = {
                     {type: "weapon", value: 18, attribute: null, attributeLevel: 0},
                     {type: "weapon", value: 12, attribute: null, attributeLevel: 0}
                 ],
-                image: "./img/alien/外星人猎手.jpg"
+                image: "./img/alien/alien_hunter.jpg"
             },
             {
                 id: 6,
@@ -115,7 +115,7 @@ var MonsterData = {
                     {type: "spell", value: 16, attribute: "ice", attributeLevel: 1},
                     {type: "spell", value: 18, attribute: null, attributeLevel: 0}
                 ],
-                image: "./img/alien/外星人长老.jpg"
+                image: "./img/alien/alien_elder.jpg"
             },
             {
                 id: 7,
@@ -134,7 +134,7 @@ var MonsterData = {
                     {type: "weapon", value: 22, attribute: null, attributeLevel: 0},
                     {type: "spell", value: 15, attribute: null, attributeLevel: 0}
                 ],
-                image: "./img/alien/外星人飞船.jpg"
+                image: "./img/alien/alien_spaceship.jpg"
             },
             {
                 id: 8,
@@ -153,7 +153,7 @@ var MonsterData = {
                     {type: "weapon", value: 12, attribute: null, attributeLevel: 0},
                     {type: "shield", value: 20, attribute: null, attributeLevel: 0}
                 ],
-                image: "./img/alien/外星侵略者.jpg"
+                image: "./img/alien/alien_invader.jpg"
             },
             {
                 id: 9,
@@ -172,7 +172,7 @@ var MonsterData = {
                     {type: "spell", value: 10, attribute: null, attributeLevel: 0},
                     {type: "spell", value: 10, attribute: null, attributeLevel: 0}
                 ],
-                image: "./img/alien/外星催眠师.jpg"
+                image: "./img/alien/alien_hypnotist.jpg"
             },
             {
                 id: 10,
@@ -191,7 +191,7 @@ var MonsterData = {
                     {type: "weapon", value: 20, attribute: null, attributeLevel: 0},
                     {type: "shield", value: 15, attribute: null, attributeLevel: 0}
                 ],
-                image: "./img/alien/外星利维坦.jpg"
+                image: "./img/alien/alien_leviathan.jpg"
             },
             {
                 id: 11,
@@ -210,7 +210,7 @@ var MonsterData = {
                     {type: "spell", value: 28, attribute: "fire", attributeLevel: 3},
                     {type: "spell", value: 30, attribute: null, attributeLevel: 0}
                 ],
-                image: "./img/alien/外星复仇者.jpg"
+                image: "./img/alien/alien_avenger.jpg"
             },
             {
                 id: 12,
@@ -229,7 +229,7 @@ var MonsterData = {
                     {type: "spell", value: 8, attribute: null, attributeLevel: 0},
                     {type: "spell", value: 10, attribute: null, attributeLevel: 0}
                 ],
-                image: "./img/alien/外星犬.jpg"
+                image: "./img/alien/alien_dog.jpg"
             },
             {
                 id: 13,
@@ -248,7 +248,7 @@ var MonsterData = {
                     {type: "weapon", value: 25, attribute: null, attributeLevel: 0},
                     {type: "shield", value: 30, attribute: null, attributeLevel: 0}
                 ],
-                image: "./img/alien/外星狂战士.jpg"
+                image: "./img/alien/alien_berserker.jpg"
             },
             {
                 id: 14,
@@ -267,7 +267,7 @@ var MonsterData = {
                     {type: "shield", value: 20, attribute: null, attributeLevel: 0},
                     {type: "potion", value: 20, attribute: null, attributeLevel: 0}
                 ],
-                image: "./img/alien/外星菊石.jpg"
+                image: "./img/alien/alien_ammonite.jpg"
             },
             {
                 id: 15,
@@ -286,7 +286,7 @@ var MonsterData = {
                     {type: "potion", value: 22, attribute: null, attributeLevel: 0},
                     {type: "spell", value: 18, attribute: null, attributeLevel: 0}
                 ],
-                image: "./img/alien/念力外星人.jpg"
+                image: "./img/alien/psychic_alien.jpg"
             },
             {
                 id: 16,
@@ -305,7 +305,7 @@ var MonsterData = {
                     {type: "spell", value: 8, attribute: null, attributeLevel: 0},
                     {type: "shield", value: 10, attribute: null, attributeLevel: 0}
                 ],
-                image: "./img/alien/灰色外星人.jpg"
+                image: "./img/alien/gray_alien.jpg"
             },
             {
                 id: 17,
@@ -324,7 +324,7 @@ var MonsterData = {
                     {type: "weapon", value: 14, attribute: null, attributeLevel: 0},
                     {type: "spell", value: 12, attribute: "fire", attributeLevel: 1}
                 ],
-                image: "./img/alien/熔岩外星人.jpg"
+                image: "./img/alien/lava_alien.jpg"
             },
             {
                 id: 18,
@@ -343,7 +343,7 @@ var MonsterData = {
                     {type: "spell", value: 8, attribute: null, attributeLevel: 0},
                     {type: "weapon", value: 11, attribute: null, attributeLevel: 0}
                 ],
-                image: "./img/alien/骷髅外星人.jpg"
+                image: "./img/alien/skull_alien.jpg"
             }
         ];
 

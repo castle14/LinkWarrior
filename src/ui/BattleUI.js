@@ -1925,7 +1925,7 @@ var BattleUI = {
     for (var i = 0; i < monsters.length; i++) {
       var monster = monsters[i];
       // 获取怪物图片路径，如果怪物数据中有图片则使用，否则使用默认图片
-      var imagePath = monster.image || './img/alien/外星人之王.jpg';
+      var imagePath = monster.image || './img/alien/alien_king.jpg';
 
       // 使用唯一ID（如果存在）或者原始ID
       var monsterId = monster.uniqueId || monster.id;
@@ -1976,7 +1976,7 @@ var BattleUI = {
       }
 
       // 获取卡片图片路径，如果卡片数据中有图片则使用，否则使用默认图片
-      var imagePath = card.image || './img/card/铁斧.jpg';
+      var imagePath = card.image || './img/card/iron_axe.jpg';
 
       // 构建标签
       var tags = [];
