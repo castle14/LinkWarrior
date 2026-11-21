@@ -339,7 +339,7 @@ var BattleUI = {
                         alert('挑战失败！');
 
                         // 从localStorage中获取游戏数据
-                        let gameData = JSON.parse(localStorage.getItem('LinkWarriorGameData'));
+                        let gameData = StorageUtil.get('LinkWarriorGameData', null);
                         if (gameData) {
                           // 将currentRound设为1
                           gameData.currentRound = 1;
@@ -683,11 +683,11 @@ var BattleUI = {
         // 检查玩家是否死亡（如果玩家生命值小于等于0）
         if (self.currentPlayer && self.currentPlayer.hp <= 0) {
           // 玩家死亡，显示挑战失败
-          AudioManager.play('defeat', () => {
+          AudioManager.play('failure', () => {
             alert('挑战失败！');
 
             // 从localStorage中获取游戏数据
-            let gameData = JSON.parse(localStorage.getItem('LinkWarriorGameData'));
+            let gameData = StorageUtil.get('LinkWarriorGameData', null);
             if (gameData) {
               // 将currentRound设为1
               gameData.currentRound = 1;
@@ -1697,7 +1697,7 @@ var BattleUI = {
     }
 
     // 从localStorage中获取游戏数据
-    let gameData = JSON.parse(localStorage.getItem('LinkWarriorGameData'));
+    let gameData = StorageUtil.get('LinkWarriorGameData', null);
     if (gameData) {
       // 记录当前进展的最大轮回合数
       if (!gameData.maxRound || gameData.currentRound > gameData.maxRound) {
@@ -2139,7 +2139,7 @@ var BattleUI = {
           alert('挑战失败！');
 
           // 从localStorage中获取游戏数据
-          let gameData = JSON.parse(localStorage.getItem('LinkWarriorGameData'));
+          let gameData = StorageUtil.get('LinkWarriorGameData', null);
           if (gameData) {
             // 将currentRound设为1
             gameData.currentRound = 1;

@@ -1,7 +1,14 @@
 // 数据管理模块 - 玩家职业数据
 var ClassData = {
+  // 内部缓存（首次访问时构建，避免每次查询都重建整个数组）
+  _classesCache: null,
+  _classIndex: null,
+
   // 获取所有职业
   getAllClasses: function () {
+    if (ClassData._classesCache) {
+      return ClassData._classesCache;
+    }
     var classes = [
       {
         id: 1,
@@ -624,26 +631,36 @@ var ClassData = {
       }
     ];
 
+    ClassData._classesCache = classes;
     return classes;
+  },
+
+  // 构建 id -> 职业 的索引（懒加载，查询 O(1)）
+  _getClassIndex: function () {
+    if (!ClassData._classIndex) {
+      var index = {};
+      var all = this.getAllClasses();
+      for (var i = 0; i < all.length; i++) {
+        index[all[i].id] = all[i];
+      }
+      ClassData._classIndex = index;
+    }
+    return ClassData._classIndex;
   },
 
   // 根据ID获取职业
   getClassById: function (id) {
-    var classes = this.getAllClasses();
-    for (var i = 0; i < classes.length; i++) {
-      if (classes[i].id == id) {
-        return classes[i];
-      }
-    }
-    return null;
+    var index = this._getClassIndex();
+    var target = index[Number(id)];
+    return target === undefined ? null : target;
   },
 
   // 根据名称获取职业
   getClassByName: function (name) {
-    var classes = this.getAllClasses();
-    for (var i = 0; i < classes.length; i++) {
-      if (classes[i].name == name) {
-        return classes[i];
+    var all = this.getAllClasses();
+    for (var i = 0; i < all.length; i++) {
+      if (all[i].name === name) {
+        return all[i];
       }
     }
     return null;

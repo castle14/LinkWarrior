@@ -5,7 +5,7 @@ var ClassSelectorUI = {
     // 初始化职业选择页面
     init: function() {
         // 从localStorage加载游戏数据
-        this.gameData = JSON.parse(localStorage.getItem('LinkWarriorGameData'));
+        this.gameData = StorageUtil.get('LinkWarriorGameData', null);
 
         this.render();
         this.bindEvents();

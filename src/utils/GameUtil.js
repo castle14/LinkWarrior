@@ -95,11 +95,21 @@ var GameUtil = {
             }
         }
 
+        // 没有符合条件的卡片时直接返回空数组，避免后续死循环
+        if (availableCards.length === 0) {
+            console.warn('generateDeck: 没有符合稀有度要求的卡片，返回空卡组');
+            return [];
+        }
+
         // 随机生成卡组
         var deck = [];
         var cardCount = {}; // 记录每种卡片的数量
+        // 防御上限：当同名卡片上限导致无法凑满 deckSize 时，避免死循环
+        var maxAttempts = deckSize * 200;
+        var attempts = 0;
 
-        while (deck.length < deckSize) {
+        while (deck.length < deckSize && attempts < maxAttempts) {
+            attempts++;
             // 随机选择一张卡片
             var randomIndex = Math.floor(Math.random() * availableCards.length);
             var card = Object.assign({}, availableCards[randomIndex]); // 创建卡片副本
@@ -117,6 +127,10 @@ var GameUtil = {
                 deck.push(card);
                 cardCount[card.name]++;
             }
+        }
+
+        if (deck.length < deckSize) {
+            console.warn('generateDeck: 可用卡片不足（同名上限 ' + maxSameCard + '），只生成了 ' + deck.length + '/' + deckSize + ' 张');
         }
 
         return deck;

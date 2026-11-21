@@ -5,7 +5,7 @@ var PlayerInfoUI = {
     // 初始化玩家信息页面
     init: function() {
         // 从localStorage加载游戏数据
-        this.gameData = JSON.parse(localStorage.getItem('LinkWarriorGameData'));
+        this.gameData = StorageUtil.get('LinkWarriorGameData', null);
 
         if (!this.gameData) {
             alert('未找到游戏数据，请先开始游戏！');

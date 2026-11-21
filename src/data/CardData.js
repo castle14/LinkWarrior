@@ -1,7 +1,14 @@
 // 数据管理模块 - 卡牌数据
 var CardData = {
+    // 内部缓存（首次访问时构建，避免每次查询都重建整个数组）
+    _cardsCache: null,
+    _cardIndex: null,
+
     // 获取所有卡牌
     getAllCards: function() {
+        if (CardData._cardsCache) {
+            return CardData._cardsCache;
+        }
         // 示例卡牌数据
         var cards = [
             {
@@ -751,18 +758,28 @@ var CardData = {
             }
         ];
 
+        CardData._cardsCache = cards;
         return cards;
+    },
+
+    // 构建 id -> 卡牌 的索引（懒加载，查询 O(1)）
+    _getCardIndex: function() {
+        if (!CardData._cardIndex) {
+            var index = {};
+            var all = this.getAllCards();
+            for (var i = 0; i < all.length; i++) {
+                index[all[i].id] = all[i];
+            }
+            CardData._cardIndex = index;
+        }
+        return CardData._cardIndex;
     },
 
     // 根据ID获取卡牌
     getCardById: function(id) {
-        var cards = this.getAllCards();
-        for (var i = 0; i < cards.length; i++) {
-            if (cards[i].id == id) {
-                return cards[i];
-            }
-        }
-        return null;
+        var index = this._getCardIndex();
+        var target = index[Number(id)];
+        return target === undefined ? null : target;
     },
 
     // 根据稀有度获取卡牌
@@ -770,7 +787,7 @@ var CardData = {
         var cards = this.getAllCards();
         var result = [];
         for (var i = 0; i < cards.length; i++) {
-            if (cards[i].rarity == rarity) {
+            if (cards[i].rarity === rarity) {
                 result.push(cards[i]);
             }
         }

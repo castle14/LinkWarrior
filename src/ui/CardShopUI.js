@@ -7,7 +7,7 @@ var CardShopUI = {
     // 初始化卡片商店
     init: function() {
         // 加载游戏数据
-        this.gameData = JSON.parse(localStorage.getItem('LinkWarriorGameData'));
+        this.gameData = StorageUtil.get('LinkWarriorGameData', null);
 
         if (!this.gameData) {
             alert('请先创建游戏数据！');
@@ -24,15 +24,13 @@ var CardShopUI = {
 
     // 加载商店卡片数据
     loadShopCards: function() {
-        // 尝试从localStorage获取商店卡片
-        var storedShopCards = localStorage.getItem('LinkWarriorShopCards');
-        if (storedShopCards) {
-            this.shopCards = JSON.parse(storedShopCards);
-        } else {
+        // 尝试从localStorage获取商店卡片（损坏数据会自动清除并返回 null）
+        this.shopCards = StorageUtil.get('LinkWarriorShopCards', null);
+        if (!this.shopCards) {
             // 如果没有存储的商店卡片，则生成10张卡片
             this.shopCards = this.generateShopCards(10);
             // 存储到localStorage
-            localStorage.setItem('LinkWarriorShopCards', JSON.stringify(this.shopCards));
+            StorageUtil.set('LinkWarriorShopCards', this.shopCards);
         }
     },
 

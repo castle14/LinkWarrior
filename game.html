@@ -15,11 +15,12 @@
     <script src="./src/data/ClassData.js"></script>
     <script src="./src/utils/CardUtils.js"></script>
     <script src="./src/utils/AudioManager.js"></script>
+    <script src="./src/utils/StorageUtil.js"></script>
     <script src="./src/ui/BattleUI.js"></script>
     <script>
         $(document).ready(function() {
             // 从localStorage获取游戏数据
-            var gameData = JSON.parse(localStorage.getItem('LinkWarriorGameData'));
+            var gameData = StorageUtil.get('LinkWarriorGameData', null);
 
             if (!gameData) {
                 // 如果没有游戏数据，跳转回主菜单

@@ -1,7 +1,14 @@
 // 数据管理模块 - 怪物数据
 var MonsterData = {
+    // 内部缓存（首次访问时构建，避免每次查询都重建整个数组）
+    _monstersCache: null,
+    _monsterIndex: null,
+
     // 获取所有怪物
     getAllMonsters: function() {
+        if (MonsterData._monstersCache) {
+            return MonsterData._monstersCache;
+        }
         var monsters = [
             {
                 id: 1,
@@ -347,18 +354,28 @@ var MonsterData = {
             }
         ];
 
+        MonsterData._monstersCache = monsters;
         return monsters;
+    },
+
+    // 构建 id -> 怪物 的索引（懒加载，查询 O(1)）
+    _getMonsterIndex: function() {
+        if (!MonsterData._monsterIndex) {
+            var index = {};
+            var all = this.getAllMonsters();
+            for (var i = 0; i < all.length; i++) {
+                index[all[i].id] = all[i];
+            }
+            MonsterData._monsterIndex = index;
+        }
+        return MonsterData._monsterIndex;
     },
 
     // 根据ID获取怪物
     getMonsterById: function(id) {
-        var monsters = this.getAllMonsters();
-        for (var i = 0; i < monsters.length; i++) {
-            if (monsters[i].id == id) {
-                return monsters[i];
-            }
-        }
-        return null;
+        var index = this._getMonsterIndex();
+        var target = index[Number(id)];
+        return target === undefined ? null : target;
     },
 
     // 根据等级获取怪物
@@ -366,7 +383,7 @@ var MonsterData = {
         var monsters = this.getAllMonsters();
         var result = [];
         for (var i = 0; i < monsters.length; i++) {
-            if (monsters[i].level == level) {
+            if (monsters[i].level === level) {
                 result.push(monsters[i]);
             }
         }
