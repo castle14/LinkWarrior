@@ -6,8 +6,9 @@
 
 - 挑战失败 → 本局结束
 - **出战卡组（deck）重置**为初始的 30 张随机 N 卡
+- **星点（stars）归零**
 - 生命/护盾恢复满状态，当前关卡回到第 1 关
-- **星点（stars）保留**、**背包（inventory）中的卡牌保留**、已解锁职业保留、历史最高关卡（maxRound）保留
+- **背包（inventory）中的卡牌保留**、已解锁职业保留、历史最高关卡（maxRound）保留
 
 这样既具备 Roguelike 的"本局构筑清零、失败有代价"核心体验，又保留了玩家通过商店收集的卡牌收藏。
 
@@ -20,7 +21,7 @@
 |---|---|---|
 | `currentRound` | 当前关卡 | 重置为 1 |
 | `maxRound` | 历史最高关卡 | 保留 |
-| `stars` | 星点（商店/解锁职业通用货币） | **保留** |
+| `stars` | 星点（商店/解锁职业通用货币） | **归零** |
 | `playerClass` / `player` | 职业与角色属性（hp/shield/maxHp/maxShield） | 保留，hp/shield 回满 |
 | `deck` | 出战卡组，固定 30 张 | **重置为初始 30 张** |
 | `inventory` | 背包/卡牌收藏 | **保留** |
@@ -49,7 +50,7 @@
 在 `handleVictory`（约 1691 行）附近新增方法：
 
 ```js
-// 处理失败逻辑：单局制 —— 重置卡组，保留星点与背包
+// 处理失败逻辑：单局制 —— 重置卡组与星点，保留背包与解锁
 handleDefeat: function () {
   AudioManager.play('failure', () => {
     alert('挑战失败！');
@@ -58,6 +59,8 @@ handleDefeat: function () {
     if (gameData) {
       // 回到第 1 关
       gameData.currentRound = 1;
+      // 星点归零
+      gameData.stars = 0;
       // 重新生成初始出战卡组（30 张 N 卡，同名≤5），背包 inventory 不动
       gameData.deck = GameUtil.generateDeck(30, [1], 5);
       // 恢复生命/护盾
@@ -110,7 +113,7 @@ if (self.currentPlayer && self.currentPlayer.hp <= 0) {
 |---|---|
 | "重新生成初始组" | 复用 `GameUtil.generateDeck(30, [1], 5)`，与开局相同的 N 卡随机逻辑 |
 | "背包里的卡还保留" | `inventory` 完全不动（商店购买的收藏不丢） |
-| "星点保留" | `stars` 不做任何修改，失败不扣除星点 |
+| "星点值归零" | `stars = 0`；因为 stars 同时是解锁职业的货币，意味着解锁职业需在单局内攒够 100 |
 | 失败后是否自动开新局 | 否，仍跳回主菜单，由玩家点「开始游戏」进入第 1 关（保持现有交互） |
 | 历史最高关卡 | `maxRound` 保留，玩家信息页"最大攻克关卡数"不倒退 |
 | 商店货架 `LinkWarriorShopCards` | 保留，不清空 |
@@ -124,11 +127,11 @@ if (self.currentPlayer && self.currentPlayer.hp <= 0) {
    - 确认弹出「挑战失败！」并跳回 `index.html`
 3. **校验 localStorage**（读取 `LinkWarriorGameData`）：
    - `currentRound === 1`
-   - `stars` 与调用前一致（保留，不归零）
+   - `stars === 0`
    - `deck.length === 30`，且所有卡 `rarity === 1`
    - `inventory` 数量与内容与调用前一致
    - `player.hp === player.maxHp`、`player.shield === player.maxShield`
 4. **页面回归**：
-   - 玩家信息页正常显示（当前关卡回到 1、星点为失败前的值、最大攻克关卡不倒退）
+   - 玩家信息页正常显示（当前关卡 1、星点 0、最大攻克关卡不倒退）
    - 卡组编辑页显示 30 张且可正常保存
    - 从主菜单点「开始游戏」能正常进入第 1 关战斗

@@ -334,29 +334,8 @@ var BattleUI = {
 
                     // 检查玩家是否死亡
                     if (self.currentPlayer && self.currentPlayer.hp <= 0) {
-                      // 玩家死亡，显示挑战失败
-                      AudioManager.play('failure', () => {
-                        alert('挑战失败！');
-
-                        // 从localStorage中获取游戏数据
-                        let gameData = StorageUtil.get('LinkWarriorGameData', null);
-                        if (gameData) {
-                          // 将currentRound设为1
-                          gameData.currentRound = 1;
-
-                          // 重置玩家生命/护盾，避免下一局带着 0 血进入
-                          if (gameData.player) {
-                            gameData.player.hp = gameData.player.maxHp;
-                            gameData.player.shield = gameData.player.maxShield;
-                          }
-
-                          // 保存回localStorage
-                          localStorage.setItem('LinkWarriorGameData', JSON.stringify(gameData));
-                        }
-
-                        // 返回首页
-                        window.location.href = 'index.html';
-                      });
+                      // 玩家死亡，按单局制处理失败
+                      self.handleDefeat();
                       return;
                     }
 
@@ -688,29 +667,8 @@ var BattleUI = {
 
         // 检查玩家是否死亡（如果玩家生命值小于等于0）
         if (self.currentPlayer && self.currentPlayer.hp <= 0) {
-          // 玩家死亡，显示挑战失败
-          AudioManager.play('failure', () => {
-            alert('挑战失败！');
-
-            // 从localStorage中获取游戏数据
-            let gameData = StorageUtil.get('LinkWarriorGameData', null);
-            if (gameData) {
-              // 将currentRound设为1
-              gameData.currentRound = 1;
-
-              // 重置玩家生命/护盾，避免下一局带着 0 血进入
-              if (gameData.player) {
-                gameData.player.hp = gameData.player.maxHp;
-                gameData.player.shield = gameData.player.maxShield;
-              }
-
-              // 保存回localStorage
-              localStorage.setItem('LinkWarriorGameData', JSON.stringify(gameData));
-            }
-
-            // 返回首页
-            window.location.href = 'index.html';
-          });
+          // 玩家死亡，按单局制处理失败
+          self.handleDefeat();
           return;
         }
 
@@ -1741,6 +1699,46 @@ var BattleUI = {
     });
   },
 
+  // 处理失败逻辑：单局制 —— 重置卡组与星点，保留背包与解锁
+  handleDefeat: function () {
+    var handled = false;
+    var proceed = () => {
+      // 防止音频回调与兜底定时器重复执行
+      if (handled) {
+        return;
+      }
+      handled = true;
+
+      alert('挑战失败！');
+
+      // 从localStorage中获取游戏数据
+      let gameData = StorageUtil.get('LinkWarriorGameData', null);
+      if (gameData) {
+        // 回到第1关
+        gameData.currentRound = 1;
+        // 星点归零
+        gameData.stars = 0;
+        // 重新生成初始出战卡组（30张N卡，同名不超过5张），背包inventory不动
+        gameData.deck = GameUtil.generateDeck(30, [1], 5);
+        // 重置玩家生命/护盾，避免下一局带着 0 血进入
+        if (gameData.player) {
+          gameData.player.hp = gameData.player.maxHp;
+          gameData.player.shield = gameData.player.maxShield;
+        }
+
+        // 保存回localStorage
+        localStorage.setItem('LinkWarriorGameData', JSON.stringify(gameData));
+      }
+
+      // 返回首页
+      window.location.href = 'index.html';
+    };
+
+    // 兜底：音频未能播放（或被浏览器自动播放策略拦截）时，3 秒后也要继续失败流程
+    setTimeout(proceed, 3000);
+    AudioManager.play('failure', proceed);
+  },
+
   // 检查并处理怪物死亡
   checkAndHandleMonsterDeaths: function () {
     let deadMonsters = [];
@@ -2146,29 +2144,8 @@ var BattleUI = {
 
       // 检查玩家是否死亡
       if (self.currentPlayer.hp <= 0) {
-        // 玩家死亡，显示挑战失败
-        AudioManager.play('failure', () => {
-          alert('挑战失败！');
-
-          // 从localStorage中获取游戏数据
-          let gameData = StorageUtil.get('LinkWarriorGameData', null);
-          if (gameData) {
-            // 将currentRound设为1
-            gameData.currentRound = 1;
-
-            // 重置玩家生命/护盾，避免下一局带着 0 血进入
-            if (gameData.player) {
-              gameData.player.hp = gameData.player.maxHp;
-              gameData.player.shield = gameData.player.maxShield;
-            }
-
-            // 保存回localStorage
-            localStorage.setItem('LinkWarriorGameData', JSON.stringify(gameData));
-          }
-
-          // 返回首页
-          window.location.href = 'index.html';
-        });
+        // 玩家死亡，按单局制处理失败
+        self.handleDefeat();
         return;
       }
     }
