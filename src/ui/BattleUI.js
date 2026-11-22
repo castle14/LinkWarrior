@@ -344,6 +344,12 @@ var BattleUI = {
                           // 将currentRound设为1
                           gameData.currentRound = 1;
 
+                          // 重置玩家生命/护盾，避免下一局带着 0 血进入
+                          if (gameData.player) {
+                            gameData.player.hp = gameData.player.maxHp;
+                            gameData.player.shield = gameData.player.maxShield;
+                          }
+
                           // 保存回localStorage
                           localStorage.setItem('LinkWarriorGameData', JSON.stringify(gameData));
                         }
@@ -691,6 +697,12 @@ var BattleUI = {
             if (gameData) {
               // 将currentRound设为1
               gameData.currentRound = 1;
+
+              // 重置玩家生命/护盾，避免下一局带着 0 血进入
+              if (gameData.player) {
+                gameData.player.hp = gameData.player.maxHp;
+                gameData.player.shield = gameData.player.maxShield;
+              }
 
               // 保存回localStorage
               localStorage.setItem('LinkWarriorGameData', JSON.stringify(gameData));
@@ -2143,6 +2155,12 @@ var BattleUI = {
           if (gameData) {
             // 将currentRound设为1
             gameData.currentRound = 1;
+
+            // 重置玩家生命/护盾，避免下一局带着 0 血进入
+            if (gameData.player) {
+              gameData.player.hp = gameData.player.maxHp;
+              gameData.player.shield = gameData.player.maxShield;
+            }
 
             // 保存回localStorage
             localStorage.setItem('LinkWarriorGameData', JSON.stringify(gameData));

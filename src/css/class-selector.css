@@ -86,74 +86,64 @@
     padding: 3px 0;
 }
 
-.class-action-button-container {
-    text-align: center;
-    padding: 15px 0 0 0;
-}
-
-.class-action-button {
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    border-radius: 5px;
-    font-weight: bold;
-    margin: 5px;
-    min-width: 100px;
-}
-
-.class-action-button.unlock {
-    background-color: #007bff;
-    color: white;
-}
-
-.class-action-button.unlock:hover {
-    background-color: #0056b3;
-}
-
-.class-action-button.switch {
-    background-color: #ffc107;
-    color: black;
-}
-
-.class-action-button.switch:hover {
-    background-color: #e0a800;
-}
-
-.class-action-button:disabled {
-    background-color: #6c757d;
-    cursor: not-allowed;
-}
-
 .back-button-container {
     text-align: center;
     margin-top: 30px;
 }
-.class-info-button{
-  color: rgba(255, 165, 0);
+/* 职业状态徽章（点击解锁 / 转职 / 当前职业） */
+.class-info-button {
+    color: #FFA500;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(255, 165, 0, 0.15);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.85em;
 }
-.class-info-button-lock{
-  color: gray;
+.class-info-button:hover {
+    background: rgba(255, 165, 0, 0.3);
 }
-.class-info-button-checked{
-  color: green;
+.class-info-button-lock {
+    color: #999999;
+    background: rgba(153, 153, 153, 0.15);
+}
+.class-info-button-lock:hover {
+    background: rgba(153, 153, 153, 0.3);
+}
+.class-info-button-checked {
+    color: #2ecc71;
+    background: rgba(46, 204, 113, 0.15);
+    cursor: default;
+}
+.class-info-button-checked:hover {
+    background: rgba(46, 204, 113, 0.15);
 }
 .stat-label {
   margin-right: 3px;
   min-width: 55px;
 }
+/* 按钮 - 与主菜单 / 玩家信息页风格统一：深紫到靛蓝渐变 + 紫色阴影 */
 .back-button {
-    background-color: #28a745;
+    background: linear-gradient(to bottom, #8B008B, #4B0082);
     border: none;
     padding: 12px 30px;
+    color: #ffffff;
+    font-size: 14px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    border-radius: 5px;
+    transition: all 0.3s;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(139, 0, 139, 0.5);
     margin: 0 10px;
 }
 
 .back-button:hover {
-    background-color: #218838;
+    background: linear-gradient(to bottom, #9B30FF, #8A2BE2);
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(155, 48, 255, 0.7);
+}
+
+.back-button:active {
+    transform: translateY(0);
 }
 
 /* 响应式设计 */

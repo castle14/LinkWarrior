@@ -20,6 +20,10 @@ var MainMenuUI = {
                         <button id="deck-edit-btn" class="menu-button">卡组编辑</button>
                         <button id="card-shop-btn" class="menu-button">卡片商店</button>
                         <button id="player-info-btn" class="menu-button">玩家信息</button>
+                    ` : ''}
+                    <button id="gameplay-guide-btn" class="menu-button">玩法说明</button>
+                    <button id="storage-manage-btn" class="menu-button">存档管理</button>
+                    ${hasGameData ? `
                         <button id="reset-game-btn" class="menu-button menu-button-danger">重新开始</button>
                     ` : ''}
                 </div>
@@ -35,6 +39,14 @@ var MainMenuUI = {
 
         $('#start-game-btn').on('click', function() {
             self.startGame();
+        });
+
+        $('#gameplay-guide-btn').on('click', function() {
+            window.location.href = 'gameplay-guide.html';
+        });
+
+        $('#storage-manage-btn').on('click', function() {
+            window.location.href = 'storage-manager.html';
         });
 
         $('#deck-edit-btn').on('click', function() {

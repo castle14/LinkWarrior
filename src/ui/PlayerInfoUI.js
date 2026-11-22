@@ -19,19 +19,24 @@ var PlayerInfoUI = {
 
     // 渲染玩家信息页面
     render: function() {
-        var playerClass = this.gameData.playerClass;
-        var player = this.gameData.player;
+        var gameData = this.gameData;
+        // 职业对象：新存档存于 playerClass，老存档可能只在 player.class 中
+        var playerClass = gameData.playerClass || (gameData.player && gameData.player.class);
+        var player = gameData.player || {};
 
-        // 计算背包中的卡片数量
-        var backpackCount = 0;
-        if (this.gameData.backpack && Array.isArray(this.gameData.backpack)) {
-            backpackCount = this.gameData.backpack.length;
+        if (!playerClass) {
+            alert('存档中缺少职业信息，请重新开始游戏。');
+            window.location.href = 'index.html';
+            return;
         }
 
-        // 获取星点数、当前关卡数、最大攻克关卡数
-        var starPoint = this.gameData.starPoint || 0;
-        var currentLevel = this.gameData.currentLevel || 1;
-        var maxLevel = this.gameData.maxLevel || 1;
+        // 背包卡片数（存档字段为 inventory）
+        var inventoryCount = Array.isArray(gameData.inventory) ? gameData.inventory.length : 0;
+
+        // 星点数、当前关卡、最大攻克关卡（存档字段：stars / currentRound / maxRound）
+        var stars = gameData.stars || 0;
+        var currentRound = gameData.currentRound || 1;
+        var maxRound = gameData.maxRound || 0;
 
         var html = `
             <div class="player-info-container">
@@ -78,25 +83,25 @@ var PlayerInfoUI = {
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">星点数:</span>
-                        <span class="stat-value">${starPoint}</span>
+                        <span class="stat-value">${stars}</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">背包卡片数:</span>
-                        <span class="stat-value">${backpackCount} 张</span>
+                        <span class="stat-value">${inventoryCount} 张</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">当前关卡数:</span>
-                        <span class="stat-value">${currentLevel}</span>
+                        <span class="stat-value">${currentRound}</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">最大攻克关卡数:</span>
-                        <span class="stat-value">${maxLevel}</span>
+                        <span class="stat-value">${maxRound}</span>
                     </div>
                 </div>
 
                 <div class="back-button-container">
-                    <button id="back-btn" class="back-button">返回主菜单</button>
                     <button id="select-class-btn" class="back-button">选择职业</button>
+                    <button id="back-btn" class="back-button">返回主菜单</button>
                 </div>
             </div>
         `;

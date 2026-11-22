@@ -1,16 +1,25 @@
-/* 玩家信息页面样式 */
+/* 玩家信息页面样式 - 沿用深色紫调风格 */
 .player-info-container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
     font-size: 14px;
+    color: #ffffff;
+}
+
+/* main.css 里 div { font-size: 10px } 会把容器内所有 div 压小，这里统一覆盖 */
+.player-info-container,
+.player-info-container div {
+    font-size: 14px;
 }
 
 .player-info-container h1 {
     text-align: center;
-  margin: 0;
-    margin-bottom: 10px;
+    margin: 0 0 15px 0;
+    color: #ffffff;
+    font-size: 2em;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff; /* 青色发光，与主菜单一致 */
 }
 
 .player-basic-info {
@@ -18,7 +27,9 @@
     gap: 10px;
     padding: 20px;
     margin-bottom: 10px;
-    border: 1px solid #ddd;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(139, 0, 139, 0.4);
+    border-radius: 10px;
 }
 
 .player-image {
@@ -42,15 +53,23 @@
 
 .player-details h2 {
     margin-top: 0;
+    color: #ffffff;
+    font-size: 1.3em;
+}
+
+.player-details h2 small {
+    color: #9b9b9b;
+    font-weight: normal;
 }
 
 .player-description {
     line-height: 1.2;
     margin-bottom: 5px;
+    color: #cfcfcf;
 }
 
 .player-stats-summary {
-    border-top: 1px solid #eee;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 0;
 }
 
@@ -58,11 +77,14 @@
     display: flex;
     justify-content: space-between;
     padding: 5px 0;
+    border-bottom: none;
 }
 
 .player-stats {
     padding: 20px;
-    border: 1px solid #ddd;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(139, 0, 139, 0.4);
+    border-radius: 10px;
     margin-bottom: 30px;
 }
 
@@ -70,74 +92,47 @@
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .stat-label {
     font-weight: bold;
+    color: #e0e0e0;
 }
 
 .stat-value {
     font-weight: bold;
     text-align: right;
     max-width: 60%;
+    color: #ffffff;
 }
 
 .back-button-container {
     text-align: center;
 }
 
+/* 按钮 - 与主菜单 .menu-button 风格统一：深紫到靛蓝渐变 + 紫色阴影 */
 .back-button {
-    background-color: #28a745;
+    background: linear-gradient(to bottom, #8B008B, #4B0082);
     border: none;
     padding: 12px 30px;
+    color: #ffffff;
+    font-size: 14px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    border-radius: 5px;
+    transition: all 0.3s;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(139, 0, 139, 0.5);
     margin: 0 10px;
 }
 
 .back-button:hover {
-    background-color: #218838;
+    background: linear-gradient(to bottom, #9B30FF, #8A2BE2);
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(155, 48, 255, 0.7);
 }
 
-.class-action-button-container {
-    text-align: center;
-    padding: 10px 0;
-    margin-top: 10px;
-}
-
-.class-action-button {
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    border-radius: 5px;
-    font-weight: bold;
-    margin: 5px;
-}
-
-.class-action-button.unlock {
-    background-color: #007bff;
-    color: white;
-}
-
-.class-action-button.unlock:hover {
-    background-color: #0056b3;
-}
-
-.class-action-button.switch {
-    background-color: #ffc107;
-    color: black;
-}
-
-.class-action-button.switch:hover {
-    background-color: #e0a800;
-}
-
-.class-action-button:disabled {
-    background-color: #6c757d;
-    cursor: not-allowed;
+.back-button:active {
+    transform: translateY(0);
 }
 
 /* 响应式设计 */
@@ -145,7 +140,6 @@
     .player-info-container {
         padding: 10px;
     }
-
 
     .player-image {
         flex: 0 0 auto;
@@ -157,5 +151,17 @@
 
     .stat-value {
         max-width: 50%;
+    }
+}
+
+@media (max-width: 480px) {
+    .player-info-container h1 {
+        font-size: 1.6em;
+    }
+
+    .back-button {
+        display: block;
+        width: 100%;
+        margin: 8px 0;
     }
 }
