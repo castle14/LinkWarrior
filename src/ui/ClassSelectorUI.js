@@ -17,7 +17,7 @@ var ClassSelectorUI = {
 
         var html = `
             <div class="player-info-container">
-                <h1>选择职业</h1>
+                <h1>选择角色</h1>
 
                 <div class="classes-list">
         `;
@@ -29,12 +29,12 @@ var ClassSelectorUI = {
         for (var i = 0; i < classes.length; i++) {
             var cls = classes[i];
             var isUnlocked = unlockedClasses.includes(cls.id);
-            var buttonText = cls.id === this.gameData.playerClass.id ? "当前职业" : (isUnlocked ? "已解锁，点击转职" : "点击解锁");
+            var buttonText = cls.id === this.gameData.playerClass.id ? "当前角色" : (isUnlocked ? "已解锁，点击切换" : "点击解锁");
 
             html += `
                 <div class="class-item" data-class-id="${cls.id}">
                 <div class="class-basic-info">
-                    <div class="class-display-name">${cls.displayName} <span class="class-info-button ${buttonText.includes('当前职业') ? 'class-info-button-checked' : (buttonText.includes('点击解锁') ? 'class-info-button-lock' : '')}" data-class-id="${cls.id}">（${buttonText}）</span></div>
+                    <div class="class-display-name">${cls.displayName} <span class="class-info-button ${buttonText.includes('当前角色') ? 'class-info-button-checked' : (buttonText.includes('点击解锁') ? 'class-info-button-lock' : '')}" data-class-id="${cls.id}">（${buttonText}）</span></div>
                     <div class="player-description">描述：${cls.description}</div>
                 </div>
                     <div class="player-basic-info">
@@ -121,14 +121,14 @@ var ClassSelectorUI = {
 
         // 检查是否已解锁
         if (unlockedClasses.includes(classId)) {
-            alert('该职业已解锁！');
+            alert('该角色已解锁！');
             return;
         }
 
         // 检查星点是否足够（星点实际存于 stars，兼容旧存档遗留的 starPoint）
         var stars = (this.gameData.stars != null) ? this.gameData.stars : (this.gameData.starPoint || 0);
         if (stars < GameUtil.CLASS_UNLOCK_COST) {
-            alert('星点不足！需要' + GameUtil.CLASS_UNLOCK_COST + '星点才能解锁职业。');
+            alert('星点不足！需要' + GameUtil.CLASS_UNLOCK_COST + '星点才能解锁角色。');
             return;
         }
 
@@ -147,7 +147,7 @@ var ClassSelectorUI = {
         this.render();
         this.bindEvents();
 
-        alert('职业解锁成功！');
+        alert('角色解锁成功！');
     },
 
     // 转职到指定职业
@@ -157,12 +157,12 @@ var ClassSelectorUI = {
 
         // 检查是否已经是当前职业
         if (this.gameData.playerClass.id === classId) {
-            alert('这已经是您的当前职业！');
+            alert('这已经是您的当前角色！');
             return;
         }
 
-        // 确认转职
-        if (!confirm(`确定要转职为${targetClass.displayName}吗？`)) {
+        // 确认切换角色
+        if (!confirm(`确定要切换为${targetClass.displayName}吗？`)) {
             return;
         }
 
@@ -181,6 +181,6 @@ var ClassSelectorUI = {
         this.render();
         this.bindEvents();
 
-        alert(`成功转职为${targetClass.displayName}！`);
+        alert(`成功切换为${targetClass.displayName}！`);
     }
 };

@@ -23,7 +23,7 @@ var ClassData = {
           id: 1,
           name: "盾击",
           description: "对特定敌人造成伤害当前护甲值×4的物理伤害。",
-          cost: 2,
+          cost: 3,
           SPEffect: function (player, hands, turn, monsters) {
             let ret = {
               type: "weapon",
@@ -75,7 +75,7 @@ var ClassData = {
           id: 3,
           name: "连射",
           description: "对特定敌人造成手牌中魔法卡数量×30点魔法伤害。",
-          cost: 1,
+          cost: 2,
           SPEffect: function (player, hands, turn, monsters) {
             let spellCardsCount = hands.filter(card => card.type === "spell").length;
             let ret = {
@@ -102,7 +102,7 @@ var ClassData = {
           id: 4,
           name: "冰霜新星",
           description: "释放寒冰冲击，对敌人造成手牌中魔法卡数量×6点冰属性魔法伤害。",
-          cost: 1,
+          cost: 2,
           SPEffect: function (player, hands, turn, monsters) {
             let spellCardsCount = hands.filter(card => card.type === "spell").length;
             let ret = {
@@ -156,7 +156,7 @@ var ClassData = {
           id: 6,
           name: "风弹术",
           description: "释放强力风弹攻击所有敌人，伤害值为（当前能量值+1）×40。",
-          cost: 1,
+          cost: 2,
           SPEffect: function (player, hands, turn, monsters) {
             let ret = {
               type: "spell",
@@ -182,7 +182,7 @@ var ClassData = {
           id: 7,
           name: "泡沫护盾",
           description: "制造大量泡沫保护自己，增加当前回合数×10的护甲。",
-          cost: 1,
+          cost: 2,
           SPEffect: function (player, hands, turn, monsters) {
             let ret = {
               type: "shield",
@@ -234,7 +234,7 @@ var ClassData = {
           id: 9,
           name: "自然治愈",
           description: "借助自然力量恢复全部生命值.",
-          cost: 1,
+          cost: 2,
           SPEffect: function (player, hands, turn, monsters) {
             let ret = {
               type: "potion",
@@ -260,7 +260,7 @@ var ClassData = {
           id: 10,
           name: "水泡弹幕",
           description: "发射大量水泡攻击敌人，对所有敌人造成手牌中卡片名称数量×10的魔法伤害。",
-          cost: 1,
+          cost: 2,
           SPEffect: function (player, hands, turn, monsters) {
             // 计算手牌中不同名称的卡片数量
             let uniqueCardNames = {};
@@ -376,7 +376,7 @@ var ClassData = {
           id: 14,
           name: "燃烧印记",
           description: "给敌人施加燃烧印记，对所有敌人造成手牌中魔法卡数量×5点火属性魔法伤害。",
-          cost: 1,
+          cost: 2,
           SPEffect: function (player, hands, turn, monsters) {
             let spellCardsCount = hands.filter(card => card.type === "spell").length;
             let ret = {
@@ -403,7 +403,7 @@ var ClassData = {
           id: 15,
           name: "高温炙烤",
           description: "释放高温火焰炙烤敌人，对单个敌人造成当前造成手牌中魔法卡数量×20点火属性魔法伤害。",
-          cost: 1,
+          cost: 2,
           SPEffect: function (player, hands, turn, monsters) {
             let spellCardsCount = hands.filter(card => card.type === "spell").length;
             let ret = {
@@ -430,7 +430,7 @@ var ClassData = {
           id: 16,
           name: "爆裂冲击",
           description: "释放爆炸冲击波，对所有敌人造成当前回合数×5的火焰魔法伤害。",
-          cost: 1,
+          cost: 2,
           SPEffect: function (player, hands, turn, monsters) {
             let ret = {
               type: "spell",
@@ -456,7 +456,7 @@ var ClassData = {
           id: 17,
           name: "连锁爆炸",
           description: "引发连锁爆炸，对所有敌人造成（当前回合数×2）+15的火焰魔法伤害。",
-          cost: 1,
+          cost: 2,
           SPEffect: function (player, hands, turn, monsters) {
             let ret = {
               type: "spell",
@@ -482,7 +482,7 @@ var ClassData = {
           id: 18,
           name: "潜能爆发",
           description: "激发自身潜能，最大生命值增加10，恢复最大生命值。",
-          cost: 1,
+          cost: 2,
           SPEffect: function (player, hands, turn, monsters) {
             player.maxHp = player.maxHp + 10;
             let ret = {
@@ -509,7 +509,7 @@ var ClassData = {
           id: 19,
           name: "野蛮冲撞",
           description: "用强壮的身体冲撞敌人，对所有敌人造成当前玩家护甲值*2的物理伤害。",
-          cost: 2,
+          cost: 3,
           SPEffect: function (player, hands, turn, monsters) {
 
             let ret = {
@@ -536,7 +536,7 @@ var ClassData = {
           id: 20,
           name: "雷霆万钧",
           description: "召唤雷电攻击敌人，对所有敌人造成手牌中魔法卡数量×5点雷属性魔法伤害。",
-          cost: 1,
+          cost: 2,
           SPEffect: function (player, hands, turn, monsters) {
             let spellCardsCount = hands.filter(card => card.type === "spell").length;
             let ret = {
@@ -589,7 +589,7 @@ var ClassData = {
           id: 22,
           name: "花之祝福",
           description: "释放花之能量，恢复当前回合数*10点生命值。",
-          cost: 1,
+          cost: 2,
           SPEffect: function (player, hands, turn, monsters) {
             let ret = {
               type: "potion",
@@ -615,7 +615,7 @@ var ClassData = {
           id: 23,
           name: "石肤",
           description: "大幅提升护盾值，护甲最大值增加10，并恢复所有护甲",
-          cost: 1,
+          cost: 2,
           SPEffect: function (player, hands, turn, monsters) {
             player.maxShield += 10;
             let ret = {

@@ -21,11 +21,17 @@ var PlayerInfoUI = {
     render: function() {
         var gameData = this.gameData;
         // 职业对象：新存档存于 playerClass，老存档可能只在 player.class 中
-        var playerClass = gameData.playerClass || (gameData.player && gameData.player.class);
+        var storedClass = gameData.playerClass || (gameData.player && gameData.player.class);
+        // 存档里的角色是创建存档时的快照，优先使用 ClassData 中的最新定义
+        var playerClass = null;
+        if (storedClass && typeof ClassData !== 'undefined') {
+            playerClass = ClassData.getClassById(storedClass.id) || ClassData.getClassByName(storedClass.name);
+        }
+        playerClass = playerClass || storedClass;
         var player = gameData.player || {};
 
         if (!playerClass) {
-            alert('存档中缺少职业信息，请重新开始游戏。');
+            alert('存档中缺少角色信息，请重新开始游戏。');
             window.location.href = 'index.html';
             return;
         }
@@ -48,7 +54,7 @@ var PlayerInfoUI = {
                     </div>
 
                     <div class="player-details">
-                        <h2>${player.name} <small>(职业：${playerClass.displayName})</small></h2>
+                        <h2>${player.name} <small>(角色：${playerClass.displayName})</small></h2>
                         <p class="player-description">描述：${playerClass.description}</p>
 
                         <div class="player-stats-summary">
@@ -100,7 +106,7 @@ var PlayerInfoUI = {
                 </div>
 
                 <div class="back-button-container">
-                    <button id="select-class-btn" class="back-button">选择职业</button>
+                    <button id="select-class-btn" class="back-button">选择角色</button>
                     <button id="back-btn" class="back-button">返回主菜单</button>
                 </div>
             </div>

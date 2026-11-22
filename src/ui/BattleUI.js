@@ -52,7 +52,7 @@ var BattleUI = {
                     <div class="player-status-container">
                         <!-- 玩家职业图片 -->
                         <div class="player-class-image-container">
-                            <img id="player-class-image" class="player-class-image" src="" alt="职业图片">
+                            <img id="player-class-image" class="player-class-image" src="" alt="角色图片">
                         </div>
 
                         <!-- 玩家进度条 -->
@@ -1194,7 +1194,7 @@ var BattleUI = {
       // 根据玩家职业和技能ID处理技能效果
       var playerClass = self.currentPlayer ? self.currentPlayer.class : null;
       if (!playerClass) {
-        self.showCenterMessage('无法确定玩家职业！');
+        self.showCenterMessage('无法确定玩家角色！');
         // 恢复技能按钮状态
         $('.skill-button').prop('disabled', false);
         return;
@@ -1716,8 +1716,6 @@ var BattleUI = {
       if (gameData) {
         // 回到第1关
         gameData.currentRound = 1;
-        // 星点归零
-        gameData.stars = 0;
         // 重新生成初始出战卡组（30张N卡，同名不超过5张），背包inventory不动
         gameData.deck = GameUtil.generateDeck(30, [1], 5);
         // 重置玩家生命/护盾，避免下一局带着 0 血进入

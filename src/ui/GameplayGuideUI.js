@@ -12,14 +12,14 @@ var GameplayGuideUI = {
 
                 <div class="guide-section">
                     <h2>游戏目标</h2>
-                    <p>选择职业进入战斗，击败关卡内的全部怪物即可通关，并逐步解锁更多职业与卡牌。</p>
+                    <p>选择角色进入战斗，击败关卡内的全部怪物即可通关，并逐步解锁更多角色与卡牌。每局从第 1 关开始，挑战失败即结束本局。</p>
                 </div>
 
                 <div class="guide-section">
                     <h2>回合与手牌</h2>
                     <ul>
                         <li>每个回合会从卡组中补牌，使手牌保持最多 <span class="guide-highlight">5 张</span>。</li>
-                        <li>打出卡牌需要消耗能量，能量上限由所选职业决定。</li>
+                        <li>打出卡牌需要消耗能量，能量上限由所选角色决定。</li>
                         <li>卡牌分为武器（weapon）与法术（spell），部分卡牌附带火焰、冰霜等属性。</li>
                         <li>部分卡牌攻击单个目标，部分卡牌为全体攻击。</li>
                     </ul>
@@ -30,13 +30,13 @@ var GameplayGuideUI = {
                     <ul>
                         <li><span class="guide-highlight">生命值</span>：降为 0 即挑战失败。</li>
                         <li><span class="guide-highlight">护盾值</span>：用于抵挡伤害。</li>
-                        <li><span class="guide-highlight">能量</span>：打出卡牌与发动职业技能的消耗资源。</li>
+                        <li><span class="guide-highlight">能量</span>：打出卡牌与发动角色技能的消耗资源。</li>
                     </ul>
                 </div>
 
                 <div class="guide-section">
-                    <h2>职业技能</h2>
-                    <p>每个职业拥有专属技能，消耗能量发动，效果各不相同，可在「玩家信息」页查看当前职业的技能详情。</p>
+                    <h2>角色技能</h2>
+                    <p>每个角色拥有专属技能，消耗能量发动，效果各不相同，可在「玩家信息」页查看当前角色的技能详情。</p>
                 </div>
 
                 <div class="guide-section">
@@ -45,7 +45,7 @@ var GameplayGuideUI = {
                         <li>击败本关全部怪物后获胜，获得的星点等于本关怪物等级之和。</li>
                         <li>刷新卡片商店消耗 <span class="guide-highlight">20</span> 星点。</li>
                         <li>购买卡牌按稀有度花费：N 5 / R 10 / SR 15 / SSR 20 / UR 25 星点。</li>
-                        <li>解锁新职业需要 <span class="guide-highlight">100</span> 星点。</li>
+                        <li>解锁新角色需要 <span class="guide-highlight">100</span> 星点。</li>
                     </ul>
                 </div>
 
@@ -55,6 +55,15 @@ var GameplayGuideUI = {
                         <li>初始卡组 30 张，同名卡牌最多 5 张。</li>
                         <li>背包中会额外获得 3 张卡牌。</li>
                         <li>可在「卡组编辑」中调整出战卡组，在「卡片商店」购买新卡。</li>
+                    </ul>
+                </div>
+
+                <div class="guide-section">
+                    <h2>挑战失败与单局制</h2>
+                    <ul>
+                        <li>生命值降为 0 即挑战失败，本局结束并返回主菜单。</li>
+                        <li>失败后出战卡组重置为全新的初始 <span class="guide-highlight">30 张</span>，生命与护盾恢复满值，当前关卡回到第 1 关。</li>
+                        <li>星点、背包中的卡牌、已解锁角色和历史最高关卡都会保留，不会因失败丢失。</li>
                     </ul>
                 </div>
 
