@@ -15,7 +15,7 @@
     <script src="./src/data/ClassData.js?v=20261126b"></script>
     <script src="./src/utils/CardUtils.js"></script>
     <script src="./src/utils/GameUtil.js?v=20261123"></script>
-    <script src="./src/utils/AudioManager.js"></script>
+    <script src="./src/utils/AudioManager.js?v=20261126b"></script>
     <script src="./src/utils/StorageUtil.js"></script>
     <script src="./src/ui/BattleUI.js?v=20261124"></script>
     <script>
@@ -118,8 +118,9 @@
                 window.location.href = 'index.html';
             }
 
-            // 从玩家职业数据中获取技能信息
-            var skills = [gameData.player.class.skill];
+            // 从玩家职业数据中获取技能信息（以 ClassData 最新定义为准备，避免存档快照里的旧数值）
+            var currentClass = ClassData.getClassById(gameData.player.class.id) || gameData.player.class;
+            var skills = [currentClass.skill];
 
             // 设置初始回合数
             BattleUI.currentTurn = 1;

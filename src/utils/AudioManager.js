@@ -8,51 +8,51 @@ var AudioManager = (function() {
     // 音频配置
     var soundConfig = {
         'attack': {
-            src: ['./sound/攻击.mp3'],
+            src: ['./sound/attack.mp3'],
             volume: 0.5
         },
         'monsterAttack': {
-            src: ['./sound/怪兽攻击.mp3'],
+            src: ['./sound/monster_attack.mp3'],
             volume: 0.5
         },
         'heal': {
-            src: ['./sound/治疗.mp3'],
+            src: ['./sound/heal.mp3'],
             volume: 0.5
         },
         'injured': {
-            src: ['./sound/受伤.mp3'],
+            src: ['./sound/injured.mp3'],
             volume: 0.5
         },
         'injuredFemale': {
-            src: ['./sound/受伤女.mp3'],
+            src: ['./sound/injured_female.mp3'],
             volume: 0.5
         },
         'injuredMonster': {
-            src: ['./sound/受伤怪.mp3'],
+            src: ['./sound/injured_monster.mp3'],
             volume: 0.5
         },
         'victory': {
-            src: ['./sound/胜利.mp3'],
+            src: ['./sound/victory.mp3'],
             volume: 0.5
         },
         'failure': {
-            src: ['./sound/失败.mp3'],
+            src: ['./sound/failure.mp3'],
             volume: 0.5
         },
         'swordSheath': {
-            src: ['./sound/刀剑出鞘.mp3'],
+            src: ['./sound/sword_sheath.mp3'],
             volume: 0.5
         },
         'shieldDefend': {
-            src: ['./sound/噗.mp3'],
+            src: ['./sound/puff.mp3'],
             volume: 0.5
         },
         'shieldUp': {
-            src: ['./sound/跺脚.mp3'],
+            src: ['./sound/stomp.mp3'],
             volume: 0.5
         } ,
         'activateSkill': {
-            src: ['./sound/闪电攻击.mp3'],
+            src: ['./sound/lightning_attack.mp3'],
             volume: 0.5
         }
     };
