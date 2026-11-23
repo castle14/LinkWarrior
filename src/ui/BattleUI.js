@@ -148,8 +148,9 @@ var BattleUI = {
 
       console.log('开始执行怪物行动，序列ID:', sequenceId);
 
-      // 播放结束回合音效
-      AudioManager.play('swordSheath', () => {
+      // 播放结束回合音效（仅表现层，怪物行动流程由定时器驱动）
+      AudioManager.play('swordSheath');
+      setTimeout(function () {
 
         // 实现结束回合逻辑
         // hp值大于0的怪兽依次行动
@@ -442,7 +443,7 @@ var BattleUI = {
           // 重置标志位
           self.isMonsterTurnExecuting = false;
         }
-      });
+      }, 500);
     };
 
     $('#end-turn-btn').on('click', function () {
@@ -732,8 +733,9 @@ var BattleUI = {
           }
         }
 
-        // 播放出牌音效
-        AudioManager.play('attack', () => {
+        // 播放出牌音效（仅表现层，结算流程由定时器驱动）
+        AudioManager.play('attack');
+        setTimeout(function () {
           if (cardType !== "shield") {
             var monsterId = selectedMonster.data('id');
             var monsterName = selectedMonster.find('.monster-name').text();
@@ -908,11 +910,12 @@ var BattleUI = {
 
           // 处理后续逻辑
           handlePostCardPlayLogic();
-        });
+        }, 300);
 
       } else if (targetType === "all") {
-        // 播放出牌音效
-        AudioManager.play('attack', () => {
+        // 播放出牌音效（仅表现层，结算流程由定时器驱动）
+        AudioManager.play('attack');
+        setTimeout(function () {
           // 处理全体目标效果
           if ((cardType === "spell" || cardType === "weapon") && damage > 0) {
             // 计算玩家冰属性减伤
@@ -1112,7 +1115,7 @@ var BattleUI = {
 
           // 处理后续逻辑
           handlePostCardPlayLogic();
-        });
+        }, 300);
 
       } else {
         // 对于不需要播放攻击音效的卡牌类型，直接处理后续逻辑
@@ -1237,8 +1240,9 @@ var BattleUI = {
           }
         }
 
-        // 模拟播放技能音效
-        AudioManager.play('activateSkill', () => {
+        // 模拟播放技能音效（仅表现层，技能结算流程由定时器驱动）
+        AudioManager.play('activateSkill');
+        setTimeout(function () {
           // 处理技能效果，类似于处理卡片效果
           if (skillEffect.targetType === "single") {
             // 处理单体目标技能
@@ -1635,7 +1639,7 @@ var BattleUI = {
             }
 
           }, 1000);
-        });
+        }, 300);
       } else {
         self.showCenterMessage(`${playerClass.displayName}的技能尚未实现`);
         // 恢复技能按钮状态

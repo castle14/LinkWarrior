@@ -92,18 +92,44 @@ var AudioManager = (function() {
         }
 
         // 播放音频并处理回调
-        var soundId = sounds[soundName].play();
+        var sound = sounds[soundName];
+        var soundId = sound.play();
 
         if (callback) {
-            // 监听播放完成事件
-            sounds[soundName].once('end', function() {
-                callback(true);
-            });
+            var finished = false;
+            var finish = function (ok) {
+                if (finished) {
+                    return;
+                }
+                finished = true;
+                sound.off('end', onEnd);
+                sound.off('playerror', onPlayError);
+                callback(ok);
+            };
+            var onEnd = function () {
+                finish(true);
+            };
+            var onPlayError = function () {
+                finish(false);
+            };
 
+            // 监听播放完成事件
+            sound.once('end', onEnd);
             // 监听播放错误事件
-            sounds[soundName].once('playerror', function() {
-                callback(false);
-            });
+            sound.once('playerror', onPlayError);
+
+            // 移动端浏览器在非用户手势触发的播放可能被静默拦截，
+            // 既不触发 end 也不触发 playerror，这里用时长兜底，保证回调一定执行
+            var duration = 0;
+            try {
+                duration = sound.duration();
+            } catch (e) {
+                duration = 0;
+            }
+            var fallbackDelay = (duration && isFinite(duration) && duration > 0) ? duration * 1000 + 300 : 1000;
+            setTimeout(function () {
+                finish(false);
+            }, fallbackDelay);
         }
 
         return soundId;

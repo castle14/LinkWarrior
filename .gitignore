@@ -12,6 +12,7 @@ build/
 .cache/
 .parcel-cache/
 .turbo/
+.trae-html-share-packages/
 
 # ============================================================
 # 日志文件
@@ -31,6 +32,9 @@ lerna-debug.log*
 .env.*.local
 *.pem
 *.key
+
+# vnext 本地部署配置
+.vnext/
 
 # ============================================================
 # 编辑器 / IDE
